@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.R;
+import com.example.watchlist.utils.Pagination;
 import com.example.watchlist.utils.PaginationScrollListener;
 import com.example.watchlist.adapter.TvShowsAdapter;
 import com.example.watchlist.service.client.NetworkChecker;
@@ -22,6 +23,7 @@ import com.example.watchlist.service.request.ReqTvShows;
 import com.example.watchlist.service.response.tvShows.ResRatedTvShows;
 import com.example.watchlist.themoviedb.TvShow;
 import com.example.watchlist.utils.PopUpMsg;
+import com.example.watchlist.utils.Time;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,6 +33,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -38,16 +44,10 @@ public class RatedTvShowsFragment extends Fragment {
     private static final String TAG ="RatedTvShowsFrag";
 
     private Context context;
-    private Calendar time;
+    private Time time;
+    private Pagination pagination;
     private ImageView poster;
     private TvShowsAdapter tvShowsAdapter;
-    private long firstRegTime;
-    private String posterPath;
-
-    private boolean isLastPage;
-    private boolean isLoading;
-    private int totalPages;
-    private int currentPage;
 
 
     public RatedTvShowsFragment() {
@@ -61,14 +61,13 @@ public class RatedTvShowsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_rated_tv_shows, container, false);
         context = getContext();
-        time = Calendar.getInstance();
 
         poster = (ImageView) v.findViewById(R.id.poster_rated_tv_shows_imageView);
 
         RecyclerView ratedTvShowsRecycler = (RecyclerView) v.findViewById(R.id.rated_tv_shows_recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         ratedTvShowsRecycler.setLayoutManager(layoutManager);
-        if(tvShowsAdapter == null || firstRegTime +3600000 < time.getTimeInMillis()) {
+        if(tvShowsAdapter == null || time == null || pagination == null ||time.isOverTime(time.ONE_HOUR)) {
             initialize();
         }
         ratedTvShowsRecycler.setAdapter(tvShowsAdapter);
@@ -81,19 +80,15 @@ public class RatedTvShowsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.d(TAG,"onStart");
-        EventBus.getDefault().register(this);
         if(tvShowsAdapter.isEmpty()){
-            firstRegTime = time.getTimeInMillis();
+            time.setFirstTime(time.getTimeInMillis());
             reqRatedTvShows();
-        }else {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w185"+posterPath).into(poster);
         }
     }
 
     @Override
     public void onStop() {
         Log.d(TAG,"onStop");
-        EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
@@ -101,12 +96,9 @@ public class RatedTvShowsFragment extends Fragment {
      * Here we initialize the fragment
      */
     public void initialize(){
-        firstRegTime = 0;
-        isLastPage = false;
-        isLoading = false;
-        totalPages = 0;
-        currentPage = 1;
+        time = new Time();
         tvShowsAdapter = new TvShowsAdapter(context, getActivity().getSupportFragmentManager());
+        pagination = new Pagination();
     }
 
     /**
@@ -119,7 +111,7 @@ public class RatedTvShowsFragment extends Fragment {
         return new  PaginationScrollListener(layoutManager) {
             @Override
             protected void loadMoreItems() {
-                isLoading = true;
+                pagination.setLoading(true);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -130,12 +122,12 @@ public class RatedTvShowsFragment extends Fragment {
 
             @Override
             public boolean isLastPage() {
-                return isLastPage;
+                return pagination.isLastPage();
             }
 
             @Override
             public boolean isLoading() {
-                return isLoading;
+                return pagination.isLoading();
             }
         };
 
@@ -148,7 +140,7 @@ public class RatedTvShowsFragment extends Fragment {
         Log.d(TAG,"ná í top rated tv shows");
 
         if(NetworkChecker.isOnline(context)) {
-            ReqTvShows.ratedTvShows(currentPage);
+            ReqTvShows.ratedTvShows(pagination.getCurrentPage(),resRatedTvShows());
         }
         else {
             PopUpMsg.toastMsg("Network isn't avilable",context);
@@ -158,30 +150,36 @@ public class RatedTvShowsFragment extends Fragment {
 
     /**
      * Receiving Respond from the backend server.
-     * @param response Response has the Code and the Rated tv shows from backend server.
+     * @return It return Callback.
      */
-    @Subscribe
-    public void resRatedTvShows(ResRatedTvShows response){
-        Log.d(TAG,"Tókst ná í top rated tv shows");
+    public Callback resRatedTvShows(){
+        return new Callback<TvShow.TvShowsResults>(){
+            @Override
+            public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
+                if(response.isSuccessful()){
+                    pagination.setTotalPages(response.body().getTotalPages());
 
-        if(response.getCode() == 200){
-            totalPages = response.getTvShowsResults().getTotalPages();
+                    pagination.setLoading(false);
 
-            isLoading = false;
+                    displayData(response.body());
 
-            displayData(response.getTvShowsResults());
+                    pagination.setCurrentPage(pagination.getCurrentPage()+1);
 
-            currentPage++;
+                    Log.d(TAG,"isLastPage "+pagination.isLastPage()+" isLoading "+pagination.isLoading());
 
-            Log.d(TAG,"isLastPage "+isLastPage+" isLoading "+isLoading);
+                }else {
+                    // error
+                }
 
-        }else {
 
-            String title ="Something went wrong";
-            String msg = "Something went wrong, please try again";
-            PopUpMsg.dialogMsg(title,msg,context);
-        }
+            }
 
+            @Override
+            public void onFailure(Call<TvShow.TvShowsResults> call, Throwable t) {
+                // error
+
+            }
+        };
     }
 
     /**
@@ -198,27 +196,17 @@ public class RatedTvShowsFragment extends Fragment {
         }
 
         if(tvShowsAdapter.isEmpty()){
-            setRandomBackPoster(results.getResults());
+            //setRandomBackPoster(results.getResults());
         }
 
         tvShowsAdapter.addAll(results.getResults());
 
-        if(currentPage < totalPages) tvShowsAdapter.addLoadingFooter();
-        else isLastPage = true;
+        if(pagination.getCurrentPage() < pagination.getTotalPages()) tvShowsAdapter.addLoadingFooter();
+        else pagination.setLastPage(true);
+
 
     }
 
-    /**
-     * It pick a random image and set it to the back poster.
-     * @param list List contains the list of the Tv shows.
-     */
-    public void setRandomBackPoster(List<TvShow> list){
-        Random r = new Random();
-        int random = r.nextInt(list.size());
-        posterPath = list.get(random).getPosterPath();
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w342"+posterPath).into(poster);
-
-    }
 
 
 

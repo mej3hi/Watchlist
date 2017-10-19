@@ -24,26 +24,11 @@ public class ReqTvShows {
      * It get the to day shows.
      * @param page Is the page to get.
      */
-    public static void toDayShows(int page) {
+    public static void toDayShows(int page, Callback callback) {
         ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
         Call<TvShow.TvShowsResults> call = apiTheMovieDb.toDayShows(page);
 
-        call.enqueue(new Callback<TvShow.TvShowsResults>() {
-            @Override
-            public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
-                System.out.println("response raw: " + response.raw());
-                EventBus.getDefault().post(new ResTodayTvShows(response.body(),response.code()));
-
-
-            }
-
-            @Override
-            public void onFailure(Call<TvShow.TvShowsResults> call, Throwable t) {
-                System.out.println("Failure :" +t);
-                t.printStackTrace();
-
-            }
-        });
+        call.enqueue(callback);
 
     }
 
@@ -52,26 +37,11 @@ public class ReqTvShows {
      * It get the popular tv shows.
      * @param page Is the page to get.
      */
-    public static void popularTvShows(int page) {
+    public static void popularTvShows(int page, Callback callback) {
         ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
         Call<TvShow.TvShowsResults> call = apiTheMovieDb.popularShows(page);
 
-        call.enqueue(new Callback<TvShow.TvShowsResults>() {
-            @Override
-            public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
-                System.out.println("response raw: " + response.raw());
-                EventBus.getDefault().post(new ResPopularTvShows(response.body(),response.code()));
-
-
-            }
-
-            @Override
-            public void onFailure(Call<TvShow.TvShowsResults> call, Throwable t) {
-                System.out.println("Failure :" +t);
-                t.printStackTrace();
-
-            }
-        });
+        call.enqueue(callback);
 
     }
 
@@ -80,26 +50,11 @@ public class ReqTvShows {
      * It get the on air tv shows.
      * @param page Is the page to get.
      */
-    public static void onAirTvShows(int page) {
+    public static void onAirTvShows(int page, Callback callback) {
         ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
         Call<TvShow.TvShowsResults> call = apiTheMovieDb.onAirShows(page);
 
-        call.enqueue(new Callback<TvShow.TvShowsResults>() {
-            @Override
-            public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
-                System.out.println("response raw: " + response.raw());
-                EventBus.getDefault().post(new ResOnAirTvShows(response.body(),response.code()));
-
-
-            }
-
-            @Override
-            public void onFailure(Call<TvShow.TvShowsResults> call, Throwable t) {
-                System.out.println("Failure :" +t);
-                t.printStackTrace();
-
-            }
-        });
+        call.enqueue(callback);
 
     }
 
@@ -108,26 +63,11 @@ public class ReqTvShows {
      * It get the on rated shows.
      * @param page Is the page to get.
      */
-    public static void ratedTvShows(int page) {
+    public static void ratedTvShows(int page, Callback callback) {
         ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
         Call<TvShow.TvShowsResults> call = apiTheMovieDb.ratedShows(page);
 
-        call.enqueue(new Callback<TvShow.TvShowsResults>() {
-            @Override
-            public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
-                System.out.println("response raw: " + response.raw());
-                EventBus.getDefault().post(new ResRatedTvShows(response.body(),response.code()));
-
-
-            }
-
-            @Override
-            public void onFailure(Call<TvShow.TvShowsResults> call, Throwable t) {
-                System.out.println("Failure :" +t);
-                t.printStackTrace();
-
-            }
-        });
+        call.enqueue(callback);
 
     }
 

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.R;
+import com.example.watchlist.utils.Pagination;
 import com.example.watchlist.utils.PaginationScrollListener;
 import com.example.watchlist.adapter.TvShowsAdapter;
 import com.example.watchlist.service.client.NetworkChecker;
@@ -22,6 +23,7 @@ import com.example.watchlist.service.request.ReqTvShows;
 import com.example.watchlist.service.response.tvShows.ResTodayTvShows;
 import com.example.watchlist.themoviedb.TvShow;
 import com.example.watchlist.utils.PopUpMsg;
+import com.example.watchlist.utils.Time;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,6 +33,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,17 +45,11 @@ public class TodayTvShowsFragment extends Fragment {
     private static final String TAG ="TodayTvShowsFrag";
 
     private Context context;
-    private Calendar time;
+    private Time time;
+    private Pagination pagination;
+
     private ImageView poster;
     private TvShowsAdapter tvShowsAdapter;
-    private long firstRegTime;
-    private String posterPath;
-
-    private boolean isLastPage;
-    private boolean isLoading;
-    private int totalPages;
-    private int currentPage;
-
 
 
     public TodayTvShowsFragment() {
@@ -64,14 +64,13 @@ public class TodayTvShowsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_today_tv_shows, container, false);
 
         context = getContext();
-        time = Calendar.getInstance();
 
         poster = (ImageView) view.findViewById(R.id.poster_today_tv_shows_imageView);
 
         RecyclerView todayShowsRecycler = (RecyclerView) view.findViewById(R.id.today_tv_shows_recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         todayShowsRecycler.setLayoutManager(layoutManager);
-        if(tvShowsAdapter == null || firstRegTime +3600000 < time.getTimeInMillis()) {
+        if(tvShowsAdapter == null || time == null || pagination == null || time.isOverTime(time.ONE_HOUR)) {
             initialize();
         }
         todayShowsRecycler.setAdapter(tvShowsAdapter);
@@ -88,12 +87,9 @@ public class TodayTvShowsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.d(TAG,"onStart");
-        EventBus.getDefault().register(this);
         if(tvShowsAdapter.isEmpty()) {
-            firstRegTime = time.getTimeInMillis();
+            time.setFirstTime(time.getTimeInMillis());
             reqToDayShows();
-        }else {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w185"+posterPath).into(poster);
         }
     }
 
@@ -101,7 +97,6 @@ public class TodayTvShowsFragment extends Fragment {
     @Override
     public void onStop() {
         Log.d(TAG,"onStop");
-        EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
@@ -109,13 +104,11 @@ public class TodayTvShowsFragment extends Fragment {
      * Here we initialize the fragment
      */
     public void initialize(){
-        firstRegTime = 0;
-        isLastPage = false;
-        isLoading = false;
-        totalPages = 0;
-        currentPage = 1;
+        time = new Time();
         tvShowsAdapter = new TvShowsAdapter(context, getActivity().getSupportFragmentManager());
+        pagination = new Pagination();
     }
+
 
     /**
      * It add a pagination scroll listener that ask for more data
@@ -127,7 +120,7 @@ public class TodayTvShowsFragment extends Fragment {
         return new PaginationScrollListener(layoutManager) {
             @Override
             protected void loadMoreItems() {
-                isLoading = true;
+                pagination.setLoading(true);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -138,12 +131,12 @@ public class TodayTvShowsFragment extends Fragment {
 
             @Override
             public boolean isLastPage() {
-                return isLastPage;
+                return pagination.isLastPage();
             }
 
             @Override
             public boolean isLoading() {
-                return isLoading;
+                return pagination.isLoading();
             }
         };
 
@@ -156,7 +149,7 @@ public class TodayTvShowsFragment extends Fragment {
         Log.d(TAG,"ná í on today shows");
 
         if(NetworkChecker.isOnline(context)) {
-            ReqTvShows.toDayShows(currentPage);
+            ReqTvShows.toDayShows(pagination.getCurrentPage(),resToDayShows());
         }
         else {
             PopUpMsg.toastMsg("Network isn't avilable",getContext());
@@ -167,31 +160,39 @@ public class TodayTvShowsFragment extends Fragment {
 
     /**
      * Receiving Respond from the backend server.
-     * @param response Response has the Code and the To day tv shows from backend server.
+     * @return It return Callback.
      */
-    @Subscribe
-    public void resToDayShows(ResTodayTvShows response){
-        Log.d(TAG,"Tókst ná í top today tv shows");
+    public Callback resToDayShows(){
+        return new Callback<TvShow.TvShowsResults>(){
+            @Override
+            public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
+                if(response.isSuccessful()){
 
-        if(response.getCode() == 200){
-            totalPages = response.getTvShowsResults().getTotalPages();
+                    pagination.setTotalPages(response.body().getTotalPages());
 
-            isLoading = false;
+                    pagination.setLoading(false);
 
-            displayData(response.getTvShowsResults());
+                    displayData(response.body());
 
-            currentPage++;
+                    pagination.setCurrentPage(pagination.getCurrentPage()+1);
 
-            Log.d(TAG,"isLastPage "+isLastPage+" isLoading "+isLoading);
+                    Log.d(TAG,"isLastPage "+pagination.isLastPage()+" isLoading "+pagination.isLoading());
 
-        }else {
+                }else {
+                    // error
+                }
 
-            String title ="Something went wrong";
-            String msg = "Something went wrong, please try again";
-            PopUpMsg.dialogMsg(title,msg,context);
-        }
 
+            }
+
+            @Override
+            public void onFailure(Call<TvShow.TvShowsResults> call, Throwable t) {
+               // error
+
+            }
+        };
     }
+
 
     /**
      * Display the To day tv shows on the screen;
@@ -207,26 +208,17 @@ public class TodayTvShowsFragment extends Fragment {
         }
 
         if(tvShowsAdapter.isEmpty()){
-            setRandomBackPoster(results.getResults());
+            //setRandomBackPoster(results.getResults());
         }
 
         tvShowsAdapter.addAll(results.getResults());
 
-        if(currentPage < totalPages) tvShowsAdapter.addLoadingFooter();
-        else isLastPage = true;
-
+        if(pagination.getCurrentPage() < pagination.getTotalPages()) tvShowsAdapter.addLoadingFooter();
+        else pagination.setLastPage(true);
     }
 
-    /**
-     * It pick a random image and set it to the back poster.
-     * @param list List contains the list of the Tv shows.
-     */
-    public void setRandomBackPoster(List<TvShow> list){
-        Random r = new Random();
-        int random = r.nextInt(list.size());
-        posterPath = list.get(random).getPosterPath();
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w185"+posterPath).into(poster);
-    }
+
+
 
 
 }
