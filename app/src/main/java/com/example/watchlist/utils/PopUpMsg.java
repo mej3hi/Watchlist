@@ -42,7 +42,14 @@ public class PopUpMsg {
         toast.show();
     }
 
-
+    /**
+     * Display the error dialog msg.
+     */
+    public static void displayErrorMsg(Context context){
+        String title ="Something went wrong";
+        String msg = "Something went wrong, please try again";
+        dialogMsg(title,msg,context);
+    }
 
 
 

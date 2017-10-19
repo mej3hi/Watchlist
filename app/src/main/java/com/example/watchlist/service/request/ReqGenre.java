@@ -38,5 +38,16 @@ public class ReqGenre {
         });
     }
 
+    /**
+     * Send Get method url ("genre/movie/list").
+     * It get the genre list for movie.
+     */
+    public static void genreMovieList(Callback callback) {
+        ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
+        Call<Genre.GenreResults> call = apiTheMovieDb.genreMovies();
+
+        call.enqueue(callback);
+    }
+
 
 }

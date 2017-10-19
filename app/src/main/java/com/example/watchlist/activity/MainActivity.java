@@ -14,15 +14,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.watchlist.R;
+import com.example.watchlist.fragment.movie.MoviesTabFragment;
 import com.example.watchlist.fragment.tvshows.TvShowsTapFragment;
 import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqGenre;
+import com.example.watchlist.service.request.ReqMovies;
 import com.example.watchlist.service.response.tvShows.ResTvGenre;
 import com.example.watchlist.shareInfo.GerneList;
+import com.example.watchlist.themoviedb.Genre;
 import com.example.watchlist.utils.PopUpMsg;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity
@@ -93,8 +100,13 @@ public class MainActivity extends AppCompatActivity
             TvShowsTapFragment tvShowsTapFragment = new TvShowsTapFragment();
             manager.beginTransaction().replace(R.id.main_container,tvShowsTapFragment,tvShowsTapFragment.getTag()).commit();
 
-        }
+        } else if (id == R.id.movies) {
+            MoviesTabFragment moviesTabFragment = new MoviesTabFragment();
+            manager.beginTransaction().replace(R.id.main_container,moviesTabFragment,moviesTabFragment.getTag()).commit();
 
+
+        }
+        Log.d("onNavigationItem","BINGO");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -125,6 +137,7 @@ public class MainActivity extends AppCompatActivity
 
         if(NetworkChecker.isOnline(getApplicationContext())) {
             ReqGenre.genreTvList();
+            ReqGenre.genreMovieList(resGenreMovie());
 
         }
         else {
@@ -152,6 +165,27 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Receiving Respond from the backend server.
+     *
+     */
+    public Callback resGenreMovie() {
+        return new Callback<Genre.GenreResults>() {
+            @Override
+            public void onResponse(Call<Genre.GenreResults> call, Response<Genre.GenreResults> response) {
+                if (response.isSuccessful()) {
+                    GerneList.setGenreMovieList(response.body().getResults());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Genre.GenreResults> call, Throwable t) {
+
+
+            }
+        };
+
+    }
 
 
 }
