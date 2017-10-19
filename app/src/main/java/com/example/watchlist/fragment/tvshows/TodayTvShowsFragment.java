@@ -184,8 +184,6 @@ public class TodayTvShowsFragment extends Fragment {
                 }else {
                     PopUpMsg.displayErrorMsg(context);
                 }
-
-
             }
 
             @Override
