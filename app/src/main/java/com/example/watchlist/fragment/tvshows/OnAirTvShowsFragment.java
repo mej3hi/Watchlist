@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.R;
+import com.example.watchlist.utils.BackgroundPoster;
 import com.example.watchlist.utils.Pagination;
 import com.example.watchlist.utils.PaginationScrollListener;
 import com.example.watchlist.adapter.TvShowsAdapter;
@@ -80,6 +81,8 @@ public class OnAirTvShowsFragment extends Fragment {
         if(tvShowsAdapter.isEmpty()) {
             time.setFirstTime(time.getTimeInMillis());
             reqOnAirTvShows();
+        }else{
+            BackgroundPoster.setRandomBackPosterTv(tvShowsAdapter.getTvShowList(), context, poster);
         }
     }
 
@@ -167,13 +170,13 @@ public class OnAirTvShowsFragment extends Fragment {
                     Log.d(TAG,"isLastPage "+pagination.isLastPage()+" isLoading "+pagination.isLoading());
 
                 }else{
-                    // error
+                    PopUpMsg.displayErrorMsg(context);
                 }
             }
 
             @Override
             public void onFailure(Call<TvShow.TvShowsResults> call, Throwable t) {
-                // error
+                PopUpMsg.displayErrorMsg(context);
             }
         };
     }
@@ -191,7 +194,7 @@ public class OnAirTvShowsFragment extends Fragment {
             tvShowsAdapter.addAllGenre(GerneList.getGenreTvList());
         }
         if(tvShowsAdapter.isEmpty()){
-            //setRandomBackPoster(results.getResults());
+            BackgroundPoster.setRandomBackPosterTv(results.getResults(), context, poster);
         }
         tvShowsAdapter.addAll(results.getResults());
 

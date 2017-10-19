@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.R;
+import com.example.watchlist.utils.BackgroundPoster;
 import com.example.watchlist.utils.Pagination;
 import com.example.watchlist.utils.PaginationScrollListener;
 import com.example.watchlist.adapter.TvShowsAdapter;
@@ -90,6 +91,8 @@ public class TodayTvShowsFragment extends Fragment {
         if(tvShowsAdapter.isEmpty()) {
             time.setFirstTime(time.getTimeInMillis());
             reqToDayShows();
+        }else{
+            BackgroundPoster.setRandomBackPosterTv(tvShowsAdapter.getTvShowList(), context, poster);
         }
     }
 
@@ -179,7 +182,7 @@ public class TodayTvShowsFragment extends Fragment {
                     Log.d(TAG,"isLastPage "+pagination.isLastPage()+" isLoading "+pagination.isLoading());
 
                 }else {
-                    // error
+                    PopUpMsg.displayErrorMsg(context);
                 }
 
 
@@ -187,7 +190,7 @@ public class TodayTvShowsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<TvShow.TvShowsResults> call, Throwable t) {
-               // error
+                PopUpMsg.displayErrorMsg(context);
 
             }
         };
@@ -208,7 +211,7 @@ public class TodayTvShowsFragment extends Fragment {
         }
 
         if(tvShowsAdapter.isEmpty()){
-            //setRandomBackPoster(results.getResults());
+            BackgroundPoster.setRandomBackPosterTv(results.getResults(), context, poster);
         }
 
         tvShowsAdapter.addAll(results.getResults());

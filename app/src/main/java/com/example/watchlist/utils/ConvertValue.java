@@ -1,13 +1,13 @@
 package com.example.watchlist.utils;
 
 
-import java.text.DecimalFormat;
+import com.example.watchlist.themoviedb.Genre;
 
+import java.text.DecimalFormat;
+import java.util.List;
 
 
 public class ConvertValue {
-
-    private static DecimalFormat df;
 
     /**
      * Get rid of all the decimal places except one.
@@ -16,8 +16,25 @@ public class ConvertValue {
      */
     public static String toOneDecimal(double num){
 
-        df = new DecimalFormat("#.#");
+        DecimalFormat df = new DecimalFormat("#.#");
         return df.format(num);
+    }
+
+    /**
+     * It take list of Genre and create single name string from it.
+     * @param list List is the Genre.
+     * @return It return a string.
+     */
+    public static String genreToString(List<Genre> list){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size() ; i++) {
+            sb.append(list.get(i).getName());
+            if(list.size()!= i+1){
+                sb.append(", ");
+            }
+        }
+
+        return sb.toString();
     }
 
 
