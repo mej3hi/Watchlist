@@ -7,6 +7,7 @@ import com.example.watchlist.service.response.tvShows.ResOnAirTvShows;
 import com.example.watchlist.service.response.tvShows.ResPopularTvShows;
 import com.example.watchlist.service.response.tvShows.ResRatedTvShows;
 import com.example.watchlist.service.response.tvShows.ResTodayTvShows;
+import com.example.watchlist.themoviedb.TvDetails;
 import com.example.watchlist.themoviedb.TvShow;
 
 import org.greenrobot.eventbus.EventBus;
@@ -66,6 +67,19 @@ public class ReqTvShows {
     public static void ratedTvShows(int page, Callback callback) {
         ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
         Call<TvShow.TvShowsResults> call = apiTheMovieDb.ratedShows(page);
+
+        call.enqueue(callback);
+
+    }
+
+    /**
+     * Send Get method url ("tv/{tv_id}").
+     * It get the tv details.
+     * @param tvId It is the tv id.
+     */
+    public static void tvDetails(long tvId,Callback callback) {
+        ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
+        Call<TvDetails> call = apiTheMovieDb.tvDetails(tvId);
 
         call.enqueue(callback);
 

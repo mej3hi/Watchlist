@@ -3,6 +3,7 @@ package com.example.watchlist.service.endpoint;
 
 import com.example.watchlist.themoviedb.Genre;
 import com.example.watchlist.themoviedb.Movie;
+import com.example.watchlist.themoviedb.TvDetails;
 import com.example.watchlist.themoviedb.TvShow;
 
 import retrofit2.Call;
@@ -27,6 +28,10 @@ public interface ApiTheMovieDb {
 
     @GET("tv/top_rated")
     Call<TvShow.TvShowsResults> ratedShows(@Query("page") int page);
+
+    @GET("tv/{tv_id}")
+    Call<TvDetails> tvDetails(@Path("tv_id") long tv_id);
+
 
     @GET("genre/tv/list")
     Call<Genre.GenreResults> genreTv();
