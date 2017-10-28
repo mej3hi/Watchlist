@@ -3,6 +3,7 @@ package com.example.watchlist.service.request;
 import com.example.watchlist.service.client.ServiceGenerator;
 import com.example.watchlist.service.endpoint.ApiTheMovieDb;
 import com.example.watchlist.themoviedb.Movie;
+import com.example.watchlist.themoviedb.MovieDetails;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +55,19 @@ public class ReqMovies {
     public static void upcomingMovies(int page, Callback callback) {
         ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
         Call<Movie.MoviesResults> call = apiTheMovieDb.upcomingMovies(page,"US");
+
+        call.enqueue(callback);
+
+    }
+
+    /**
+     * Send Get method url ("movie/{movie_id}").
+     * It get the tv details.
+     * @param movieId It is the movie id.
+     */
+    public static void movieDetails(long movieId, Callback callback) {
+        ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
+        Call<MovieDetails> call = apiTheMovieDb.movieDetails(movieId);
 
         call.enqueue(callback);
 

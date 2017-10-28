@@ -3,6 +3,7 @@ package com.example.watchlist.service.endpoint;
 
 import com.example.watchlist.themoviedb.Genre;
 import com.example.watchlist.themoviedb.Movie;
+import com.example.watchlist.themoviedb.MovieDetails;
 import com.example.watchlist.themoviedb.TvDetails;
 import com.example.watchlist.themoviedb.TvShow;
 
@@ -51,4 +52,7 @@ public interface ApiTheMovieDb {
 
     @GET("movie/upcoming")
     Call<Movie.MoviesResults> upcomingMovies(@Query("page") int page,@Query("region") String region);
+
+    @GET("movie/{movie_id}")
+    Call<MovieDetails> movieDetails(@Path("movie_id") long movie_id);
 }

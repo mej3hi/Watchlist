@@ -109,7 +109,7 @@ public class TvDetailsFragment extends Fragment {
         Log.d(TAG,"onStart");
         if(tvDetails == null || time.isOverTime(time.ONE_HOUR)){
             reqTvDetails();
-            time.setFirstTime(time.getTimeInMillis());
+            //time.setFirstTime(time.getTimeInMillis());
         }else{
             displayData();
         }
