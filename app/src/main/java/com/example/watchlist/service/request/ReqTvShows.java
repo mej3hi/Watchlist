@@ -3,18 +3,12 @@ package com.example.watchlist.service.request;
 
 import com.example.watchlist.service.client.ServiceGenerator;
 import com.example.watchlist.service.endpoint.ApiTheMovieDb;
-import com.example.watchlist.service.response.tvShows.ResOnAirTvShows;
-import com.example.watchlist.service.response.tvShows.ResPopularTvShows;
-import com.example.watchlist.service.response.tvShows.ResRatedTvShows;
-import com.example.watchlist.service.response.tvShows.ResTodayTvShows;
+
 import com.example.watchlist.themoviedb.TvDetails;
 import com.example.watchlist.themoviedb.TvShow;
 
-import org.greenrobot.eventbus.EventBus;
-
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ReqTvShows {

@@ -21,18 +21,9 @@ import com.example.watchlist.utils.PaginationScrollListener;
 import com.example.watchlist.adapter.TvShowsAdapter;
 import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqTvShows;
-import com.example.watchlist.service.response.tvShows.ResPopularTvShows;
 import com.example.watchlist.themoviedb.TvShow;
 import com.example.watchlist.utils.PopUpMsg;
 import com.example.watchlist.utils.Time;
-import com.squareup.picasso.Picasso;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -18,8 +18,6 @@ import com.example.watchlist.fragment.movie.MoviesTabFragment;
 import com.example.watchlist.fragment.tvshows.TvShowsTapFragment;
 import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqGenre;
-import com.example.watchlist.service.request.ReqMovies;
-import com.example.watchlist.service.response.tvShows.ResTvGenre;
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.themoviedb.Genre;
 import com.example.watchlist.utils.PopUpMsg;
@@ -116,7 +114,6 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         Log.d("mainActivity","OnStart");
-        EventBus.getDefault().register(this);
         reqGenre();
 
     }
@@ -124,7 +121,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onStop() {
         Log.d(TAG,"onStop");
-        EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
@@ -136,7 +132,7 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG,"ná í genre");
 
         if(NetworkChecker.isOnline(getApplicationContext())) {
-            ReqGenre.genreTvList();
+            ReqGenre.genreTvList(resGenreTvShows());
             ReqGenre.genreMovieList(resGenreMovie());
 
         }
@@ -148,21 +144,24 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Receiving Respond from the backend server.
-     * @param response Response has the Code and the tv Genre from backend server.
+     *
      */
     @Subscribe(priority = 1)
-    public void resGenreTvShows(ResTvGenre response){
-        Log.d(TAG,"Tókst ná í genre fyrir tv shows");
+    public Callback resGenreTvShows() {
+        return new Callback<Genre.GenreResults>() {
+            @Override
+            public void onResponse(Call<Genre.GenreResults> call, Response<Genre.GenreResults> response) {
+                if (response.isSuccessful()) {
+                    GerneList.setGenreTvList(response.body().getResults());
 
-        if(response.getCode() == 200){
-            GerneList.setGenreTvList(response.getGenreResults().getResults());
+                }
+            }
 
-        }else{
-            String title ="Something went wrong";
-            String msg = "Something went wrong, please try again";
-            PopUpMsg.dialogMsg(title,msg,getApplicationContext());
-        }
+            @Override
+            public void onFailure(Call<Genre.GenreResults> call, Throwable t) {
 
+            }
+        };
     }
 
     /**
