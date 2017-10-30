@@ -109,7 +109,7 @@ public class TvDetailsFragment extends Fragment {
         Log.d(TAG,"onStart");
         if(tvDetails == null || time.isOverTime(time.ONE_HOUR)){
             reqTvDetails();
-            //time.setFirstTime(time.getTimeInMillis());
+            time.setFirstTime(time.getTimeInMillis());
         }else{
             displayData();
         }
@@ -177,7 +177,6 @@ public class TvDetailsFragment extends Fragment {
         genre.setText(ConvertValue.genreToString(tvDetails.getGenres()));
         Picasso.with(context).load("http://image.tmdb.org/t/p/w185"+tvDetails.getBackdropPath()).into(backdrop);
         Picasso.with(context).load("http://image.tmdb.org/t/p/w342"+tvDetails.getPosterPath()).into(poster);
-        //Collections.reverse(tvDetails.getSeasons());
         tvSeasonsAdapter.setSeasons(tvDetails.getSeasons(),tvId);
     }
 

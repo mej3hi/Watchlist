@@ -5,6 +5,8 @@ import com.example.watchlist.themoviedb.Genre;
 import com.example.watchlist.themoviedb.Movie;
 import com.example.watchlist.themoviedb.MovieDetails;
 import com.example.watchlist.themoviedb.TvDetails;
+import com.example.watchlist.themoviedb.TvEpisodeDetails;
+import com.example.watchlist.themoviedb.TvSeasonDetails;
 import com.example.watchlist.themoviedb.TvShow;
 
 import retrofit2.Call;
@@ -32,6 +34,12 @@ public interface ApiTheMovieDb {
 
     @GET("tv/{tv_id}")
     Call<TvDetails> tvDetails(@Path("tv_id") long tv_id);
+
+    @GET("tv/{tv_id}/season/{season_number}")
+    Call<TvSeasonDetails> seasonDetails(@Path("tv_id") long tv_id, @Path("season_number") int season_number);
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}")
+    Call<TvEpisodeDetails> episodeDetails(@Path("tv_id") long tv_id, @Path("season_number") int season_number, @Path("episode_number") int episode_number);
 
 
     @GET("genre/tv/list")
