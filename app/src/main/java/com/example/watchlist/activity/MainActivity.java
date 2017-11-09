@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 
 import com.example.watchlist.R;
 import com.example.watchlist.fragment.movie.MoviesTabFragment;
+import com.example.watchlist.fragment.search.SearchResultsFragment;
 import com.example.watchlist.fragment.tvshows.TvShowsTapFragment;
 import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqGenre;
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
+
+    private MenuItem searchTv;
+    private MenuItem searchMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,39 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        searchTv = menu.findItem(R.id.search_tv);
+        searchMovie = menu.findItem(R.id.search_movie);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Log.d(TAG,"onQueryTextSubmit");
+
+                SearchResultsFragment fragment = new SearchResultsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("searchQuery",query);
+                bundle.putBoolean("searchTv",searchTv.isChecked());
+                bundle.putBoolean("searchMovie",searchMovie.isChecked());
+                fragment.setArguments(bundle);
+                FragmentManager manager = getSupportFragmentManager();
+                manager.popBackStack("search",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                manager.beginTransaction().replace(R.id.main_container, fragment, fragment.getTag()).addToBackStack("search").commit();
+
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d(TAG,"onQueryTextChange");
+                return false;
+            }
+        });
+
 
         return true;
     }
@@ -82,6 +120,25 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (id == R.id.search_tv) {
+            if(item.isChecked()){
+                item.setChecked(false);
+                searchMovie.setChecked(true);
+            }else{
+                item.setChecked(true);
+            }
+            return true;
+        }
+
+        if (id == R.id.search_movie) {
+            if(item.isChecked()){
+                item.setChecked(false);
+                searchTv.setChecked(true);
+            }else{
+                item.setChecked(true);
+            }
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -93,6 +150,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         FragmentManager manager = getSupportFragmentManager();
+
+        manager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         if (id == R.id.tv_shows) {
             TvShowsTapFragment tvShowsTapFragment = new TvShowsTapFragment();
