@@ -16,7 +16,9 @@ import com.example.watchlist.R;
 import com.example.watchlist.fragment.movie.MovieDetailsFragment;
 import com.example.watchlist.fragment.tvshows.TvDetailsFragment;
 import com.example.watchlist.themoviedb.Genre;
+import com.example.watchlist.themoviedb.Movie;
 import com.example.watchlist.themoviedb.SearchResults;
+import com.example.watchlist.themoviedb.TvShow;
 import com.example.watchlist.utils.ConvertValue;
 import com.squareup.picasso.Picasso;
 
@@ -165,9 +167,37 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyItemInserted(searchResultsList.size() - 1);
     }
 
-    public void addAll(List<SearchResults> List) {
-        for (SearchResults results : List) {
+    public void addAll(List<SearchResults> list) {
+        for (SearchResults results : list) {
             add(results);
+        }
+    }
+
+    public void addAllMovies(List<Movie> list) {
+        for (Movie movie : list) {
+            SearchResults result = new SearchResults(
+                    movie.getId(),
+                    movie.getTitle(),
+                    movie.getVoteAverage(),
+                    movie.getPosterPath(),
+                    movie.getGenreIds(),
+                    "movie");
+            add(result);
+
+        }
+    }
+
+    public void addAllTv(List<TvShow> list) {
+        for (TvShow tv : list) {
+            SearchResults result = new SearchResults(
+                    tv.getId(),
+                    tv.getName(),
+                    tv.getVoteAverage(),
+                    tv.getPosterPath(),
+                    tv.getGenreIds(),
+                    "tv");
+            add(result);
+
         }
     }
 

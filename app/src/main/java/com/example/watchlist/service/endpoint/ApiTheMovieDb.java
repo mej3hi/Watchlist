@@ -63,4 +63,14 @@ public interface ApiTheMovieDb {
 
     @GET("movie/{movie_id}")
     Call<MovieDetails> movieDetails(@Path("movie_id") long movie_id);
+
+    @GET("search/tv")
+    Call<TvShow.TvShowsResults> searchTvShows(@Query("query") String query, @Query("page") int page);
+
+    @GET("search/movie")
+    Call<Movie.MoviesResults> searchMovie(@Query("query") String query, @Query("page") int page,@Query("region") String region);
+
+
+
 }
+

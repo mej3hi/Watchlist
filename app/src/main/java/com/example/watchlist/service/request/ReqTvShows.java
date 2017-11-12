@@ -112,4 +112,20 @@ public class ReqTvShows {
 
     }
 
+
+    /**
+     * Send Get method url ("search/tv").
+     * It get the search result for tv shows.
+     * @param page It the page to get.
+     * @param query It is the query to search after.
+     */
+    public static void SearchTvShows(int page, String query, Callback callback) {
+        ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
+        Call<TvShow.TvShowsResults> call = apiTheMovieDb.searchTvShows(query,page);
+
+        call.enqueue(callback);
+
+    }
+
+
 }

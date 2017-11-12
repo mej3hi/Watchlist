@@ -72,4 +72,18 @@ public class ReqMovies {
         call.enqueue(callback);
 
     }
+
+    /**
+     * Send Get method url ("search/movie").
+     * It get the search result for movies.
+     * @param page It the page to get.
+     * @param query It is the query to search after.
+     */
+    public static void SearchMovies(int page, String query, Callback callback) {
+        ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
+        Call<Movie.MoviesResults> call = apiTheMovieDb.searchMovie(query,page,"US");
+
+        call.enqueue(callback);
+
+    }
 }
