@@ -19,6 +19,7 @@ import com.example.watchlist.fragment.movie.MoviesTabFragment;
 import com.example.watchlist.fragment.myWatchlist.MyWatchlistTabFragment;
 import com.example.watchlist.fragment.search.SearchResultsFragment;
 import com.example.watchlist.fragment.tvshows.TvShowsTapFragment;
+import com.example.watchlist.fragment.watchlist.WatchlistTabFragment;
 import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqGenre;
 import com.example.watchlist.shareInfo.GerneList;
@@ -167,7 +168,11 @@ public class MainActivity extends AppCompatActivity
             MyWatchlistTabFragment myWatchlistTabFragment = new MyWatchlistTabFragment();
             manager.beginTransaction().replace(R.id.main_container,myWatchlistTabFragment,myWatchlistTabFragment.getTag()).commit();
 
+        }else if (id == R.id.watchlist) {
+            WatchlistTabFragment watchlistTabFragment = new WatchlistTabFragment();
+            manager.beginTransaction().replace(R.id.main_container, watchlistTabFragment, watchlistTabFragment.getTag()).commit();
         }
+
         Log.d("onNavigationItem","BINGO");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

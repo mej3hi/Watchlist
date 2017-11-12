@@ -3,7 +3,7 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/to_day"
+            android:id="@+id/watchlist"
             android:icon="@drawable/watchlist_icon"
             android:title="Watchlist" />
         <item
