@@ -13,13 +13,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.watchlist.R;
+
+import com.example.watchlist.database.MovieDatabaseUtil;
+import com.example.watchlist.database.MovieWatch;
 import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqMovies;
+
 import com.example.watchlist.themoviedb.MovieDetails;
+
 import com.example.watchlist.utils.ConvertValue;
 import com.example.watchlist.utils.PopUpMsg;
 import com.example.watchlist.utils.Time;
 import com.squareup.picasso.Picasso;
+
+import java.util.Calendar;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,14 +37,15 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class MovieDetailsFragment extends Fragment {
-
     private static final String TAG = "MovieDatailsFrag";
 
     private Context context;
-    private Time time;
 
     private MovieDetails movieDetails;
     private long movieId;
+
+    private boolean hasBeenAdded;
+
 
     private ImageView poster;
     private ImageView backdrop;
@@ -61,6 +70,7 @@ public class MovieDetailsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_movie_details, container, false);
 
         context = getContext();
+        hasBeenAdded = false;
 
         poster = (ImageView) v.findViewById(R.id.poster_movie_details_imageView);
         backdrop = (ImageView) v.findViewById(R.id.backdrop_movie_details_imageView);
@@ -72,10 +82,6 @@ public class MovieDetailsFragment extends Fragment {
         genre = (TextView) v.findViewById(R.id.genre_movie_details_textView);
         watchlistBtn = (Button) v.findViewById(R.id.add_watchlist_movie_details_btn);
 
-        if(time == null ) {
-            time = new Time();
-        }
-
         if(getArguments() != null){
             movieId = getArguments().getLong("movieId");
         }
@@ -83,7 +89,11 @@ public class MovieDetailsFragment extends Fragment {
         watchlistBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG,"onClick watchlistBtn");
+                if(hasBeenAdded){
+                    removeMovie();
+                }else {
+                    addMovie();
+                }
             }
         });
 
@@ -97,12 +107,7 @@ public class MovieDetailsFragment extends Fragment {
         super.onStart();
         Log.d(TAG,"onStart");
         reqMovieDetails();
-        if(movieDetails == null || time.isOverTime(time.ONE_HOUR)){
-            reqMovieDetails();
-            time.setFirstTime(time.getTimeInMillis());
-        }else {
-            displayData(movieDetails);
-        }
+        changeButton();
     }
 
     @Override
@@ -169,6 +174,35 @@ public class MovieDetailsFragment extends Fragment {
 
 
     }
+
+    public void changeButton(){
+        if(MovieDatabaseUtil.isMovieAddedToWatchlist(movieId)){
+            watchlistBtn.setBackgroundColor(0xffe6b800);
+            watchlistBtn.setText("Remove from watchlist");
+            hasBeenAdded = true;
+        }else{
+            watchlistBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            watchlistBtn.setText("Add to watchlist");
+            hasBeenAdded = false;
+        }
+    }
+
+    public void removeMovie(){
+        MovieDatabaseUtil.removeMovieFromWatchlist(movieId);
+        changeButton();
+    }
+
+    public void addMovie(){
+        MovieDatabaseUtil.addMovieToWatchlist(
+                movieId,
+                movieDetails.getTitle(),
+                movieDetails.getPosterPath(),
+                movieDetails.getVoteAverage(),
+                ConvertValue.genreIdToString(movieDetails.getGenres()));
+        changeButton();
+    }
+
+
 
 
 }

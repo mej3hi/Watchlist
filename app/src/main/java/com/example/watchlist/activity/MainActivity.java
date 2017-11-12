@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.example.watchlist.R;
 import com.example.watchlist.fragment.movie.MoviesTabFragment;
+import com.example.watchlist.fragment.myWatchlist.MyWatchlistTabFragment;
 import com.example.watchlist.fragment.search.SearchResultsFragment;
 import com.example.watchlist.fragment.tvshows.TvShowsTapFragment;
 import com.example.watchlist.service.client.NetworkChecker;
@@ -161,6 +162,10 @@ public class MainActivity extends AppCompatActivity
             MoviesTabFragment moviesTabFragment = new MoviesTabFragment();
             manager.beginTransaction().replace(R.id.main_container,moviesTabFragment,moviesTabFragment.getTag()).commit();
 
+
+        } else if (id == R.id.my_watchlist) {
+            MyWatchlistTabFragment myWatchlistTabFragment = new MyWatchlistTabFragment();
+            manager.beginTransaction().replace(R.id.main_container,myWatchlistTabFragment,myWatchlistTabFragment.getTag()).commit();
 
         }
         Log.d("onNavigationItem","BINGO");

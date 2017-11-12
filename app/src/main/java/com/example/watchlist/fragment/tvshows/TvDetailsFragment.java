@@ -1,6 +1,7 @@
 package com.example.watchlist.fragment.tvshows;
 
 
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.watchlist.R;
 import com.example.watchlist.adapter.TvSeasonsAdapter;
+import com.example.watchlist.database.TvDatabaseUtil;
 import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqTvShows;
 import com.example.watchlist.themoviedb.TvDetails;
@@ -40,6 +42,7 @@ public class TvDetailsFragment extends Fragment {
 
     private TvDetails tvDetails;
     private long tvId;
+    private boolean hasBeenStored;
 
     private TvSeasonsAdapter tvSeasonsAdapter;
     private ImageView poster;
@@ -52,10 +55,12 @@ public class TvDetailsFragment extends Fragment {
     private TextView genre;
     private Button watchlistBtn;
 
+
+
+
     public TvDetailsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,7 +68,7 @@ public class TvDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tv_details, container, false);
         context = getContext();
-
+        hasBeenStored = false;
 
         poster = (ImageView) v.findViewById(R.id.poster_tv_details_imageView);
         backdrop = (ImageView) v.findViewById(R.id.backdrop_tv_details_imageView);
@@ -92,15 +97,17 @@ public class TvDetailsFragment extends Fragment {
         watchlistBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG,"onClick watchlistBtn");
+                if(hasBeenStored){
+                    removeTvShow();
+
+                }else {
+                    addTvShow();
+                }
             }
         });
 
         Log.d(TAG,"onCreateView" );
         return v;
-
-
-
     }
 
     @Override
@@ -114,7 +121,7 @@ public class TvDetailsFragment extends Fragment {
             displayData();
         }
 
-
+        changeButton();
     }
 
     @Override
@@ -122,6 +129,7 @@ public class TvDetailsFragment extends Fragment {
         Log.d(TAG,"onStop");
         super.onStop();
     }
+
 
 
     /**
@@ -138,8 +146,6 @@ public class TvDetailsFragment extends Fragment {
         }
 
     }
-
-
 
     /**
      * Receiving Respond from the backend server.
@@ -177,7 +183,38 @@ public class TvDetailsFragment extends Fragment {
         genre.setText(ConvertValue.genreToString(tvDetails.getGenres()));
         Picasso.with(context).load("http://image.tmdb.org/t/p/w185"+tvDetails.getBackdropPath()).into(backdrop);
         Picasso.with(context).load("http://image.tmdb.org/t/p/w342"+tvDetails.getPosterPath()).into(poster);
+        //Collections.reverse(tvDetails.getSeasons());
         tvSeasonsAdapter.setSeasons(tvDetails.getSeasons(),tvId);
     }
+
+
+
+    public void changeButton(){
+        if(TvDatabaseUtil.isTvAddedToWatchlist(tvId)){
+            watchlistBtn.setBackgroundColor(0xffe6b800);
+            watchlistBtn.setText("Remove from watchlist");
+            hasBeenStored = true;
+        }else{
+            watchlistBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            watchlistBtn.setText("Add to watchlist");
+            hasBeenStored = false;
+        }
+    }
+
+    public void removeTvShow(){
+        TvDatabaseUtil.removeTvFromWatchlist(tvId);
+        changeButton();
+    }
+
+    public void addTvShow(){
+        TvDatabaseUtil.addTvToWatchlist(
+                tvId,
+                tvDetails.getName(),
+                tvDetails.getPosterPath(),
+                tvDetails.getVoteAverage(),
+                ConvertValue.genreIdToString(tvDetails.getGenres()));
+        changeButton();
+    }
+
 
 }
