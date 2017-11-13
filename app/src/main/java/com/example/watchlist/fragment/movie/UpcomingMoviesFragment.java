@@ -67,14 +67,11 @@ public class UpcomingMoviesFragment extends Fragment {
         upcomingMoviesRecycler.addOnScrollListener(setPageScrollListener(layoutManager));
 
 
-        Log.d(TAG,"onCreateView");
-
         return v;
     }
 
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         if(moviesAdapter.isEmpty()){
             reqUpcomingMovies();
         }
@@ -83,12 +80,11 @@ public class UpcomingMoviesFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
     /**
-     * Here we initialize the fragment
+     * Initialize the fragment
      */
     public void initialize(){
         time = new Time();
@@ -97,7 +93,7 @@ public class UpcomingMoviesFragment extends Fragment {
     }
 
     /**
-     * It add a pagination scroll listener that ask for more data
+     * It adds a pagination scroll listener that ask for more data
      * if it is not the last page and not loading.
      * @param layoutManager LayoutManager contains the LinearLayoutManager.
      * @return It return the PaginationScrollListener.
@@ -128,7 +124,7 @@ public class UpcomingMoviesFragment extends Fragment {
 
     }
     /**
-     * Sends HttpRequest that request Upcoming Movies
+     * Sends Http Request that request Upcoming Movies
      */
     private void reqUpcomingMovies(){
         Log.d(TAG,"ná í upcoming movies");
@@ -159,13 +155,10 @@ public class UpcomingMoviesFragment extends Fragment {
 
                     pagination.setCurrentPage(pagination.getCurrentPage()+1);
 
-                    Log.d(TAG,"isLastPage "+pagination.isLastPage()+" isLoading "+pagination.isLoading());
 
                 }else {
                     PopUpMsg.displayErrorMsg(context);
                 }
-
-
             }
 
             @Override

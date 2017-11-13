@@ -66,14 +66,10 @@ public class PopularMoviesFragment extends Fragment {
         popularMoviesRecycler.setAdapter(moviesAdapter);
         popularMoviesRecycler.addOnScrollListener(setPageScrollListener(layoutManager));
 
-
-        Log.d(TAG,"onCreateView");
-
         return v;
     }
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         if(moviesAdapter.isEmpty()){
             reqPopularMovies();
         }
@@ -82,12 +78,11 @@ public class PopularMoviesFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
     /**
-     * Here we initialize the fragment
+     * Initialize the fragment
      */
     public void initialize(){
         time = new Time();
@@ -96,7 +91,7 @@ public class PopularMoviesFragment extends Fragment {
     }
 
     /**
-     * It add a pagination scroll listener that ask for more data
+     * It adds a pagination scroll listener that ask for more data
      * if it is not the last page and not loading.
      * @param layoutManager LayoutManager contains the LinearLayoutManager.
      * @return It return the PaginationScrollListener.
@@ -127,11 +122,9 @@ public class PopularMoviesFragment extends Fragment {
 
     }
     /**
-     * Sends HttpRequest that request Popular Movies
+     * Sends Http Request that request Popular Movies
      */
     private void reqPopularMovies(){
-        Log.d(TAG,"ná í popular movies");
-
         if(NetworkChecker.isOnline(context)) {
             ReqMovies.popularMovies(pagination.getCurrentPage(), resPopularMovies());
         }

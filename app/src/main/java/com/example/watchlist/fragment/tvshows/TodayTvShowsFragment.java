@@ -69,7 +69,6 @@ public class TodayTvShowsFragment extends Fragment {
         todayShowsRecycler.addOnScrollListener(setPageScrollListener(layoutManager));
 
 
-        Log.d(TAG,"onCreateView");
         return view;
 
     }
@@ -78,7 +77,6 @@ public class TodayTvShowsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         if(tvShowsAdapter.isEmpty()) {
             time.setFirstTime(time.getTimeInMillis());
             reqToDayShows();
@@ -90,12 +88,11 @@ public class TodayTvShowsFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
     /**
-     * Here we initialize the fragment
+     * Initialize the fragment
      */
     public void initialize(){
         time = new Time();
@@ -137,10 +134,9 @@ public class TodayTvShowsFragment extends Fragment {
     }
 
     /**
-     * Sends HttpRequest that request To day tv shows
+     * Sends Http Request that request To day tv shows
      */
     private void reqToDayShows(){
-        Log.d(TAG,"ná í on today shows");
 
         if(NetworkChecker.isOnline(context)) {
             ReqTvShows.toDayShows(pagination.getCurrentPage(),resToDayShows());
@@ -170,7 +166,6 @@ public class TodayTvShowsFragment extends Fragment {
 
                     pagination.setCurrentPage(pagination.getCurrentPage()+1);
 
-                    Log.d(TAG,"isLastPage "+pagination.isLastPage()+" isLoading "+pagination.isLoading());
 
                 }else {
                     PopUpMsg.displayErrorMsg(context);
@@ -187,7 +182,7 @@ public class TodayTvShowsFragment extends Fragment {
 
 
     /**
-     * Display the To day tv shows on the screen;
+     * Display the Today tv shows on the screen;
      * @param results Results contains Tv shows results.
      */
     public void displayData(TvShow.TvShowsResults results){
@@ -208,9 +203,5 @@ public class TodayTvShowsFragment extends Fragment {
         if(pagination.getCurrentPage() < pagination.getTotalPages()) tvShowsAdapter.addLoadingFooter();
         else pagination.setLastPage(true);
     }
-
-
-
-
 
 }

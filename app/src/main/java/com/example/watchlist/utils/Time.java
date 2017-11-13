@@ -2,9 +2,6 @@ package com.example.watchlist.utils;
 
 import java.util.Calendar;
 
-/**
- * Created by martin on 15.10.2017.
- */
 
 public class Time {
 

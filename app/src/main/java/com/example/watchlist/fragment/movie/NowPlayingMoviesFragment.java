@@ -66,13 +66,11 @@ public class NowPlayingMoviesFragment extends Fragment {
         nowPLayingMoviesRecycler.setAdapter(moviesAdapter);
         nowPLayingMoviesRecycler.addOnScrollListener(setPageScrollListener(layoutManager));
 
-        Log.d(TAG,"onCreateView");
         return v;
     }
 
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         if(moviesAdapter.isEmpty()){
             reqNowPlayingMovies();
         }
@@ -81,12 +79,11 @@ public class NowPlayingMoviesFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
     /**
-     * Here we initialize the fragment
+     * Initialize the fragment
      */
     public void initialize(){
         time = new Time();
@@ -95,7 +92,7 @@ public class NowPlayingMoviesFragment extends Fragment {
     }
 
     /**
-     * It add a pagination scroll listener that ask for more data
+     * It adds a pagination scroll listener that ask for more data
      * if it is not the last page and not loading.
      * @param layoutManager LayoutManager contains the LinearLayoutManager.
      * @return It return the PaginationScrollListener.
@@ -125,11 +122,11 @@ public class NowPlayingMoviesFragment extends Fragment {
         };
 
     }
+
     /**
-     * Sends HttpRequest that requests now playing movies
+     * Sends Http Request that requests now playing movies
      */
     private void reqNowPlayingMovies(){
-        Log.d(TAG,"ná í now playing movies");
 
         if(NetworkChecker.isOnline(context)) {
             ReqMovies.nowPlayingMovies(pagination.getCurrentPage(), resNowPLayingMovies());
@@ -156,15 +153,10 @@ public class NowPlayingMoviesFragment extends Fragment {
 
                     pagination.setCurrentPage(pagination.getCurrentPage()+1);
 
-                    Log.d(TAG,"isLastPage "+pagination.isLastPage()+" isLoading "+pagination.isLoading());
-
                 }else {
                     PopUpMsg.displayErrorMsg(context);
                 }
-
-
             }
-
             @Override
             public void onFailure(Call<Movie.MoviesResults> call, Throwable t) {
                 PopUpMsg.displayErrorMsg(context);

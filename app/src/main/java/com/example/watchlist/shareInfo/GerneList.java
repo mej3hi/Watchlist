@@ -4,6 +4,10 @@ import com.example.watchlist.themoviedb.Genre;
 
 import java.util.List;
 
+/**
+ * List of genre for tv shows and movies
+ */
+
 public class GerneList {
 
     private static List<Genre> genreTvList;

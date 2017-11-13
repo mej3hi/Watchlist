@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by martin on 25.10.2017.
+ * TvSeasonsAdapter is used to create list of seasons for some particular tv show.
+ *
  */
-
 public class TvSeasonsAdapter extends RecyclerView.Adapter<TvSeasonsAdapter.TvSeasonsViewHolder>{
 
     private List<TvDetails.Season> seasonList;

@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by martin on 12.11.2017.
+ * SearchResultsAdapter is used to create list of movies and tv shows for the search
+ * results.
  */
-
 public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 

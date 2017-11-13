@@ -68,14 +68,12 @@ public class PopularTvShowsFragment extends Fragment {
         popularTvShowsRecycler.setAdapter(tvShowsAdapter);
         popularTvShowsRecycler.addOnScrollListener(setPageScrollListener(layoutManager));
 
-        Log.d(TAG,"onCreateView");
         return v;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         if(tvShowsAdapter.isEmpty()) {
             time.setFirstTime(time.getTimeInMillis());
             reqPopularTvShows();
@@ -88,12 +86,11 @@ public class PopularTvShowsFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
     /**
-     * Here we initialize the fragment
+     * Initialize the fragment
      */
     public void initialize(){
         time = new Time();
@@ -134,10 +131,9 @@ public class PopularTvShowsFragment extends Fragment {
     }
 
     /**
-     * Sends HttpRequest that request Popular tv shows.
+     * Sends Http Request that request Popular tv shows.
      */
     private void reqPopularTvShows(){
-        Log.d(TAG,"ná í popular tv shows");
 
         if(NetworkChecker.isOnline(context)) {
             ReqTvShows.popularTvShows(pagination.getCurrentPage(),resPopularTvShows());
@@ -164,9 +160,6 @@ public class PopularTvShowsFragment extends Fragment {
                     displayData(response.body());
 
                     pagination.setCurrentPage(pagination.getCurrentPage()+1);
-
-
-                    Log.d(TAG,"isLastPage "+pagination.isLastPage()+" isLoading "+pagination.isLoading());
 
                 }else {
                     PopUpMsg.displayErrorMsg(context);

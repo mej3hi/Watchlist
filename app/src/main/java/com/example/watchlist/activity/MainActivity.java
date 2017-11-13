@@ -88,8 +88,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                Log.d(TAG,"onQueryTextSubmit");
-
                 SearchResultsFragment fragment = new SearchResultsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("searchQuery",query);
@@ -106,7 +104,6 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d(TAG,"onQueryTextChange");
                 return false;
             }
         });
@@ -173,7 +170,6 @@ public class MainActivity extends AppCompatActivity
             manager.beginTransaction().replace(R.id.main_container, watchlistTabFragment, watchlistTabFragment.getTag()).commit();
         }
 
-        Log.d("onNavigationItem","BINGO");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -182,23 +178,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("mainActivity","OnStart");
         reqGenre();
 
     }
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
 
     /**
-     * Sends HttpRequest that requests Genre.
+     * Sends Http Request that requests Genre.
      */
     private void reqGenre(){
-        Log.d(TAG,"ná í genre");
 
         if(NetworkChecker.isOnline(getApplicationContext())) {
             ReqGenre.genreTvList(resGenreTvShows());
@@ -215,7 +208,6 @@ public class MainActivity extends AppCompatActivity
      * Receiving Respond from the backend server.
      *
      */
-    @Subscribe(priority = 1)
     public Callback resGenreTvShows() {
         return new Callback<Genre.GenreResults>() {
             @Override

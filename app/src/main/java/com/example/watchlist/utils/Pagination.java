@@ -1,7 +1,8 @@
 package com.example.watchlist.utils;
 
 /**
- * Created by martin on 15.10.2017.
+ * Handles all the pagination.
+ *
  */
 
 public class Pagination {

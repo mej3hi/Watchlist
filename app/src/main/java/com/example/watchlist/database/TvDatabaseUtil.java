@@ -6,6 +6,10 @@ import com.example.watchlist.themoviedb.TvShow;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Class for adding and removing tv shows to and from users watchlist.
+ */
+
 
 public class TvDatabaseUtil {
 

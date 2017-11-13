@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +19,10 @@ import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.themoviedb.TvShow;
 import com.example.watchlist.utils.BackgroundPoster;
 import com.example.watchlist.utils.ConvertValue;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,12 +61,11 @@ public class TvShowsMyWatchlistFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         getAllData();
     }
 
     /**
-     * It will get all the tv shows that user has saved
+     * Get all the tv shows that user has saved in watchlist
      * and displays it.
      */
     public void getAllData(){

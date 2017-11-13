@@ -97,30 +97,28 @@ public class MovieDetailsFragment extends Fragment {
             }
         });
 
-        Log.d(TAG,"onCreateView");
-
         return v;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
+
         reqMovieDetails();
         changeButton();
     }
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
+
         super.onStop();
     }
 
     /**
-     * Sends HttpRequest that request Movie details.
+     * Sends Http Request that request Movie details.
      */
     private void reqMovieDetails(){
-        Log.d(TAG,"ná í Movie Details");
+
 
         if(NetworkChecker.isOnline(context)) {
             ReqMovies.movieDetails(movieId, resMovieDetails());
@@ -158,8 +156,8 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     /**
-     * Display the Tv details on the screen;
-     * @param details contains Movie shows details.
+     * Display the movie details on the screen;
+     * @param details contains movie details.
      */
     public void displayData(MovieDetails details){
         name.setText(details.getTitle());
@@ -175,6 +173,10 @@ public class MovieDetailsFragment extends Fragment {
 
     }
 
+    /**
+     * Checks if movie is added to watchlist and display
+     * the right button.
+     */
     public void changeButton(){
         if(MovieDatabaseUtil.isMovieAddedToWatchlist(movieId)){
             watchlistBtn.setBackgroundColor(0xffe6b800);
@@ -187,10 +189,18 @@ public class MovieDetailsFragment extends Fragment {
         }
     }
 
+    /**
+     * Remove movie from watchlist
+     */
+
     public void removeMovie(){
         MovieDatabaseUtil.removeMovieFromWatchlist(movieId);
         changeButton();
     }
+
+    /**
+     * Add movie from watchlist
+     */
 
     public void addMovie(){
         MovieDatabaseUtil.addMovieToWatchlist(

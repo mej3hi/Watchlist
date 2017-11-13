@@ -82,21 +82,18 @@ public class EpisodeDetailsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         reqEpisodeDetails();
     }
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
     /**
-     *  Sends HttpRequest that requests Episode details.
+     *  Sends Http Request that requests Episode details.
      */
     private void reqEpisodeDetails(){
-        Log.d(TAG,"ná í Episode Details");
         if(NetworkChecker.isOnline(context)) {
             ReqTvShows.episodeDetails(tvId,seasonNumber,episodeNumber, resEpisodeDetails() );
         }
@@ -115,7 +112,6 @@ public class EpisodeDetailsFragment extends Fragment {
             @Override
             public void onResponse(Call<TvEpisodeDetails> call, Response<TvEpisodeDetails> response) {
                 if(response.isSuccessful()){
-                    Log.d(TAG,"tókst að ná EpisodeDetails");
                     displayData(response.body());
 
                 }else {

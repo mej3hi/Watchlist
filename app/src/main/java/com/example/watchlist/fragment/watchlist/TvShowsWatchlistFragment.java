@@ -69,7 +69,6 @@ public class TvShowsWatchlistFragment extends Fragment {
         onAirTvShowsRecycler.setLayoutManager(layoutManager);
         tvShowsAdapter = new TvShowsAdapter(context, getActivity().getSupportFragmentManager());
         onAirTvShowsRecycler.setAdapter(tvShowsAdapter);
-        Log.d(TAG,"onCreateView");
 
         return v;
     }
@@ -77,7 +76,6 @@ public class TvShowsWatchlistFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         tvShowsWatchList = TvDatabaseUtil.getallTvShows();
         if(!Cache.TodayTvshows.isEmpty() && !time.isOverTime(Cache.TodayTvshows.getTime(),time.ONE_HOUR)){
             displayData(Cache.TodayTvshows.getTvShowList());
@@ -91,7 +89,6 @@ public class TvShowsWatchlistFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
@@ -100,7 +97,6 @@ public class TvShowsWatchlistFragment extends Fragment {
      * Sends HttpRequest that request On air tv shows
      */
     private void reqToDayShows(){
-        Log.d(TAG,"ná í on today tv shows");
 
         if(NetworkChecker.isOnline(context)) {
             ReqTvShows.toDayShows(pagination.getCurrentPage(),resToDayShows());
@@ -119,7 +115,6 @@ public class TvShowsWatchlistFragment extends Fragment {
         return new Callback<TvShow.TvShowsResults>(){
             @Override
             public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
-                Log.d(TAG,"response raw er "+response.raw());
                 if(response.isSuccessful()){
                     pagination.setTotalPages(response.body().getTotalPages());
 
@@ -141,7 +136,6 @@ public class TvShowsWatchlistFragment extends Fragment {
 
             @Override
             public void onFailure(Call<TvShow.TvShowsResults> call, Throwable t) {
-                Log.d(TAG,"failure er  ");
                 t.printStackTrace();
                 PopUpMsg.displayErrorMsg(context);
             }
@@ -170,7 +164,6 @@ public class TvShowsWatchlistFragment extends Fragment {
     public void displayData(List<TvShow> tvShowList){
 
         List<TvShow> newTvList = filterOutData(tvShowList,tvShowsWatchList);
-        Log.d(TAG,"newTvList size is "+newTvList.size());
 
         if(newTvList.size() != 0) {
 
@@ -183,9 +176,6 @@ public class TvShowsWatchlistFragment extends Fragment {
             tvShowsAdapter.addAll(newTvList);
 
         }
-
-        Log.d(TAG, "currentPage " + pagination.getCurrentPage() + " totalPages " + pagination.getTotalPages());
-
 
     }
 

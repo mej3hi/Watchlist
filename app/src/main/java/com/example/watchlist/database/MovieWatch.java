@@ -2,6 +2,10 @@ package com.example.watchlist.database;
 
 import com.orm.SugarRecord;
 
+/**
+ * MovieWatch is the sql table for movie.
+ */
+
 public class MovieWatch extends SugarRecord {
 
     public long movieId;

@@ -3,6 +3,9 @@ package com.example.watchlist.database;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Class for adding and removing movies to and from the users watchlist.
+ */
 
 public class MovieDatabaseUtil {
 

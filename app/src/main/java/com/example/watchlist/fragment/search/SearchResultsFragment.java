@@ -75,7 +75,6 @@ public class SearchResultsFragment extends Fragment {
         searchRecycler.setAdapter(resultsAdapter);
         searchRecycler.addOnScrollListener(setPageScrollListener(layoutManager));
 
-        Log.d(TAG,"onCreateView");
 
         if(getArguments() != null){
             searchQuery = getArguments().getString("searchQuery");
@@ -83,15 +82,11 @@ public class SearchResultsFragment extends Fragment {
             searchMovie = getArguments().getBoolean("searchMovie");
         }
 
-        Log.d(TAG,"Search query "+searchQuery);
-        Log.d(TAG,"Search tv "+searchTv);
-        Log.d(TAG,"Search movie "+searchMovie);
         return v;
     }
 
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         if(resultsAdapter.isEmpty()){
             reqSearchResults();
         }else{
@@ -101,7 +96,6 @@ public class SearchResultsFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
@@ -114,7 +108,7 @@ public class SearchResultsFragment extends Fragment {
     }
 
     /**
-     * It add a pagination scroll listener that ask for more data
+     * It adds a pagination scroll listener that ask for more data
      * if it is not the last page and not loading.
      * @param layoutManager LayoutManager contains the LinearLayoutManager.
      * @return It return the PaginationScrollListener.
@@ -148,10 +142,9 @@ public class SearchResultsFragment extends Fragment {
 
 
     /**
-     * Sends HttpRequest that request search for tv and movie.
+     * Sends Http Request that request search for tv and movie.
      */
     private void reqSearchResults(){
-        Log.d(TAG,"ná í Search Result tv og movie");
 
         if(NetworkChecker.isOnline(context)) {
             if(tvPagination.getCurrentPage() <=tvPagination.getTotalPages() && searchTv){
@@ -176,11 +169,9 @@ public class SearchResultsFragment extends Fragment {
      *
      */
     public Callback resSearchTvResults(){
-        Log.d(TAG,"tóks að ná í tvResults");
         return new Callback<TvShow.TvShowsResults>(){
             @Override
             public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
-                Log.d(TAG,"raw tv response "+response.raw());
                 if(response.isSuccessful()){
                     tvPagination.setTotalPages(response.body().getTotalPages());
 
@@ -188,7 +179,6 @@ public class SearchResultsFragment extends Fragment {
 
                     displayData(response.body().getResults(),new ArrayList<Movie>());
 
-                    Log.d(TAG,"totalPagesTv "+tvPagination.getTotalPages()+" currentPage "+tvPagination.getCurrentPage());
                 }else {
                     PopUpMsg.displayErrorMsg(context);
                 }
@@ -206,19 +196,15 @@ public class SearchResultsFragment extends Fragment {
      *
      */
     public Callback resSearchMovieResults(){
-        Log.d(TAG,"tóks að ná í movieResults");
         return new Callback<Movie.MoviesResults>(){
             @Override
             public void onResponse(Call<Movie.MoviesResults> call, Response<Movie.MoviesResults> response) {
-                Log.d(TAG,"raw movie response "+response.raw());
                 if(response.isSuccessful()){
                     moviePagination.setTotalPages(response.body().getTotalPages());
 
                     moviePagination.setLoading(false);
 
                     displayData(new ArrayList<TvShow>(),response.body().getResults());
-
-                    Log.d(TAG,"totalPagesMovie "+moviePagination.getTotalPages()+" currentPage "+moviePagination.getCurrentPage());
 
                 }else {
                     PopUpMsg.displayErrorMsg(context);
@@ -232,11 +218,14 @@ public class SearchResultsFragment extends Fragment {
         };
     }
 
+    /**
+     * Check if the page is last page and if so, set setLastPage to true
+     */
 
     public void checkLastPage(){
-        if(tvPagination.getCurrentPage()<=tvPagination.getCurrentPage()){
+        if(tvPagination.getCurrentPage()<= tvPagination.getTotalPages()){
             resultsAdapter.addLoadingFooter();
-        }else if(moviePagination.getCurrentPage() <= moviePagination.getCurrentPage()){
+        }else if(moviePagination.getCurrentPage() <= moviePagination.getTotalPages()){
             resultsAdapter.addLoadingFooter();
         }else{
             tvPagination.setLastPage(true);
@@ -247,7 +236,10 @@ public class SearchResultsFragment extends Fragment {
         tvPagination.setCurrentPage(tvPagination.getCurrentPage()+1);
 
     }
-
+    /**
+     * Display the results on the screen
+     *
+     */
     public void displayData(List<TvShow> tvResults , List<Movie> movieResults){
 
         if(!resultsAdapter.isEmpty()){

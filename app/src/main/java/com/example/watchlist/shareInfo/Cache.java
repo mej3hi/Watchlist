@@ -6,6 +6,10 @@ import com.example.watchlist.themoviedb.TvShow;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Used for temporary storage for Today Tv Shows and Now Playing Movies.
+ */
+
 public class Cache {
 
 

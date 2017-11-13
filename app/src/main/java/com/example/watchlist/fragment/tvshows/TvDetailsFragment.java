@@ -106,14 +106,12 @@ public class TvDetailsFragment extends Fragment {
             }
         });
 
-        Log.d(TAG,"onCreateView" );
         return v;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         if(tvDetails == null || time.isOverTime(time.ONE_HOUR)){
             reqTvDetails();
             time.setFirstTime(time.getTimeInMillis());
@@ -126,7 +124,6 @@ public class TvDetailsFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
@@ -136,7 +133,6 @@ public class TvDetailsFragment extends Fragment {
      * Sends HttpRequest that request Tv details.
      */
     private void reqTvDetails(){
-        Log.d(TAG,"ná í Tv Details");
 
         if(NetworkChecker.isOnline(context)) {
             ReqTvShows.tvDetails(tvId,resTvDetails());

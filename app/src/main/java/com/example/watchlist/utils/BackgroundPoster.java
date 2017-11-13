@@ -11,9 +11,6 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by ekh on 19/10/2017.
- */
 
 public class BackgroundPoster {
 

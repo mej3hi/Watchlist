@@ -65,13 +65,11 @@ public class RatedTvShowsFragment extends Fragment {
         ratedTvShowsRecycler.setAdapter(tvShowsAdapter);
         ratedTvShowsRecycler.addOnScrollListener(setPageScrollListener(layoutManager));
 
-        Log.d(TAG,"onCreateView");
         return v;
     }
 
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         if(tvShowsAdapter.isEmpty()){
             time.setFirstTime(time.getTimeInMillis());
             reqRatedTvShows();
@@ -82,12 +80,11 @@ public class RatedTvShowsFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
     /**
-     * Here we initialize the fragment
+     * Initialize the fragment
      */
     public void initialize(){
         time = new Time();
@@ -128,10 +125,9 @@ public class RatedTvShowsFragment extends Fragment {
     }
 
     /**
-     * Sends HttpRequest that request Rated tv shows
+     * Sends Http Request that request Rated tv shows
      */
     private void reqRatedTvShows(){
-        Log.d(TAG,"ná í top rated tv shows");
 
         if(NetworkChecker.isOnline(context)) {
             ReqTvShows.ratedTvShows(pagination.getCurrentPage(),resRatedTvShows());
@@ -158,8 +154,6 @@ public class RatedTvShowsFragment extends Fragment {
                     displayData(response.body());
 
                     pagination.setCurrentPage(pagination.getCurrentPage()+1);
-
-                    Log.d(TAG,"isLastPage "+pagination.isLastPage()+" isLoading "+pagination.isLoading());
 
                 }else {
                     PopUpMsg.displayErrorMsg(context);
@@ -200,8 +194,5 @@ public class RatedTvShowsFragment extends Fragment {
 
 
     }
-
-
-
 
 }

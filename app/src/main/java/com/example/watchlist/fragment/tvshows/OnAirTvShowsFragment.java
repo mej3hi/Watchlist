@@ -70,14 +70,12 @@ public class OnAirTvShowsFragment extends Fragment {
         onAirTvShowsRecycler.setAdapter(tvShowsAdapter);
         onAirTvShowsRecycler.addOnScrollListener(setPageScrollListener(layoutManager));
 
-        Log.d(TAG,"onCreateView");
         return  v;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         if(tvShowsAdapter.isEmpty()) {
             time.setFirstTime(time.getTimeInMillis());
             reqOnAirTvShows();
@@ -89,12 +87,11 @@ public class OnAirTvShowsFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
     /**
-     * Here we initialize the fragment
+     * Initialize the fragment
      */
     public void initialize() {
         time = new Time();
@@ -136,11 +133,9 @@ public class OnAirTvShowsFragment extends Fragment {
     }
 
     /**
-     * Sends HttpRequest that request On air tv shows
+     * Sends Http Request that request On air tv shows
      */
     private void reqOnAirTvShows(){
-        Log.d(TAG,"ná í on air tv shows");
-
         if(NetworkChecker.isOnline(context)) {
             ReqTvShows.onAirTvShows(pagination.getCurrentPage(),resOnAirTvShows());
         }
@@ -167,7 +162,6 @@ public class OnAirTvShowsFragment extends Fragment {
 
                     pagination.setCurrentPage(pagination.getCurrentPage()+1);
 
-                    Log.d(TAG,"isLastPage "+pagination.isLastPage()+" isLoading "+pagination.isLoading());
 
                 }else{
                     PopUpMsg.displayErrorMsg(context);

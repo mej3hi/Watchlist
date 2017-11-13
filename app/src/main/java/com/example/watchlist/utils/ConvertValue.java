@@ -54,6 +54,12 @@ public class ConvertValue {
 
         return sb.toString();
     }
+
+    /**
+     * Convert list of string id to list of integer id.
+     * @param id
+     * @return
+     */
     public static List<Integer> genreIdToListInteger(String id){
         List<Integer> genreId = new ArrayList<>();
         String[] genre = id.split(":");

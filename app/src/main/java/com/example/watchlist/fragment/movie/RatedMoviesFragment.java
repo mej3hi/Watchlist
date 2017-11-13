@@ -67,14 +67,11 @@ public class RatedMoviesFragment extends Fragment {
         ratedMoviesRecycler.setAdapter(moviesAdapter);
         ratedMoviesRecycler.addOnScrollListener(setPageScrollListener(layoutManager));
 
-
-        Log.d(TAG,"onCreateView");
         return v;
     }
 
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         if(moviesAdapter.isEmpty()){
             reqRatedMovies();
         }
@@ -83,12 +80,11 @@ public class RatedMoviesFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
     /**
-     * Here we initialize the fragment
+     * Initialize the fragment
      */
     public void initialize(){
         time = new Time();
@@ -98,7 +94,7 @@ public class RatedMoviesFragment extends Fragment {
 
 
     /**
-     * It add a pagination scroll listener that ask for more data
+     * It adds a pagination scroll listener that ask for more data
      * if it is not the last page and not loading.
      * @param layoutManager LayoutManager contains the LinearLayoutManager.
      * @return It return the PaginationScrollListener.
@@ -132,7 +128,6 @@ public class RatedMoviesFragment extends Fragment {
      * Sends HttpRequest that request Rated Movies
      */
     private void reqRatedMovies(){
-        Log.d(TAG,"ná í top rated movies");
 
         if(NetworkChecker.isOnline(context)) {
             ReqMovies.ratedMovies(pagination.getCurrentPage(), resRatedMovies());
@@ -160,13 +155,10 @@ public class RatedMoviesFragment extends Fragment {
 
                     pagination.setCurrentPage(pagination.getCurrentPage()+1);
 
-                    Log.d(TAG,"isLastPage "+pagination.isLastPage()+" isLoading "+pagination.isLoading());
 
                 }else {
                     PopUpMsg.displayErrorMsg(context);
                 }
-
-
             }
 
             @Override

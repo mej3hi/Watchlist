@@ -18,14 +18,13 @@ import com.example.watchlist.database.MovieWatch;
 
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.themoviedb.Movie;
-import com.example.watchlist.themoviedb.TvShow;
 import com.example.watchlist.utils.BackgroundPoster;
 import com.example.watchlist.utils.ConvertValue;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,9 +68,10 @@ public class MoviesMyWatchlistFragment extends Fragment {
     }
 
     /**
-     * It will get all the movies that user has saved
+     * Get all movies that user has saved in watchlist
      * and display it.
      */
+
     public void getAllData(){
         List<Movie> newMovieList = new ArrayList<>();
         Movie movie;

@@ -23,6 +23,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MoviesAdapter is used to create list of movies.
+ */
+
 public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEM = 0;
     private static final int LOADING = 1;

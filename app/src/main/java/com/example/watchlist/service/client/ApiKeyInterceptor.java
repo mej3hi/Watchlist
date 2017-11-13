@@ -8,7 +8,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * It add the api key to the url for ever request that are made.
+ * Add the api key to the url for every request that is made.
  */
 
 public class ApiKeyInterceptor implements Interceptor{

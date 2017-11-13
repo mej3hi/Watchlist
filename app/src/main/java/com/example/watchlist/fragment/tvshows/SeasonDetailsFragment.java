@@ -74,7 +74,6 @@ public class SeasonDetailsFragment extends Fragment {
             tvId = getArguments().getLong("tvId");
             seasonNumber = getArguments().getInt("seasonNumber");
         }
-        Log.d(TAG,"onStart id "+tvId+" s "+seasonNumber );
 
         return v;
     }
@@ -83,7 +82,6 @@ public class SeasonDetailsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart");
         if(tvSeasonDetails == null || time.isOverTime(time.ONE_HOUR)){
             reqSeasonDetails();
             time.setFirstTime(time.getTimeInMillis());
@@ -95,15 +93,13 @@ public class SeasonDetailsFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onStop");
         super.onStop();
     }
 
     /**
-     * Sends HttpRequest that request Season details.
+     * Sends Http Request that request Season details.
      */
     private void reqSeasonDetails(){
-        Log.d(TAG,"ná í Season Details");
         if(NetworkChecker.isOnline(context)) {
             ReqTvShows.seasonDetails(tvId,seasonNumber,resSeasonDetails());
         }
@@ -129,8 +125,6 @@ public class SeasonDetailsFragment extends Fragment {
                 }else {
                     PopUpMsg.displayErrorMsg(context);
                 }
-
-
             }
 
             @Override

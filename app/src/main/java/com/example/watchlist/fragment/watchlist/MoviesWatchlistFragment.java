@@ -73,8 +73,6 @@ public class MoviesWatchlistFragment extends Fragment {
         moviesAdapter = new MoviesAdapter(context,getActivity().getSupportFragmentManager());
         onAirTvShowsRecycler.setAdapter(moviesAdapter);
 
-        Log.d(TAG,"onCreateView");
-
         return v;
     }
 
@@ -94,17 +92,14 @@ public class MoviesWatchlistFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(TAG,"onstop");
         super.onStop();
     }
 
 
     /**
-     * Sends HttpRequest that request now playing movies
+     * Sends Http Request that request now playing movies
      */
     private void reqToDayMovie(){
-        Log.d(TAG,"ná í on today movie");
-
         if(NetworkChecker.isOnline(context)) {
             ReqMovies.nowPlayingMovies(pagination.getCurrentPage(), resNowPlayingMovies());
         }
@@ -122,7 +117,6 @@ public class MoviesWatchlistFragment extends Fragment {
         return new Callback<Movie.MoviesResults>(){
             @Override
             public void onResponse(Call<Movie.MoviesResults> call, Response<Movie.MoviesResults> response) {
-                Log.d(TAG,"response raw er "+response.raw());
                 if(response.isSuccessful()){
                     pagination.setTotalPages(response.body().getTotalPages());
 
@@ -171,7 +165,6 @@ public class MoviesWatchlistFragment extends Fragment {
     public void displayData(List<Movie> movieList){
 
         List<Movie> newMovieList = filterOutData(movieList,movieWatchList);
-        Log.d(TAG,"newMovieList size is "+newMovieList.size());
 
         if(newMovieList.size() != 0) {
             if (GerneList.getGenreMovieList() != null) {
@@ -183,9 +176,6 @@ public class MoviesWatchlistFragment extends Fragment {
             moviesAdapter.addAll(newMovieList);
 
         }
-
-        Log.d(TAG, "currentPage " + pagination.getCurrentPage() + " totalPages " + pagination.getTotalPages());
-
 
     }
 

@@ -20,6 +20,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TvEpisodesAdapter is used to create list of tv episodes in some particular tv shows
+ * season.
+ */
 public class TvEpisodesAdapter extends RecyclerView.Adapter<TvEpisodesAdapter.TvEpisodesViewHolder> {
 
     private List<TvSeasonDetails.Episode> episodeList;

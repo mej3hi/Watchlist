@@ -15,7 +15,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * It has all the endpoint for the TMDb.
+ * All the endpoint for the TMDb.
  */
 
 public interface ApiTheMovieDb {
