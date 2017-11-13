@@ -7,46 +7,19 @@ import java.util.List;
 
 public class TvSeasonDetails {
 
-    @SerializedName("_id")
-    @Expose
-    private String _id;
-    @SerializedName("air_date")
-    @Expose
-    private String airDate;
     @SerializedName("episodes")
     @Expose
     private List<Episode> episodes = null;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("overview")
-    @Expose
-    private String overview;
     @SerializedName("id")
     @Expose
     private long id;
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
-    @SerializedName("season_number")
-    @Expose
-    private int seasonNumber;
 
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
-
-    public String getAirDate() {
-        return airDate;
-    }
-
-    public void setAirDate(String airDate) {
-        this.airDate = airDate;
-    }
 
     public List<Episode> getEpisodes() {
         return episodes;
@@ -62,14 +35,6 @@ public class TvSeasonDetails {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getOverview() {
-        return overview;
-    }
-
-    public void setOverview(String overview) {
-        this.overview = overview;
     }
 
     public long getId() {
@@ -88,41 +53,18 @@ public class TvSeasonDetails {
         this.posterPath = posterPath;
     }
 
-    public int getSeasonNumber() {
-        return seasonNumber;
-    }
-
-    public void setSeasonNumber(int seasonNumber) {
-        this.seasonNumber = seasonNumber;
-    }
-
 
     public static class Episode {
 
         @SerializedName("air_date")
         @Expose
         private String airDate;
-        @SerializedName("crew")
-        @Expose
-        private List<Crew> crew = null;
         @SerializedName("episode_number")
         @Expose
         private int episodeNumber;
-        @SerializedName("guest_stars")
-        @Expose
-        private List<GuestStar> guestStars = null;
         @SerializedName("name")
         @Expose
         private String name;
-        @SerializedName("overview")
-        @Expose
-        private String overview;
-        @SerializedName("id")
-        @Expose
-        private long id;
-        @SerializedName("production_code")
-        @Expose
-        private String productionCode;
         @SerializedName("season_number")
         @Expose
         private int seasonNumber;
@@ -132,9 +74,7 @@ public class TvSeasonDetails {
         @SerializedName("vote_average")
         @Expose
         private double voteAverage;
-        @SerializedName("vote_count")
-        @Expose
-        private int voteCount;
+
 
         public String getAirDate() {
             return airDate;
@@ -142,14 +82,6 @@ public class TvSeasonDetails {
 
         public void setAirDate(String airDate) {
             this.airDate = airDate;
-        }
-
-        public List<Crew> getCrew() {
-            return crew;
-        }
-
-        public void setCrew(List<Crew> crew) {
-            this.crew = crew;
         }
 
         public int getEpisodeNumber() {
@@ -160,44 +92,12 @@ public class TvSeasonDetails {
             this.episodeNumber = episodeNumber;
         }
 
-        public List<GuestStar> getGuestStars() {
-            return guestStars;
-        }
-
-        public void setGuestStars(List<GuestStar> guestStars) {
-            this.guestStars = guestStars;
-        }
-
         public String getName() {
             return name;
         }
 
         public void setName(String name) {
             this.name = name;
-        }
-
-        public String getOverview() {
-            return overview;
-        }
-
-        public void setOverview(String overview) {
-            this.overview = overview;
-        }
-
-        public long getId() {
-            return id;
-        }
-
-        public void setId(long id) {
-            this.id = id;
-        }
-
-        public String getProductionCode() {
-            return productionCode;
-        }
-
-        public void setProductionCode(String productionCode) {
-            this.productionCode = productionCode;
         }
 
         public int getSeasonNumber() {
@@ -224,156 +124,8 @@ public class TvSeasonDetails {
             this.voteAverage = voteAverage;
         }
 
-        public int getVoteCount() {
-            return voteCount;
-        }
-
-        public void setVoteCount(int voteCount) {
-            this.voteCount = voteCount;
-        }
 
 
-        public static class Crew {
-
-            @SerializedName("id")
-            @Expose
-            private long id;
-            @SerializedName("credit_id")
-            @Expose
-            private String creditId;
-            @SerializedName("name")
-            @Expose
-            private String name;
-            @SerializedName("department")
-            @Expose
-            private String department;
-            @SerializedName("job")
-            @Expose
-            private String job;
-            @SerializedName("profile_path")
-            @Expose
-            private String profilePath;
-
-            public long getId() {
-                return id;
-            }
-
-            public void setId(long id) {
-                this.id = id;
-            }
-
-            public String getCreditId() {
-                return creditId;
-            }
-
-            public void setCreditId(String creditId) {
-                this.creditId = creditId;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public String getDepartment() {
-                return department;
-            }
-
-            public void setDepartment(String department) {
-                this.department = department;
-            }
-
-            public String getJob() {
-                return job;
-            }
-
-            public void setJob(String job) {
-                this.job = job;
-            }
-
-            public String getProfilePath() {
-                return profilePath;
-            }
-
-            public void setProfilePath(String profilePath) {
-                this.profilePath = profilePath;
-            }
-
-        }
-
-        public static class GuestStar {
-
-            @SerializedName("id")
-            @Expose
-            private long id;
-            @SerializedName("name")
-            @Expose
-            private String name;
-            @SerializedName("credit_id")
-            @Expose
-            private String creditId;
-            @SerializedName("character")
-            @Expose
-            private String character;
-            @SerializedName("order")
-            @Expose
-            private int order;
-            @SerializedName("profile_path")
-            @Expose
-            private String profilePath;
-
-            public long getId() {
-                return id;
-            }
-
-            public void setId(long id) {
-                this.id = id;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public String getCreditId() {
-                return creditId;
-            }
-
-            public void setCreditId(String creditId) {
-                this.creditId = creditId;
-            }
-
-            public String getCharacter() {
-                return character;
-            }
-
-            public void setCharacter(String character) {
-                this.character = character;
-            }
-
-            public int getOrder() {
-                return order;
-            }
-
-            public void setOrder(int order) {
-                this.order = order;
-            }
-
-            public String getProfilePath() {
-                return profilePath;
-            }
-
-            public void setProfilePath(String profilePath) {
-                this.profilePath = profilePath;
-            }
-
-        }
 
 
     }
