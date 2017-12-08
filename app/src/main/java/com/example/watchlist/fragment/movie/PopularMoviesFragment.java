@@ -19,11 +19,13 @@ import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqMovies;
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.themoviedb.Movie;
-import com.example.watchlist.utils.BackgroundPoster;
+import com.example.watchlist.utils.ImageHandler;
 import com.example.watchlist.utils.Pagination;
 import com.example.watchlist.utils.PaginationScrollListener;
 import com.example.watchlist.utils.PopUpMsg;
 import com.example.watchlist.utils.Time;
+
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +41,7 @@ public class PopularMoviesFragment extends Fragment {
     private Context context;
     private Time time;
     private Pagination pagination;
-    private ImageView poster;
+    private ImageHandler posterImg;
     private MoviesAdapter moviesAdapter;
 
     public PopularMoviesFragment() {
@@ -55,8 +57,7 @@ public class PopularMoviesFragment extends Fragment {
 
         context = getContext();
 
-        poster = (ImageView) v.findViewById(R.id.poster_popular_movies_imageView);
-
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_popular_movies_imageView));
         RecyclerView popularMoviesRecycler = (RecyclerView) v.findViewById(R.id.popular_movies_recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         popularMoviesRecycler.setLayoutManager(layoutManager);
@@ -68,12 +69,17 @@ public class PopularMoviesFragment extends Fragment {
 
         return v;
     }
+
+    @Override
     public void onStart() {
         super.onStart();
         if(moviesAdapter.isEmpty()){
             reqPopularMovies();
         }
-        else BackgroundPoster.setRandomBackPosterMovie(moviesAdapter.getMovieList(), context, poster);
+        else{
+            int r = new Random().nextInt(moviesAdapter.getMovieList().size());
+            posterImg.setLargeImg(moviesAdapter.getMovieList().get(r).getPosterPath());
+        }
     }
 
     @Override
@@ -84,7 +90,7 @@ public class PopularMoviesFragment extends Fragment {
     /**
      * Initialize the fragment
      */
-    public void initialize(){
+    private void initialize(){
         time = new Time();
         moviesAdapter = new MoviesAdapter(context, getActivity().getSupportFragmentManager());
         pagination = new Pagination();
@@ -138,7 +144,7 @@ public class PopularMoviesFragment extends Fragment {
      * Receiving Respond from the backend server.
      *
      */
-    public Callback resPopularMovies(){
+    private Callback resPopularMovies(){
         return new Callback<Movie.MoviesResults>(){
             @Override
             public void onResponse(Call<Movie.MoviesResults> call, Response<Movie.MoviesResults> response) {
@@ -173,7 +179,7 @@ public class PopularMoviesFragment extends Fragment {
      * Display the Popular movies on the screen;
      * @param results Results contains movies results.
      */
-    public void displayData(Movie.MoviesResults results){
+    private void displayData(Movie.MoviesResults results){
         if(!moviesAdapter.isEmpty()){
             moviesAdapter.removeLoadingFooter();
         }
@@ -182,7 +188,8 @@ public class PopularMoviesFragment extends Fragment {
         }
 
         if(moviesAdapter.isEmpty()){
-            BackgroundPoster.setRandomBackPosterMovie(results.getResults(), context, poster);
+            int r = new Random().nextInt(results.getResults().size());
+            posterImg.setLargeImg(results.getResults().get(r).getPosterPath());
         }
 
         moviesAdapter.addAll(results.getResults());

@@ -22,7 +22,7 @@
 
 
         <ImageView
-            android:id="@+id/backdrop_tv_shows_imageView"
+            android:id="@+id/poster_tv_shows_imageView"
             android:layout_width="100dp"
             android:layout_height="120dp"
             android:layout_alignParentStart="true" />
@@ -35,7 +35,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/backdrop_tv_shows_imageView"
+            android:layout_toEndOf="@+id/poster_tv_shows_imageView"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -48,18 +48,18 @@
             android:layout_marginBottom="10dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            android:layout_toEndOf="@+id/backdrop_tv_shows_imageView"
+            android:layout_toEndOf="@+id/poster_tv_shows_imageView"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/genre_tv_shows_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/backdrop_tv_shows_imageView"
+            android:layout_alignBottom="@+id/poster_tv_shows_imageView"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/rating_tv_shows_textView"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/backdrop_tv_shows_imageView" />
+            android:layout_toEndOf="@+id/poster_tv_shows_imageView" />
 
     </RelativeLayout>
 

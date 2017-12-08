@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +20,14 @@ import com.example.watchlist.service.request.ReqMovies;
 import com.example.watchlist.shareInfo.Cache;
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.themoviedb.Movie;
-import com.example.watchlist.utils.BackgroundPoster;
+import com.example.watchlist.utils.ImageHandler;
 import com.example.watchlist.utils.Pagination;
 import com.example.watchlist.utils.PopUpMsg;
 import com.example.watchlist.utils.Time;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,10 +44,8 @@ public class MoviesWatchlistFragment extends Fragment {
     private Pagination pagination;
     private List<MovieWatch> movieWatchList;
 
-    private ImageView poster;
+    private ImageHandler posterImg;
     private MoviesAdapter moviesAdapter;
-
-
 
 
     public MoviesWatchlistFragment() {
@@ -63,7 +61,7 @@ public class MoviesWatchlistFragment extends Fragment {
 
         context = getContext();
 
-        poster = (ImageView) v.findViewById(R.id.poster_watchlist_movie_imageView);
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_watchlist_movie_imageView));
         time = new Time();
         pagination = new Pagination();
 
@@ -113,7 +111,7 @@ public class MoviesWatchlistFragment extends Fragment {
      * Receiving Respond from the backend server.
      *
      */
-    public Callback resNowPlayingMovies(){
+    private Callback resNowPlayingMovies(){
         return new Callback<Movie.MoviesResults>(){
             @Override
             public void onResponse(Call<Movie.MoviesResults> call, Response<Movie.MoviesResults> response) {
@@ -144,7 +142,7 @@ public class MoviesWatchlistFragment extends Fragment {
         };
     }
 
-    public List<Movie> filterOutData(List<Movie> movieList, List<MovieWatch> movieWatchList){
+    private List<Movie> filterOutData(List<Movie> movieList, List<MovieWatch> movieWatchList){
         List<Movie> newMovieList = new ArrayList<>();
 
         for (Movie movie : movieList){
@@ -162,7 +160,7 @@ public class MoviesWatchlistFragment extends Fragment {
      * Display the now playing movies on the screen;
      * @param movieList tvShowList contains movies results.
      */
-    public void displayData(List<Movie> movieList){
+    private void displayData(List<Movie> movieList){
 
         List<Movie> newMovieList = filterOutData(movieList,movieWatchList);
 
@@ -170,8 +168,9 @@ public class MoviesWatchlistFragment extends Fragment {
             if (GerneList.getGenreMovieList() != null) {
                 moviesAdapter.addAllGenre(GerneList.getGenreMovieList());
             }
-            if (moviesAdapter.isEmpty() && newMovieList.size() != 0) {
-                BackgroundPoster.setRandomBackPosterMovie(newMovieList, context, poster);
+            if (moviesAdapter.isEmpty()) {
+                int r = new Random().nextInt(newMovieList.size());
+                posterImg.setLargeImg(newMovieList.get(r).getPosterPath());
             }
             moviesAdapter.addAll(newMovieList);
 

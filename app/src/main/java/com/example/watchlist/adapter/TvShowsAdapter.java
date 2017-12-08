@@ -17,7 +17,7 @@ import com.example.watchlist.fragment.tvshows.TvDetailsFragment;
 import com.example.watchlist.themoviedb.Genre;
 import com.example.watchlist.themoviedb.TvShow;
 import com.example.watchlist.utils.ConvertValue;
-import com.squareup.picasso.Picasso;
+import com.example.watchlist.utils.ImageHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,28 +87,9 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 TvShowsVH tvShowsVH = (TvShowsVH) holder;
 
                 tvShowsVH.name.setText(tvShow.getName());
-                tvShowsVH.rating.setText("Rating: "+ ConvertValue.toOneDecimal(tvShow.getVoteAverage()) );
-
-                List<Integer> genersId = tvShow.getGenreIds();
-                StringBuilder sb = new StringBuilder();
-
-                int i = 0;
-                for (Integer id : genersId) {
-                    i ++;
-                    for (Genre genre : genreList){
-                        if(genre.getId() == id){
-                            sb.append(genre.getName());
-                            if (genersId.size() > i){
-                                sb.append(", ");
-                            }
-                            break;
-                        }
-                    }
-
-                }
-
-                tvShowsVH.genre.setText(sb.toString());
-                Picasso.with(context).load("http://image.tmdb.org/t/p/w92"+tvShow.getPosterPath()).into(tvShowsVH.backdrop);
+                tvShowsVH.rating.setText(String.format("Rating: %s", ConvertValue.toOneDecimal(tvShow.getVoteAverage())));
+                tvShowsVH.genre.setText(makeGenreFromId(tvShow.getGenreIds()));
+                tvShowsVH.posterImg.setSmallImg(tvShow.getPosterPath());
                 tvShowsVH.tvShowDetail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -213,6 +194,23 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         genreList.clear();
     }
 
+    private String makeGenreFromId(List<Integer> listId){
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        for (Integer id : listId) {
+            for (Genre genre : genreList){
+                if(genre.getId() == id){
+                    if(i != 0){
+                        sb.append(", ");
+                    }
+                    sb.append(genre.getName());
+                    i ++;
+                    break;
+                }
+            }
+        }
+        return sb.toString();
+    }
 
    /*
    View Holders
@@ -222,27 +220,27 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     /**
      * Main list's content ViewHolder
      */
-    protected class TvShowsVH extends RecyclerView.ViewHolder {
+    private class TvShowsVH extends RecyclerView.ViewHolder {
         private TextView rating;
         private TextView name;
         private TextView genre;
-        private ImageView backdrop;
+        private ImageHandler posterImg;
         private RelativeLayout tvShowDetail;
 
-        public TvShowsVH(View itemView) {
+        private TvShowsVH(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name_tv_shows_textView);
             rating = (TextView) itemView.findViewById(R.id.rating_tv_shows_textView);
-            backdrop = (ImageView) itemView.findViewById(R.id.backdrop_tv_shows_imageView);
+            posterImg = new ImageHandler(context,(ImageView) itemView.findViewById(R.id.poster_tv_shows_imageView));
             genre = (TextView) itemView.findViewById(R.id.genre_tv_shows_textView);
             tvShowDetail = (RelativeLayout) itemView.findViewById(R.id.tv_shows_recycler);
         }
     }
 
 
-    protected class LoadingVH extends RecyclerView.ViewHolder {
+    private class LoadingVH extends RecyclerView.ViewHolder {
 
-        public LoadingVH(View itemView) {
+        private LoadingVH(View itemView) {
             super(itemView);
         }
     }

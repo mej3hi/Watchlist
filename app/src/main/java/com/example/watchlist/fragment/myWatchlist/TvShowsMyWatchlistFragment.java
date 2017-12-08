@@ -17,11 +17,12 @@ import com.example.watchlist.database.TvDatabaseUtil;
 import com.example.watchlist.database.TvShowsWatch;
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.themoviedb.TvShow;
-import com.example.watchlist.utils.BackgroundPoster;
 import com.example.watchlist.utils.ConvertValue;
+import com.example.watchlist.utils.ImageHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -32,7 +33,7 @@ public class TvShowsMyWatchlistFragment extends Fragment {
 
     private Context context;
 
-    private ImageView poster;
+    private ImageHandler posterImg;
     private TvShowsAdapter tvShowsAdapter;
 
 
@@ -48,7 +49,7 @@ public class TvShowsMyWatchlistFragment extends Fragment {
 
         context = getContext();
         View v = inflater.inflate(R.layout.fragment_tv_shows_my_watchlist, container, false);
-        poster = (ImageView) v.findViewById(R.id.poster_my_watchlist_tv_shows_imageView);
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_my_watchlist_tv_shows_imageView));
         RecyclerView tvShowsRecycler = (RecyclerView) v.findViewById(R.id.my_watchlist_tv_shows_recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         tvShowsRecycler.setLayoutManager(layoutManager);
@@ -68,7 +69,7 @@ public class TvShowsMyWatchlistFragment extends Fragment {
      * Get all the tv shows that user has saved in watchlist
      * and displays it.
      */
-    public void getAllData(){
+    private void getAllData(){
         List<TvShow> newTvShowList = new ArrayList<>();
         TvShow tvShow;
         for (TvShowsWatch t : TvDatabaseUtil.getallTvShows()) {
@@ -87,13 +88,14 @@ public class TvShowsMyWatchlistFragment extends Fragment {
      * Display the user watchlist on the screen;
      * @param watchList Results contains Tv shows.
      */
-    public void displayData(List<TvShow> watchList){
+    private void displayData(List<TvShow> watchList){
         if(GerneList.getGenreTvList() != null){
             tvShowsAdapter.addAllGenre(GerneList.getGenreTvList());
         }
 
         if(tvShowsAdapter.isEmpty() && watchList.size() != 0) {
-            BackgroundPoster.setRandomBackPosterTv(watchList, context, poster);
+            int r = new Random().nextInt(watchList.size());
+            posterImg.setLargeImg(watchList.get(r).getPosterPath());
         }
         tvShowsAdapter.addAll(watchList);
     }

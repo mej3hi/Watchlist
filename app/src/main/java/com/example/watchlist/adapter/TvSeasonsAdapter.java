@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.watchlist.R;
 import com.example.watchlist.fragment.tvshows.SeasonDetailsFragment;
 import com.example.watchlist.themoviedb.TvDetails;
+import com.example.watchlist.utils.ImageHandler;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -30,15 +31,15 @@ public class TvSeasonsAdapter extends RecyclerView.Adapter<TvSeasonsAdapter.TvSe
     private FragmentManager fm;
     private Context context;
 
-    public class TvSeasonsViewHolder extends RecyclerView.ViewHolder {
-        public TextView seasonName;
-        public ImageView poster;
-        public LinearLayout seasonlayout;
+    class TvSeasonsViewHolder extends RecyclerView.ViewHolder {
+        private TextView seasonName;
+        private ImageHandler posterImg;
+        private LinearLayout seasonlayout;
 
-        public TvSeasonsViewHolder(View itemView) {
+        TvSeasonsViewHolder(View itemView) {
             super(itemView);
             seasonName = (TextView) itemView.findViewById(R.id.name_season_textView);
-            poster = (ImageView) itemView.findViewById(R.id.poster_season_imageView);
+            posterImg = new ImageHandler(context,(ImageView) itemView.findViewById(R.id.poster_season_imageView));
             seasonlayout = (LinearLayout) itemView.findViewById(R.id.season_linearLayout);
 
         }
@@ -61,8 +62,8 @@ public class TvSeasonsAdapter extends RecyclerView.Adapter<TvSeasonsAdapter.TvSe
     @Override
     public void onBindViewHolder(TvSeasonsViewHolder holder, int position) {
         final TvDetails.Season season = seasonList.get(position);
-        holder.seasonName.setText("Season "+season.getSeasonNumber());
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w92"+season.getPosterPath()).into(holder.poster);
+        holder.seasonName.setText(String.format("Season %s", String.valueOf(season.getSeasonNumber())));
+        holder.posterImg.setSmallImg(season.getPosterPath());
         holder.seasonlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

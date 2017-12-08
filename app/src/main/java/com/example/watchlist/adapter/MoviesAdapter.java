@@ -18,7 +18,8 @@ import com.example.watchlist.fragment.movie.MovieDetailsFragment;
 import com.example.watchlist.themoviedb.Genre;
 import com.example.watchlist.themoviedb.Movie;
 import com.example.watchlist.utils.ConvertValue;
-import com.squareup.picasso.Picasso;
+import com.example.watchlist.utils.ImageHandler;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,29 +89,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 MoviesAdapter.MoviesVH moviesVH = (MoviesAdapter.MoviesVH) holder;
 
                 moviesVH.name.setText(movie.getTitle());
-                moviesVH.rating.setText("Rating: "+ ConvertValue.toOneDecimal(movie.getVoteAverage()) );
-
-                List<Integer> genersId = movie.getGenreIds();
-
-                StringBuilder sb = new StringBuilder();
-
-                int i = 0;
-                for (Integer id : genersId) {
-                    i ++;
-                    for (Genre genre : genreList){
-                        if(genre.getId() == id){
-                            sb.append(genre.getName());
-                            if (genersId.size() > i){
-                                sb.append(", ");
-                            }
-                            break;
-                        }
-                    }
-
-                }
-
-                moviesVH.genre.setText(sb.toString());
-                Picasso.with(context).load("http://image.tmdb.org/t/p/w92"+movie.getPosterPath()).into(moviesVH.backdrop);
+                moviesVH.rating.setText(String.format("Rating: %s", ConvertValue.toOneDecimal(movie.getVoteAverage())));
+                moviesVH.genre.setText(makeGenreFromId(movie.getGenreIds()));
+                moviesVH.posterImg.setSmallImg(movie.getPosterPath());
                 moviesVH.movieDetail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -202,7 +183,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return movieList.get(position);
     }
 
-
     public void addAllGenre(List<Genre> list) {
         genreList.addAll(list);
     }
@@ -215,6 +195,24 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         genreList.clear();
     }
 
+    private String makeGenreFromId(List<Integer> listId){
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        for (Integer id : listId) {
+            for (Genre genre : genreList){
+                if(genre.getId() == id){
+                    if(i != 0){
+                        sb.append(", ");
+                    }
+                    sb.append(genre.getName());
+                    i ++;
+                    break;
+                }
+            }
+        }
+        return sb.toString();
+    }
+
 
    /*
    View Holders
@@ -224,27 +222,27 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     /**
      * Main list's content ViewHolder
      */
-    protected class MoviesVH extends RecyclerView.ViewHolder {
+    private class MoviesVH extends RecyclerView.ViewHolder {
         private TextView rating;
         private TextView name;
         private TextView genre;
-        private ImageView backdrop;
+        private ImageHandler posterImg;
         private RelativeLayout movieDetail;
 
-        public MoviesVH(View itemView) {
+        private MoviesVH(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name_movie_textView);
             rating = (TextView) itemView.findViewById(R.id.rating_movie_textView);
-            backdrop = (ImageView) itemView.findViewById(R.id.backdrop_movie_imageView);
+            posterImg = new ImageHandler(context,(ImageView) itemView.findViewById(R.id.poster_movie_imageView));
             genre = (TextView) itemView.findViewById(R.id.genre_movie_textView);
             movieDetail =(RelativeLayout) itemView.findViewById(R.id.movie_recycler);
         }
     }
 
 
-    protected class LoadingVH extends RecyclerView.ViewHolder {
+    private class LoadingVH extends RecyclerView.ViewHolder {
 
-        public LoadingVH(View itemView) {
+        private LoadingVH(View itemView) {
             super(itemView);
         }
     }

@@ -20,7 +20,7 @@ import com.example.watchlist.themoviedb.Movie;
 import com.example.watchlist.themoviedb.SearchResults;
 import com.example.watchlist.themoviedb.TvShow;
 import com.example.watchlist.utils.ConvertValue;
-import com.squareup.picasso.Picasso;
+import com.example.watchlist.utils.ImageHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,39 +94,21 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 SearchResultsAdapter.SearchResultsVH resultsVH = (SearchResultsAdapter.SearchResultsVH) holder;
 
                 resultsVH.name.setText(results.getName());
-                resultsVH.rating.setText("Rating: " + ConvertValue.toOneDecimal(results.getRating()));
-
-                List<Integer> genersId = results.getGenreIds();
-
-                StringBuilder sb = new StringBuilder();
-                int i = 0;
-                for (Integer id : genersId) {
-                    i++;
-                    for (Genre genre : genreList) {
-                        if (genre.getId() == id) {
-                            sb.append(genre.getName());
-                            if (genersId.size() > i) {
-                                sb.append(", ");
-                            }
-                            break;
-                        }
-                    }
-
-                }
-
-                resultsVH.genre.setText(sb.toString());
-                Picasso.with(context).load("http://image.tmdb.org/t/p/w92" + results.getPosterPath()).into(resultsVH.poster);
+                resultsVH.rating.setText(String.format("Rating: %s", ConvertValue.toOneDecimal(results.getRating())));
+                resultsVH.genre.setText(makeGenreFromId(results.getGenreIds()));
+                resultsVH.mediaType.setText(results.getMediaType());
+                resultsVH.posterImg.setSmallImg(results.getPosterPath());
                 resultsVH.resultDetail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (Objects.equals(results.getMediaType(), "tv")) {
+                        if (Objects.equals(results.getMediaType(), "TV SHOW")) {
                             TvDetailsFragment fragment = new TvDetailsFragment();
                             Bundle bundle = new Bundle();
                             bundle.putLong("tvId", results.getId());
                             fragment.setArguments(bundle);
                             fm.beginTransaction().replace(R.id.main_container, fragment, fragment.getTag()).addToBackStack(null).commit();
 
-                        } else if (Objects.equals(results.getMediaType(), "movie")) {
+                        } else if (Objects.equals(results.getMediaType(), "MOVIE")) {
                             MovieDetailsFragment fragment = new MovieDetailsFragment();
                             Bundle bundle = new Bundle();
                             bundle.putLong("movieId", results.getId());
@@ -181,7 +163,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     movie.getVoteAverage(),
                     movie.getPosterPath(),
                     movie.getGenreIds(),
-                    "movie");
+                    "MOVIE");
             add(result);
 
         }
@@ -195,7 +177,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     tv.getVoteAverage(),
                     tv.getPosterPath(),
                     tv.getGenreIds(),
-                    "tv");
+                    "TV SHOW");
             add(result);
 
         }
@@ -255,6 +237,23 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         genreList.clear();
     }
 
+    private String makeGenreFromId(List<Integer> listId){
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        for (Integer id : listId) {
+            for (Genre genre : genreList){
+                if(genre.getId() == id){
+                    if(i != 0){
+                        sb.append(", ");
+                    }
+                    sb.append(genre.getName());
+                    i ++;
+                    break;
+                }
+            }
+        }
+        return sb.toString();
+    }
 
    /*
    View Holders
@@ -264,27 +263,29 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     /**
      * Main list's content ViewHolder
      */
-    protected class SearchResultsVH extends RecyclerView.ViewHolder {
+    private class SearchResultsVH extends RecyclerView.ViewHolder {
         private TextView rating;
         private TextView name;
         private TextView genre;
-        private ImageView poster;
+        private TextView mediaType;
+        private ImageHandler posterImg;
         private RelativeLayout resultDetail;
 
-        public SearchResultsVH(View itemView) {
+        private SearchResultsVH(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name_search_results_textView);
             rating = (TextView) itemView.findViewById(R.id.rating_search_results_textView);
-            poster = (ImageView) itemView.findViewById(R.id.poster_search_results_imageView);
+            posterImg = new ImageHandler(context,(ImageView) itemView.findViewById(R.id.poster_search_results_imageView));
             genre = (TextView) itemView.findViewById(R.id.genre_search_results_textView);
+            mediaType = (TextView) itemView.findViewById(R.id.mediaType_search_results_textView);
             resultDetail = (RelativeLayout) itemView.findViewById(R.id.search_results_recycler);
         }
     }
 
 
-    protected class LoadingVH extends RecyclerView.ViewHolder {
+    private class LoadingVH extends RecyclerView.ViewHolder {
 
-        public LoadingVH(View itemView) {
+        private LoadingVH(View itemView) {
             super(itemView);
         }
     }

@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +18,13 @@ import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqMovies;
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.themoviedb.Movie;
-import com.example.watchlist.utils.BackgroundPoster;
+import com.example.watchlist.utils.ImageHandler;
 import com.example.watchlist.utils.Pagination;
 import com.example.watchlist.utils.PaginationScrollListener;
 import com.example.watchlist.utils.PopUpMsg;
 import com.example.watchlist.utils.Time;
+
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +40,7 @@ public class RatedMoviesFragment extends Fragment {
     private Context context;
     private Time time;
     private Pagination pagination;
-    private ImageView poster;
+    private ImageHandler posterImg;
     private MoviesAdapter moviesAdapter;
 
 
@@ -56,7 +57,7 @@ public class RatedMoviesFragment extends Fragment {
 
         context = getContext();
 
-        poster = (ImageView) v.findViewById(R.id.poster_rated_movie_imageView);
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_rated_movie_imageView));
 
         RecyclerView ratedMoviesRecycler = (RecyclerView) v.findViewById(R.id.rated_movie_recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -70,12 +71,16 @@ public class RatedMoviesFragment extends Fragment {
         return v;
     }
 
+    @Override
     public void onStart() {
         super.onStart();
         if(moviesAdapter.isEmpty()){
             reqRatedMovies();
         }
-        else BackgroundPoster.setRandomBackPosterMovie(moviesAdapter.getMovieList(), context, poster);
+        else{
+            int r = new Random().nextInt(moviesAdapter.getMovieList().size());
+            posterImg.setLargeImg(moviesAdapter.getMovieList().get(r).getPosterPath());
+        }
     }
 
     @Override
@@ -86,7 +91,7 @@ public class RatedMoviesFragment extends Fragment {
     /**
      * Initialize the fragment
      */
-    public void initialize(){
+    private void initialize(){
         time = new Time();
         moviesAdapter = new MoviesAdapter(context, getActivity().getSupportFragmentManager());
         pagination = new Pagination();
@@ -142,7 +147,7 @@ public class RatedMoviesFragment extends Fragment {
      * Receiving Respond from the backend server.
      *
      */
-    public Callback resRatedMovies(){
+    private Callback resRatedMovies(){
         return new Callback<Movie.MoviesResults>(){
             @Override
             public void onResponse(Call<Movie.MoviesResults> call, Response<Movie.MoviesResults> response) {
@@ -173,7 +178,7 @@ public class RatedMoviesFragment extends Fragment {
      * Display the Rated movies on the screen;
      * @param results Results contains movies results.
      */
-    public void displayData(Movie.MoviesResults results){
+    private void displayData(Movie.MoviesResults results){
         if(!moviesAdapter.isEmpty()){
             moviesAdapter.removeLoadingFooter();
         }
@@ -182,7 +187,8 @@ public class RatedMoviesFragment extends Fragment {
             moviesAdapter.addAllGenre(GerneList.getGenreMovieList());
         }
         if(moviesAdapter.isEmpty()){
-            BackgroundPoster.setRandomBackPosterMovie(results.getResults(), context, poster);
+            int r = new Random().nextInt(results.getResults().size());
+            posterImg.setLargeImg(results.getResults().get(r).getPosterPath());
         }
         moviesAdapter.addAll(results.getResults());
 

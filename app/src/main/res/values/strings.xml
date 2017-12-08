@@ -6,6 +6,8 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="removeBtn">Remove from watchlist</string>
+    <string name="addBtn">Add to watchlist</string>
+    <string name="rating">Rating</string>
+    <string name="watchlist">Watchlist</string>
 </resources>

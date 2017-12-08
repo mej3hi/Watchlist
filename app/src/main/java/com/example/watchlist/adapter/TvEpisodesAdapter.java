@@ -15,7 +15,7 @@ import com.example.watchlist.R;
 import com.example.watchlist.fragment.tvshows.EpisodeDetailsFragment;
 import com.example.watchlist.themoviedb.TvSeasonDetails;
 import com.example.watchlist.utils.ConvertValue;
-import com.squareup.picasso.Picasso;
+import com.example.watchlist.utils.ImageHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,18 +32,18 @@ public class TvEpisodesAdapter extends RecyclerView.Adapter<TvEpisodesAdapter.Tv
     private long tvId;
     private String posterPath;
 
-    public class TvEpisodesViewHolder extends RecyclerView.ViewHolder{
+    class TvEpisodesViewHolder extends RecyclerView.ViewHolder{
 
-        public RelativeLayout episodeReLayout;
-        public ImageView stillImg;
-        public TextView episodeName;
-        public TextView rating;
-        public TextView releaseDate;
-        public TextView seriesNumber;
+        private RelativeLayout episodeReLayout;
+        private ImageHandler stillImg;
+        private TextView episodeName;
+        private TextView rating;
+        private TextView releaseDate;
+        private TextView seriesNumber;
 
-        public TvEpisodesViewHolder(View itemView) {
+        TvEpisodesViewHolder(View itemView) {
             super(itemView);
-            stillImg = (ImageView) itemView.findViewById(R.id.still_episode_imageView);
+            stillImg = new ImageHandler(context,(ImageView) itemView.findViewById(R.id.still_episode_imageView));
             rating = (TextView) itemView.findViewById(R.id.rating_episode_TextView);
             episodeName = (TextView) itemView.findViewById(R.id.name_episode_TextView);
             releaseDate = (TextView) itemView.findViewById(R.id.release_episode_TextView);
@@ -70,10 +70,10 @@ public class TvEpisodesAdapter extends RecyclerView.Adapter<TvEpisodesAdapter.Tv
     public void onBindViewHolder(TvEpisodesViewHolder holder, int position) {
         final TvSeasonDetails.Episode episode = episodeList.get(position);
         holder.episodeName.setText(episode.getName());
-        holder.rating.setText("Rating: "+ ConvertValue.toOneDecimal(episode.getVoteAverage()));
+        holder.rating.setText(String.format("Rating: %s", ConvertValue.toOneDecimal(episode.getVoteAverage())));
         holder.releaseDate.setText(episode.getAirDate());
-        holder.seriesNumber.setText("S"+episode.getSeasonNumber()+", "+"Ep"+episode.getEpisodeNumber());
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w185"+episode.getStillPath()).into(holder.stillImg);
+        holder.seriesNumber.setText(String.format("S%s, Ep%s", String.valueOf(episode.getSeasonNumber()), String.valueOf(episode.getEpisodeNumber())));
+        holder.stillImg.setMeidumImg(episode.getStillPath());
 
         holder.episodeReLayout.setOnClickListener(new View.OnClickListener() {
             @Override

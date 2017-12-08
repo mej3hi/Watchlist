@@ -18,12 +18,13 @@ import com.example.watchlist.database.MovieWatch;
 
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.themoviedb.Movie;
-import com.example.watchlist.utils.BackgroundPoster;
 import com.example.watchlist.utils.ConvertValue;
+import com.example.watchlist.utils.ImageHandler;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -33,7 +34,7 @@ public class MoviesMyWatchlistFragment extends Fragment {
 
     private Context context;
 
-    private ImageView poster;
+    private ImageHandler posterImg;
     private MoviesAdapter moviesAdapter;
 
     public MoviesMyWatchlistFragment() {
@@ -49,7 +50,7 @@ public class MoviesMyWatchlistFragment extends Fragment {
 
         context = getContext();
 
-        poster = (ImageView) v.findViewById(R.id.poster_my_watchlist_movie_imageView);
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_my_watchlist_movie_imageView));
 
         RecyclerView ratedTvShowsRecycler = (RecyclerView) v.findViewById(R.id.my_watchlist_movie_recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -72,7 +73,7 @@ public class MoviesMyWatchlistFragment extends Fragment {
      * and display it.
      */
 
-    public void getAllData(){
+    private void getAllData(){
         List<Movie> newMovieList = new ArrayList<>();
         Movie movie;
         for (MovieWatch t : MovieDatabaseUtil.getallMovie()) {
@@ -91,12 +92,13 @@ public class MoviesMyWatchlistFragment extends Fragment {
      * Display the user watchlist on the screen;
      * @param movieList Results contains movies.
      */
-    public void displayData(List<Movie> movieList){
+    private void displayData(List<Movie> movieList){
         if(GerneList.getGenreMovieList() != null){
             moviesAdapter.addAllGenre(GerneList.getGenreMovieList());
         }
         if(moviesAdapter.isEmpty() && movieList.size() != 0 ) {
-            BackgroundPoster.setRandomBackPosterMovie(movieList,context,poster);
+            int r = new Random().nextInt(movieList.size());
+            posterImg.setLargeImg(movieList.get(r).getPosterPath());
         }
         moviesAdapter.addAll(movieList);
     }

@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.example.watchlist.fragment.myWatchlist.TvShowsMyWatchlistFragment">
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     tools:context="com.example.watchlist.fragment.myWatchlist.TvShowsMyWatchlistFragment">
 
     <ImageView
         android:id="@+id/poster_my_watchlist_tv_shows_imageView"
@@ -12,9 +12,9 @@
         android:scaleType="fitXY" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/my_watchlist_tv_shows_recyclerView"

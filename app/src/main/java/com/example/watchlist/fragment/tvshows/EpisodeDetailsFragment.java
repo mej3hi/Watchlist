@@ -16,8 +16,8 @@ import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqTvShows;
 import com.example.watchlist.themoviedb.TvEpisodeDetails;
 import com.example.watchlist.utils.ConvertValue;
+import com.example.watchlist.utils.ImageHandler;
 import com.example.watchlist.utils.PopUpMsg;
-import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,8 +36,8 @@ public class EpisodeDetailsFragment extends Fragment {
 
     private Context context;
 
-    private ImageView poster;
-    private ImageView stillImg;
+    private ImageHandler posterImg;
+    private ImageHandler stillImg;
     private TextView name;
     private TextView rating;
     private TextView releaseDate;
@@ -63,8 +63,9 @@ public class EpisodeDetailsFragment extends Fragment {
         releaseDate = (TextView) v.findViewById(R.id.release_date_episode_details_textView);
         seriesNumber = (TextView) v.findViewById(R.id.series_number_episode_details_textView);
         overview = (TextView) v.findViewById(R.id.overview_episode_details_textView);
-        stillImg = (ImageView) v.findViewById(R.id.still_episode_details_imageView);
-        poster = (ImageView) v.findViewById(R.id.poster_episode_details_imageView);
+        stillImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.still_episode_details_imageView));
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_episode_details_imageView));
+
 
         if(getArguments() != null){
             tvId = getArguments().getLong("tvId");
@@ -107,7 +108,7 @@ public class EpisodeDetailsFragment extends Fragment {
      * Receiving Respond from the backend server.
      * @return It return Callback.
      */
-    public Callback resEpisodeDetails(){
+    private Callback resEpisodeDetails(){
         return new Callback<TvEpisodeDetails>(){
             @Override
             public void onResponse(Call<TvEpisodeDetails> call, Response<TvEpisodeDetails> response) {
@@ -130,16 +131,15 @@ public class EpisodeDetailsFragment extends Fragment {
      * Display the Episode details on the screen.
      * @param details Details contains episode details.
      */
-    public void displayData(TvEpisodeDetails details){
+    private void displayData(TvEpisodeDetails details){
 
         name.setText(details.getName());
         rating.setText(ConvertValue.toOneDecimal(details.getVoteAverage()));
         releaseDate.setText(details.getAirDate());
-        seriesNumber.setText("S"+details.getSeasonNumber()+", "+"Ep"+details.getEpisodeNumber());
+        seriesNumber.setText(String.format("S%s, Ep%s", String.valueOf(details.getSeasonNumber()), String.valueOf(details.getEpisodeNumber())));
         overview.setText(details.getOverview());
-
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w342"+posterPath).into(poster);
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w185"+details.getStillPath()).into(stillImg);
+        posterImg.setLargeImg(posterPath);
+        stillImg.setMeidumImg(details.getStillPath());
 
     }
 

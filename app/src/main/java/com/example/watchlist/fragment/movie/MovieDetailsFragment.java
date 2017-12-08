@@ -4,7 +4,6 @@ package com.example.watchlist.fragment.movie;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,27 +14,24 @@ import android.widget.TextView;
 import com.example.watchlist.R;
 
 import com.example.watchlist.database.MovieDatabaseUtil;
-import com.example.watchlist.database.MovieWatch;
 import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqMovies;
-
 import com.example.watchlist.themoviedb.MovieDetails;
-
 import com.example.watchlist.utils.ConvertValue;
+import com.example.watchlist.utils.ImageHandler;
 import com.example.watchlist.utils.PopUpMsg;
-import com.example.watchlist.utils.Time;
-import com.squareup.picasso.Picasso;
-
-import java.util.Calendar;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
+
 public class MovieDetailsFragment extends Fragment {
     private static final String TAG = "MovieDatailsFrag";
 
@@ -46,9 +42,8 @@ public class MovieDetailsFragment extends Fragment {
 
     private boolean hasBeenAdded;
 
-
-    private ImageView poster;
-    private ImageView backdrop;
+    private ImageHandler posterImg;
+    private ImageHandler backdropImg;
     private TextView name;
     private TextView rating;
     private TextView releaseDate;
@@ -72,8 +67,8 @@ public class MovieDetailsFragment extends Fragment {
         context = getContext();
         hasBeenAdded = false;
 
-        poster = (ImageView) v.findViewById(R.id.poster_movie_details_imageView);
-        backdrop = (ImageView) v.findViewById(R.id.backdrop_movie_details_imageView);
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_movie_details_imageView));
+        backdropImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.backdrop_movie_details_imageView));
         name = (TextView) v.findViewById(R.id.name_movie_details_textView);
         rating = (TextView) v.findViewById(R.id.rating_movie_details_textView);
         releaseDate = (TextView) v.findViewById(R.id.release_date_movie_details_textView);
@@ -100,26 +95,20 @@ public class MovieDetailsFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Call reqMovieDetails and changeButton function.
+     */
     @Override
     public void onStart() {
         super.onStart();
-
         reqMovieDetails();
         changeButton();
-    }
-
-    @Override
-    public void onStop() {
-
-        super.onStop();
     }
 
     /**
      * Sends Http Request that request Movie details.
      */
     private void reqMovieDetails(){
-
-
         if(NetworkChecker.isOnline(context)) {
             ReqMovies.movieDetails(movieId, resMovieDetails());
         }
@@ -132,7 +121,7 @@ public class MovieDetailsFragment extends Fragment {
      * Receiving Respond from the backend server.
      *
      */
-    public Callback resMovieDetails(){
+    private Callback resMovieDetails(){
         return new Callback<MovieDetails>(){
             @Override
             public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
@@ -159,17 +148,15 @@ public class MovieDetailsFragment extends Fragment {
      * Display the movie details on the screen;
      * @param details contains movie details.
      */
-    public void displayData(MovieDetails details){
+    private void displayData(MovieDetails details){
         name.setText(details.getTitle());
         rating.setText(ConvertValue.toOneDecimal(details.getVoteAverage()));
         releaseDate.setText(details.getReleaseDate());
-        runTime.setText((details.getRuntime())+" Min");
+        runTime.setText(String.format("%s Min", String.valueOf(details.getRuntime())));
         overview.setText(details.getOverview());
         genre.setText(ConvertValue.genreToString(details.getGenres()));
-
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w185"+details.getBackdropPath()).into(backdrop);
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w342"+details.getPosterPath()).into(poster);
-
+        backdropImg.setMeidumImg(details.getBackdropPath());
+        posterImg.setLargeImg(details.getPosterPath());
 
     }
 
@@ -177,14 +164,14 @@ public class MovieDetailsFragment extends Fragment {
      * Checks if movie is added to watchlist and display
      * the right button.
      */
-    public void changeButton(){
+    private void changeButton(){
         if(MovieDatabaseUtil.isMovieAddedToWatchlist(movieId)){
             watchlistBtn.setBackgroundColor(0xffe6b800);
-            watchlistBtn.setText("Remove from watchlist");
+            watchlistBtn.setText(R.string.removeBtn);
             hasBeenAdded = true;
         }else{
             watchlistBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            watchlistBtn.setText("Add to watchlist");
+            watchlistBtn.setText(R.string.addBtn);
             hasBeenAdded = false;
         }
     }
@@ -192,8 +179,7 @@ public class MovieDetailsFragment extends Fragment {
     /**
      * Remove movie from watchlist
      */
-
-    public void removeMovie(){
+    private void removeMovie(){
         MovieDatabaseUtil.removeMovieFromWatchlist(movieId);
         changeButton();
     }
@@ -201,8 +187,7 @@ public class MovieDetailsFragment extends Fragment {
     /**
      * Add movie from watchlist
      */
-
-    public void addMovie(){
+    private void addMovie(){
         MovieDatabaseUtil.addMovieToWatchlist(
                 movieId,
                 movieDetails.getTitle(),

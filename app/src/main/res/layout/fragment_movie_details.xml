@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.example.watchlist.fragment.movie.MovieDetailsFragment">
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     tools:context="com.example.watchlist.fragment.movie.MovieDetailsFragment">
 
     <ImageView
         android:id="@+id/poster_movie_details_imageView"
@@ -18,10 +18,10 @@
 
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        xmlns:tools="http://schemas.android.com/tools"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="5dp">
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
 
 
             <TextView
@@ -107,7 +107,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/genre_movie_details_textView"
-                android:text="add to Watchlist" />
+                android:text="@string/addBtn" />
 
 
         </RelativeLayout>

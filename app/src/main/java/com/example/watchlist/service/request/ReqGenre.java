@@ -1,15 +1,13 @@
 package com.example.watchlist.service.request;
 
 import com.example.watchlist.service.client.ServiceGenerator;
-import com.example.watchlist.service.endpoint.ApiTheMovieDb;
+import com.example.watchlist.service.endpoint.ApiMovie;
 
+import com.example.watchlist.service.endpoint.ApiTvShow;
 import com.example.watchlist.themoviedb.Genre;
-
-import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ReqGenre {
@@ -19,8 +17,8 @@ public class ReqGenre {
      * It gets the genre list for tv shows.
      */
     public static void genreTvList(Callback callback) {
-        ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
-        Call<Genre.GenreResults> call = apiTheMovieDb.genreTv();
+        ApiTvShow apiTvShow = ServiceGenerator.createService(ApiTvShow.class);
+        Call<Genre.GenreResults> call = apiTvShow.genreTv();
 
         call.enqueue(callback);
     }
@@ -30,7 +28,7 @@ public class ReqGenre {
      * It gets the genre list for movies.
      */
     public static void genreMovieList(Callback callback) {
-        ApiTheMovieDb apiTheMovieDb = ServiceGenerator.createService(ApiTheMovieDb.class);
+        ApiMovie apiTheMovieDb = ServiceGenerator.createService(ApiMovie.class);
         Call<Genre.GenreResults> call = apiTheMovieDb.genreMovies();
 
         call.enqueue(callback);

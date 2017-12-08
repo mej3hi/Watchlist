@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +20,14 @@ import com.example.watchlist.service.request.ReqTvShows;
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.themoviedb.Movie;
 import com.example.watchlist.themoviedb.TvShow;
-import com.example.watchlist.utils.BackgroundPoster;
+import com.example.watchlist.utils.ImageHandler;
 import com.example.watchlist.utils.Pagination;
 import com.example.watchlist.utils.PaginationScrollListener;
 import com.example.watchlist.utils.PopUpMsg;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +43,7 @@ public class SearchResultsFragment extends Fragment {
     private Pagination moviePagination;
     private Pagination tvPagination;
 
-    private ImageView poster;
+    private ImageHandler posterImg;
     private SearchResultsAdapter resultsAdapter;
 
     private boolean searchTv;
@@ -64,8 +64,7 @@ public class SearchResultsFragment extends Fragment {
 
         context = getContext();
 
-        poster = (ImageView) v.findViewById(R.id.search_results_imageView);
-
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.search_results_imageView));
         RecyclerView searchRecycler = (RecyclerView) v.findViewById(R.id.search_results_recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         searchRecycler.setLayoutManager(layoutManager);
@@ -85,12 +84,14 @@ public class SearchResultsFragment extends Fragment {
         return v;
     }
 
+    @Override
     public void onStart() {
         super.onStart();
         if(resultsAdapter.isEmpty()){
             reqSearchResults();
         }else{
-            BackgroundPoster.setRandomBackPosterSearch(resultsAdapter.getResultsList(),context,poster);
+            int r = new Random().nextInt(resultsAdapter.getResultsList().size());
+            posterImg.setLargeImg(resultsAdapter.getResultsList().get(r).getPosterPath());
         }
     }
 
@@ -99,7 +100,7 @@ public class SearchResultsFragment extends Fragment {
         super.onStop();
     }
 
-    public void initialize(){
+    private void initialize(){
         tvPagination = new Pagination();
         moviePagination = new Pagination();
         tvPagination.setTotalPages(1);
@@ -168,7 +169,7 @@ public class SearchResultsFragment extends Fragment {
      * Receiving Respond from the backend server.
      *
      */
-    public Callback resSearchTvResults(){
+    private Callback resSearchTvResults(){
         return new Callback<TvShow.TvShowsResults>(){
             @Override
             public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
@@ -195,7 +196,7 @@ public class SearchResultsFragment extends Fragment {
      * Receiving Respond from the backend server.
      *
      */
-    public Callback resSearchMovieResults(){
+    private Callback resSearchMovieResults(){
         return new Callback<Movie.MoviesResults>(){
             @Override
             public void onResponse(Call<Movie.MoviesResults> call, Response<Movie.MoviesResults> response) {
@@ -222,7 +223,7 @@ public class SearchResultsFragment extends Fragment {
      * Check if the page is last page and if so, set setLastPage to true
      */
 
-    public void checkLastPage(){
+    private void checkLastPage(){
         if(tvPagination.getCurrentPage()<= tvPagination.getTotalPages()){
             resultsAdapter.addLoadingFooter();
         }else if(moviePagination.getCurrentPage() <= moviePagination.getTotalPages()){
@@ -240,15 +241,17 @@ public class SearchResultsFragment extends Fragment {
      * Display the results on the screen
      *
      */
-    public void displayData(List<TvShow> tvResults , List<Movie> movieResults){
+    private void displayData(List<TvShow> tvResults , List<Movie> movieResults){
 
         if(!resultsAdapter.isEmpty()){
             resultsAdapter.removeLoadingFooter();
         }else{
             if(!tvResults.isEmpty()){
-                BackgroundPoster.setRandomBackPosterTv(tvResults,context, poster);
+                int r = new Random().nextInt(tvResults.size());
+                posterImg.setLargeImg(tvResults.get(r).getPosterPath());
             }else if (!movieResults.isEmpty()){
-                BackgroundPoster.setRandomBackPosterMovie(movieResults,context, poster);
+                int r = new Random().nextInt(movieResults.size());
+                posterImg.setLargeImg(movieResults.get(r).getPosterPath());
             }
         }
 

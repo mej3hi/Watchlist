@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import android.widget.ImageView;
 
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.R;
-import com.example.watchlist.utils.BackgroundPoster;
+import com.example.watchlist.utils.ImageHandler;
 import com.example.watchlist.utils.Pagination;
 import com.example.watchlist.utils.PaginationScrollListener;
 import com.example.watchlist.adapter.TvShowsAdapter;
@@ -24,6 +23,8 @@ import com.example.watchlist.service.request.ReqTvShows;
 import com.example.watchlist.themoviedb.TvShow;
 import com.example.watchlist.utils.PopUpMsg;
 import com.example.watchlist.utils.Time;
+
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,7 +41,7 @@ public class TodayTvShowsFragment extends Fragment {
     private Time time;
     private Pagination pagination;
 
-    private ImageView poster;
+    private ImageHandler posterImg;
     private TvShowsAdapter tvShowsAdapter;
 
 
@@ -53,13 +54,13 @@ public class TodayTvShowsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_today_tv_shows, container, false);
+        View v = inflater.inflate(R.layout.fragment_today_tv_shows, container, false);
 
         context = getContext();
 
-        poster = (ImageView) view.findViewById(R.id.poster_today_tv_shows_imageView);
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_today_tv_shows_imageView));
 
-        RecyclerView todayShowsRecycler = (RecyclerView) view.findViewById(R.id.today_tv_shows_recyclerView);
+        RecyclerView todayShowsRecycler = (RecyclerView) v.findViewById(R.id.today_tv_shows_recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         todayShowsRecycler.setLayoutManager(layoutManager);
         if(tvShowsAdapter == null || time == null || pagination == null || time.isOverTime(time.ONE_HOUR)) {
@@ -69,7 +70,7 @@ public class TodayTvShowsFragment extends Fragment {
         todayShowsRecycler.addOnScrollListener(setPageScrollListener(layoutManager));
 
 
-        return view;
+        return v;
 
     }
 
@@ -81,7 +82,8 @@ public class TodayTvShowsFragment extends Fragment {
             time.setFirstTime(time.getTimeInMillis());
             reqToDayShows();
         }else{
-            BackgroundPoster.setRandomBackPosterTv(tvShowsAdapter.getTvShowList(), context, poster);
+            int r = new Random().nextInt(tvShowsAdapter.getTvShowList().size());
+            posterImg.setLargeImg(tvShowsAdapter.getTvShowList().get(r).getPosterPath());
         }
     }
 
@@ -94,7 +96,7 @@ public class TodayTvShowsFragment extends Fragment {
     /**
      * Initialize the fragment
      */
-    public void initialize(){
+    private void initialize(){
         time = new Time();
         tvShowsAdapter = new TvShowsAdapter(context, getActivity().getSupportFragmentManager());
         pagination = new Pagination();
@@ -152,7 +154,7 @@ public class TodayTvShowsFragment extends Fragment {
      * Receiving Respond from the backend server.
      * @return It return Callback.
      */
-    public Callback resToDayShows(){
+    private Callback resToDayShows(){
         return new Callback<TvShow.TvShowsResults>(){
             @Override
             public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
@@ -185,7 +187,7 @@ public class TodayTvShowsFragment extends Fragment {
      * Display the Today tv shows on the screen;
      * @param results Results contains Tv shows results.
      */
-    public void displayData(TvShow.TvShowsResults results){
+    private void displayData(TvShow.TvShowsResults results){
         if(!tvShowsAdapter.isEmpty()){
             tvShowsAdapter.removeLoadingFooter();
         }
@@ -195,7 +197,8 @@ public class TodayTvShowsFragment extends Fragment {
         }
 
         if(tvShowsAdapter.isEmpty()){
-            BackgroundPoster.setRandomBackPosterTv(results.getResults(), context, poster);
+            int r = new Random().nextInt(results.getResults().size());
+            posterImg.setLargeImg(results.getResults().get(r).getPosterPath());
         }
 
         tvShowsAdapter.addAll(results.getResults());

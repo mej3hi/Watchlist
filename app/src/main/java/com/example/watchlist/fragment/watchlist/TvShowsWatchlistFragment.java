@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +20,14 @@ import com.example.watchlist.service.request.ReqTvShows;
 import com.example.watchlist.shareInfo.Cache;
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.themoviedb.TvShow;
-import com.example.watchlist.utils.BackgroundPoster;
+import com.example.watchlist.utils.ImageHandler;
 import com.example.watchlist.utils.Pagination;
 import com.example.watchlist.utils.PopUpMsg;
 import com.example.watchlist.utils.Time;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +44,7 @@ public class TvShowsWatchlistFragment extends Fragment {
     private Pagination pagination;
     private List<TvShowsWatch> tvShowsWatchList;
 
-    private ImageView poster;
+    private ImageHandler posterImg;
     private TvShowsAdapter tvShowsAdapter;
 
     public TvShowsWatchlistFragment() {
@@ -60,7 +60,7 @@ public class TvShowsWatchlistFragment extends Fragment {
 
         context = getContext();
 
-        poster = (ImageView) v.findViewById(R.id.poster_watchlist_tv_shows_imageView);
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_watchlist_tv_shows_imageView));
         time = new Time();
         pagination = new Pagination();
 
@@ -111,7 +111,7 @@ public class TvShowsWatchlistFragment extends Fragment {
      * Receiving Respond from the backend server.
      * @return It return Callback.
      */
-    public Callback resToDayShows(){
+    private Callback resToDayShows(){
         return new Callback<TvShow.TvShowsResults>(){
             @Override
             public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
@@ -142,7 +142,7 @@ public class TvShowsWatchlistFragment extends Fragment {
         };
     }
 
-    public List<TvShow> filterOutData(List<TvShow> tvShowList, List<TvShowsWatch> tvShowsWatchList){
+    private List<TvShow> filterOutData(List<TvShow> tvShowList, List<TvShowsWatch> tvShowsWatchList){
         List<TvShow> newTvShowList = new ArrayList<>();
 
         for (TvShow tvShow : tvShowList){
@@ -161,7 +161,7 @@ public class TvShowsWatchlistFragment extends Fragment {
      * Display the On air tv shows on the screen;
      * @param tvShowList tvShowList contains Tv shows results.
      */
-    public void displayData(List<TvShow> tvShowList){
+    private void displayData(List<TvShow> tvShowList){
 
         List<TvShow> newTvList = filterOutData(tvShowList,tvShowsWatchList);
 
@@ -171,7 +171,8 @@ public class TvShowsWatchlistFragment extends Fragment {
                 tvShowsAdapter.addAllGenre(GerneList.getGenreTvList());
             }
             if (tvShowsAdapter.isEmpty()) {
-                BackgroundPoster.setRandomBackPosterTv(newTvList, context, poster);
+                int r = new Random().nextInt(newTvList.size());
+                posterImg.setLargeImg(newTvList.get(r).getPosterPath());
             }
             tvShowsAdapter.addAll(newTvList);
 

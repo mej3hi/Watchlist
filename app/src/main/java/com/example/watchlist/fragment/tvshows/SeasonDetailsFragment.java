@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,9 @@ import com.example.watchlist.adapter.TvEpisodesAdapter;
 import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqTvShows;
 import com.example.watchlist.themoviedb.TvSeasonDetails;
+import com.example.watchlist.utils.ImageHandler;
 import com.example.watchlist.utils.PopUpMsg;
 import com.example.watchlist.utils.Time;
-import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,8 +37,7 @@ public class SeasonDetailsFragment extends Fragment {
 
     private long tvId;
     private int seasonNumber;
-
-    private ImageView poster;
+    private ImageHandler posterImg;
     private TvEpisodesAdapter tvEpisodesAdapter;
     private TextView seasonName;
 
@@ -57,7 +55,7 @@ public class SeasonDetailsFragment extends Fragment {
 
         context = getContext();
 
-        poster = (ImageView) v.findViewById(R.id.poster_season_details_imageView);
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_season_details_imageView));
         seasonName = (TextView) v.findViewById(R.id.name_season_details_textView);
 
         RecyclerView tvEpisodesRecycler = (RecyclerView) v.findViewById(R.id.tv_episodes_recycler_view);
@@ -114,7 +112,7 @@ public class SeasonDetailsFragment extends Fragment {
      * Receiving Respond from the backend server.
      * @return It return Callback.
      */
-    public Callback resSeasonDetails(){
+    private Callback resSeasonDetails(){
         return new Callback<TvSeasonDetails>(){
             @Override
             public void onResponse(Call<TvSeasonDetails> call, Response<TvSeasonDetails> response) {
@@ -138,11 +136,11 @@ public class SeasonDetailsFragment extends Fragment {
     /**
      * Display the Season details on the screen;
      */
-    public void displayData(){
+    private void displayData(){
 
         seasonName.setText(tvSeasonDetails.getName());
 
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w342"+tvSeasonDetails.getPosterPath()).into(poster);
+        posterImg.setLargeImg(tvSeasonDetails.getPosterPath());
 
         tvEpisodesAdapter.setEpisodes(tvSeasonDetails.getEpisodes(),tvId,tvSeasonDetails.getPosterPath());
 

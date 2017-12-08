@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import android.widget.ImageView;
 
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.R;
-import com.example.watchlist.utils.BackgroundPoster;
+import com.example.watchlist.utils.ImageHandler;
 import com.example.watchlist.utils.Pagination;
 import com.example.watchlist.utils.PaginationScrollListener;
 import com.example.watchlist.adapter.TvShowsAdapter;
@@ -24,6 +23,8 @@ import com.example.watchlist.service.request.ReqTvShows;
 import com.example.watchlist.themoviedb.TvShow;
 import com.example.watchlist.utils.PopUpMsg;
 import com.example.watchlist.utils.Time;
+
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +40,7 @@ public class PopularTvShowsFragment extends Fragment {
     private Time time;
     private Pagination pagination;
 
-    private ImageView poster;
+    private ImageHandler posterImg;
     private TvShowsAdapter tvShowsAdapter;
 
 
@@ -57,7 +58,7 @@ public class PopularTvShowsFragment extends Fragment {
 
         context = getContext();
 
-        poster = (ImageView) v.findViewById(R.id.poster_popular_tv_shows_imageView);
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_popular_tv_shows_imageView));
 
         RecyclerView popularTvShowsRecycler = (RecyclerView) v.findViewById(R.id.popular_tv_shows_recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -78,7 +79,8 @@ public class PopularTvShowsFragment extends Fragment {
             time.setFirstTime(time.getTimeInMillis());
             reqPopularTvShows();
         }else{
-            BackgroundPoster.setRandomBackPosterTv(tvShowsAdapter.getTvShowList(), context, poster);
+            int r = new Random().nextInt(tvShowsAdapter.getTvShowList().size());
+            posterImg.setLargeImg(tvShowsAdapter.getTvShowList().get(r).getPosterPath());
         }
 
     }
@@ -92,7 +94,7 @@ public class PopularTvShowsFragment extends Fragment {
     /**
      * Initialize the fragment
      */
-    public void initialize(){
+    private void initialize(){
         time = new Time();
         tvShowsAdapter = new TvShowsAdapter(context, getActivity().getSupportFragmentManager());
         pagination = new Pagination();
@@ -148,7 +150,7 @@ public class PopularTvShowsFragment extends Fragment {
      * Receiving Respond from the backend server.
      * @return It return Callback.
      */
-    public Callback resPopularTvShows(){
+    private Callback resPopularTvShows(){
         return new Callback<TvShow.TvShowsResults>(){
             @Override
             public void onResponse(Call<TvShow.TvShowsResults> call, Response<TvShow.TvShowsResults> response) {
@@ -178,7 +180,7 @@ public class PopularTvShowsFragment extends Fragment {
      * Display the Popular tv shows on the screen;
      * @param results Results contains Tv shows results.
      */
-    public void displayData(TvShow.TvShowsResults results){
+    private void displayData(TvShow.TvShowsResults results){
         if(!tvShowsAdapter.isEmpty()){
             tvShowsAdapter.removeLoadingFooter();
         }
@@ -187,7 +189,8 @@ public class PopularTvShowsFragment extends Fragment {
             tvShowsAdapter.addAllGenre(GerneList.getGenreTvList());
         }
         if(tvShowsAdapter.isEmpty()){
-            BackgroundPoster.setRandomBackPosterTv(results.getResults(), context, poster);
+            int r = new Random().nextInt(results.getResults().size());
+            posterImg.setLargeImg(results.getResults().get(r).getPosterPath());
         }
 
         tvShowsAdapter.addAll(results.getResults());

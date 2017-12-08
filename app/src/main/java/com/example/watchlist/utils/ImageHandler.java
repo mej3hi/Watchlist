@@ -1,0 +1,55 @@
+package com.example.watchlist.utils;
+
+import android.content.Context;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+
+/**
+ * Created by martin on 7.12.2017.
+ */
+
+
+public class ImageHandler  {
+
+    private final String SMALL = "http://image.tmdb.org/t/p/w92";
+    private final String MEIDUM = "http://image.tmdb.org/t/p/w185";
+    private final String LARGE = "http://image.tmdb.org/t/p/w342";
+
+    private Context context;
+    private ImageView imageView;
+
+    public ImageHandler(Context context, ImageView imageView) {
+        this.context = context;
+        this.imageView = imageView;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
+    public void setSmallImg(String path){
+        Picasso.with(context).load(SMALL+path).into(imageView);
+    }
+
+    public void setMeidumImg(String path){
+        Picasso.with(context).load(MEIDUM+path).into(imageView);
+    }
+
+    public void setLargeImg(String path){
+        Picasso.with(context).load(LARGE+path).into(imageView);
+    }
+
+}

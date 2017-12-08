@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +22,9 @@ import com.example.watchlist.service.client.NetworkChecker;
 import com.example.watchlist.service.request.ReqTvShows;
 import com.example.watchlist.themoviedb.TvDetails;
 import com.example.watchlist.utils.ConvertValue;
+import com.example.watchlist.utils.ImageHandler;
 import com.example.watchlist.utils.PopUpMsg;
 import com.example.watchlist.utils.Time;
-import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,14 +38,11 @@ public class TvDetailsFragment extends Fragment {
 
     private Context context;
     private Time time;
-
     private TvDetails tvDetails;
     private long tvId;
     private boolean hasBeenStored;
 
     private TvSeasonsAdapter tvSeasonsAdapter;
-    private ImageView poster;
-    private ImageView backdrop;
     private TextView name;
     private TextView rating;
     private TextView releaseDate;
@@ -54,8 +50,8 @@ public class TvDetailsFragment extends Fragment {
     private TextView overview;
     private TextView genre;
     private Button watchlistBtn;
-
-
+    private ImageHandler posterImg;
+    private ImageHandler backdropImg;
 
 
     public TvDetailsFragment() {
@@ -70,8 +66,8 @@ public class TvDetailsFragment extends Fragment {
         context = getContext();
         hasBeenStored = false;
 
-        poster = (ImageView) v.findViewById(R.id.poster_tv_details_imageView);
-        backdrop = (ImageView) v.findViewById(R.id.backdrop_tv_details_imageView);
+        posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_tv_details_imageView));
+        backdropImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.backdrop_tv_details_imageView));
         name = (TextView) v.findViewById(R.id.name_tv_details_textView);
         rating = (TextView) v.findViewById(R.id.rating_tv_details_textView);
         releaseDate = (TextView) v.findViewById(R.id.release_date_tv_details_textView);
@@ -147,7 +143,7 @@ public class TvDetailsFragment extends Fragment {
      * Receiving Respond from the backend server.
      * @return It return Callback.
      */
-    public Callback resTvDetails(){
+    private Callback resTvDetails(){
         return new Callback<TvDetails>(){
             @Override
             public void onResponse(Call<TvDetails> call, Response<TvDetails> response) {
@@ -170,39 +166,38 @@ public class TvDetailsFragment extends Fragment {
      * Display the Tv details on the screen;
      *
      */
-    public void displayData(){
+    private void displayData(){
         name.setText(tvDetails.getName());
         rating.setText(ConvertValue.toOneDecimal(tvDetails.getVoteAverage()));
         releaseDate.setText(tvDetails.getFirstAirDate());
-        runTime.setText(TextUtils.join(", ",tvDetails.getEpisodeRunTime())+" Min");
+        runTime.setText(String.format("%s Min", TextUtils.join(", ", tvDetails.getEpisodeRunTime())));
         overview.setText(tvDetails.getOverview());
         genre.setText(ConvertValue.genreToString(tvDetails.getGenres()));
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w185"+tvDetails.getBackdropPath()).into(backdrop);
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w342"+tvDetails.getPosterPath()).into(poster);
-        //Collections.reverse(tvDetails.getSeasons());
+        posterImg.setLargeImg(tvDetails.getPosterPath());
+        backdropImg.setMeidumImg(tvDetails.getBackdropPath());
         tvSeasonsAdapter.setSeasons(tvDetails.getSeasons(),tvId);
     }
 
 
 
-    public void changeButton(){
+    private void changeButton(){
         if(TvDatabaseUtil.isTvAddedToWatchlist(tvId)){
             watchlistBtn.setBackgroundColor(0xffe6b800);
-            watchlistBtn.setText("Remove from watchlist");
+            watchlistBtn.setText(R.string.removeBtn);
             hasBeenStored = true;
         }else{
             watchlistBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            watchlistBtn.setText("Add to watchlist");
+            watchlistBtn.setText(R.string.addBtn);
             hasBeenStored = false;
         }
     }
 
-    public void removeTvShow(){
+    private void removeTvShow(){
         TvDatabaseUtil.removeTvFromWatchlist(tvId);
         changeButton();
     }
 
-    public void addTvShow(){
+    private void addTvShow(){
         TvDatabaseUtil.addTvToWatchlist(
                 tvId,
                 tvDetails.getName(),

@@ -44,7 +44,7 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/name_episode_details_textView"
             android:layout_toEndOf="@+id/still_episode_details_imageView"
-            android:text="Rating"
+            android:text="@string/rating"
             android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold" />
