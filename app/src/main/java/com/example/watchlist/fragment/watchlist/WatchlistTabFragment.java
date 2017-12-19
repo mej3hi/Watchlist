@@ -13,7 +13,10 @@ import com.example.watchlist.R;
 import com.example.watchlist.adapter.ViewPagerAdapter;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class WatchlistTabFragment extends Fragment {
     private static final String TAG = "WatchlistTabFrag";
@@ -31,7 +34,14 @@ public class WatchlistTabFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * It create the view for the watchlist tab and
+     * add the fragment to it
+     * @param inflater Inflater is LayoutInflater
+     * @param container Container is ViewGroup
+     * @param savedInstanceState SavedInstanceState is Bundle
+     * @return It return the View for the fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,6 +58,9 @@ public class WatchlistTabFragment extends Fragment {
         return view;
     }
 
+    /**
+     * It setup View page adapter and add the fragment to it.
+     */
     private void setupViewPager(){
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(tvShowsWatchlistFragment, "TODAY SHOWS");

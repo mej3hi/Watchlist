@@ -5,10 +5,13 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ *
  * Class for adding and removing tv shows to and from users watchlist.
  */
-
-
 public class TvDatabaseUtil {
     /**
      * It check whether the tv show is added to watchlist

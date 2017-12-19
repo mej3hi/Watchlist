@@ -55,7 +55,15 @@ public class MoviesWatchlistFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * It create the view for the movies watchlist and
+     * get the context and also setup the recycler view
+     * for it
+     * @param inflater Inflater is LayoutInflater
+     * @param container Container is ViewGroup
+     * @param savedInstanceState SavedInstanceState is Bundle
+     * @return It return the View for the fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,7 +120,7 @@ public class MoviesWatchlistFragment extends Fragment {
 
     /**
      * Receiving respond from the backend server.
-     *
+     * @return It return callback.
      */
     private Callback resNowPlayingMovies(){
         return new Callback<Movie.MoviesResults>(){

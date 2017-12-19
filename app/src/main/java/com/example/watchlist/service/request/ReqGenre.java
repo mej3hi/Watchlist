@@ -9,7 +9,12 @@ import com.example.watchlist.themoviedb.Genre;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-
+/**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ */
 public class ReqGenre {
 
     /**

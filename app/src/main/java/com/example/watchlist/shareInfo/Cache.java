@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ *
  * Used for temporary storage for Today Tv Shows and Now Playing Movies.
  */
 

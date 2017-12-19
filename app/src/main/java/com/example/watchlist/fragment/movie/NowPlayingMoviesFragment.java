@@ -50,7 +50,16 @@ public class NowPlayingMoviesFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * It create the view for the now playing movies and
+     * get the context and also setup the recycler view
+     * with page scroll listener, it also initialize the
+     * fragment
+     * @param inflater Inflater is LayoutInflater
+     * @param container Container is ViewGroup
+     * @param savedInstanceState SavedInstanceState is Bundle
+     * @return It return the View for the fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -147,7 +156,7 @@ public class NowPlayingMoviesFragment extends Fragment {
     }
     /**
      * Receiving respond from the backend server.
-     *
+     * @return It return callback
      */
     private Callback resNowPLayingMovies(){
         return new Callback<Movie.MoviesResults>(){

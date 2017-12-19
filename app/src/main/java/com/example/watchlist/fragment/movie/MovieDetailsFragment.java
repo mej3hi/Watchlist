@@ -57,7 +57,15 @@ public class MovieDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * It create the view for the movie details and
+     * get the context and also set setOnClickListener
+     * for the watchlistBtn
+     * @param inflater Inflater is LayoutInflater
+     * @param container Container is ViewGroup
+     * @param savedInstanceState SavedInstanceState is Bundle
+     * @return It return the View for the fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -117,9 +125,10 @@ public class MovieDetailsFragment extends Fragment {
         }
 
     }
+
     /**
      * Receiving Respond from the backend server.
-     *
+     * @return It return callback
      */
     private Callback resMovieDetails(){
         return new Callback<MovieDetails>(){

@@ -12,7 +12,12 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * Created by martin on 8.12.2017.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ *
+ * All the endpoint for the tv show.
  */
 
 public interface ApiTvShow {

@@ -61,6 +61,16 @@ public class TvDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * It create the view for the tv show details and
+     * get the context and set setOnClickListener for
+     * the watchlistBtn and setup the recycler view for
+     * the seasons
+     * @param inflater Inflater is LayoutInflater
+     * @param container Container is ViewGroup
+     * @param savedInstanceState SavedInstanceState is Bundle
+     * @return It return the View for the fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,11 +93,12 @@ public class TvDetailsFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false);
         tvSeasonsRecycler.setHasFixedSize(true);
         tvSeasonsRecycler.setLayoutManager(layoutManager);
+        tvSeasonsAdapter = new TvSeasonsAdapter(context,getActivity().getSupportFragmentManager());
+        tvSeasonsRecycler.setAdapter(tvSeasonsAdapter);
+
         if(time == null ) {
             time = new Time();
         }
-        tvSeasonsAdapter = new TvSeasonsAdapter(context,getActivity().getSupportFragmentManager());
-        tvSeasonsRecycler.setAdapter(tvSeasonsAdapter);
 
         if(getArguments() != null){
             tvId = getArguments().getLong("tvId");
@@ -143,7 +154,7 @@ public class TvDetailsFragment extends Fragment {
 
     /**
      * Receiving respond from the backend server.
-     * @return It return Callback.
+     * @return It return callback.
      */
     private Callback resTvDetails(){
         return new Callback<TvDetails>(){
@@ -165,8 +176,7 @@ public class TvDetailsFragment extends Fragment {
     }
 
     /**
-     * Display the Tv details on the screen;
-     *
+     * Display the Tv details on the screen
      */
     private void displayData(){
         name.setText(tvDetails.getName());

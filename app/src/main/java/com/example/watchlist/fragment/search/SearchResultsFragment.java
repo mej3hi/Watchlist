@@ -58,7 +58,16 @@ public class SearchResultsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * It create the view for the search results and
+     * get the context and also setup the recycler view
+     * with page scroll listener, it also initialize the
+     * fragment
+     * @param inflater Inflater is LayoutInflater
+     * @param container Container is ViewGroup
+     * @param savedInstanceState SavedInstanceState is Bundle
+     * @return It return the View for the fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -173,7 +182,7 @@ public class SearchResultsFragment extends Fragment {
 
     /**
      * Receiving respond from the backend server with tv show.
-     *
+     * @return It return callback
      */
     private Callback resSearchTvResults(){
         return new Callback<TvShow.TvShowsResults>(){
@@ -200,7 +209,7 @@ public class SearchResultsFragment extends Fragment {
 
     /**
      * Receiving respond from the backend server with movie.
-     *
+     * @return It return callback
      */
     private Callback resSearchMovieResults(){
         return new Callback<Movie.MoviesResults>(){
@@ -228,7 +237,6 @@ public class SearchResultsFragment extends Fragment {
     /**
      * Check if the page is last page and if so, set setLastPage to true
      */
-
     private void checkLastPage(){
         if(tvPagination.getCurrentPage()<= tvPagination.getTotalPages()){
             resultsAdapter.addLoadingFooter();
@@ -243,9 +251,11 @@ public class SearchResultsFragment extends Fragment {
         tvPagination.setCurrentPage(tvPagination.getCurrentPage()+1);
 
     }
+
     /**
      * Display the results on the screen
-     *
+     * @param tvResults Tv Results is list of tv shows
+     * @param movieResults Movie Results is list of movies
      */
     private void displayData(List<TvShow> tvResults , List<Movie> movieResults){
 

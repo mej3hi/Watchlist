@@ -1,8 +1,12 @@
 package com.example.watchlist.database;
 
 import com.orm.SugarRecord;
-
 /**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ *
  * MovieWatch is the sql table for movie.
  */
 

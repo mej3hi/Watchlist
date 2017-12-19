@@ -52,7 +52,14 @@ public class EpisodeDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * It create the view for the episode details and
+     * get the context
+     * @param inflater Inflater is LayoutInflater
+     * @param container Container is ViewGroup
+     * @param savedInstanceState SavedInstanceState is Bundle
+     * @return It return the View for the fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,16 +76,12 @@ public class EpisodeDetailsFragment extends Fragment {
         stillImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.still_episode_details_imageView));
         posterImg = new ImageHandler(context,(ImageView) v.findViewById(R.id.poster_episode_details_imageView));
 
-
         if(getArguments() != null){
             tvId = getArguments().getLong("tvId");
             seasonNumber = getArguments().getInt("seasonNumber");
             episodeNumber = getArguments().getInt("episodeNumber");
             posterPath = getArguments().getString("posterPath");
         }
-        Log.d(TAG,"id " +tvId+" S "+seasonNumber+" Ep "+episodeNumber);
-
-
         return v;
     }
 
@@ -106,7 +109,7 @@ public class EpisodeDetailsFragment extends Fragment {
 
     /**
      * Receiving respond from the backend server.
-     * @return It return Callback.
+     * @return It return callback.
      */
     private Callback resEpisodeDetails(){
         return new Callback<TvEpisodeDetails>(){

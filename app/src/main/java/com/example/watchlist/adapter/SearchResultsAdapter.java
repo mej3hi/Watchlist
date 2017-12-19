@@ -305,7 +305,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     */
 
     /**
-     * Main list's content ViewHolder
+     * SearchResultsVH content ViewHolder
      */
     private class SearchResultsVH extends RecyclerView.ViewHolder {
         private TextView rating;
@@ -326,9 +326,10 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-
+    /**
+     * Is the loading footer ViewHolder
+     */
     private class LoadingVH extends RecyclerView.ViewHolder {
-
         private LoadingVH(View itemView) {
             super(itemView);
         }

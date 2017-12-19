@@ -33,7 +33,14 @@ public class MyWatchlistTabFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * It create the view for the my watchlist tab and
+     * add the fragment to it
+     * @param inflater Inflater is LayoutInflater
+     * @param container Container is ViewGroup
+     * @param savedInstanceState SavedInstanceState is Bundle
+     * @return It return the View for the fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

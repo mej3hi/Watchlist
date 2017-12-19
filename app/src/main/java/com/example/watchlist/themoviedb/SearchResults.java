@@ -2,6 +2,12 @@ package com.example.watchlist.themoviedb;
 
 import java.util.List;
 
+/**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ */
 public class SearchResults {
 
     private long id;

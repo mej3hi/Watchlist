@@ -29,7 +29,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
+/**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,6 +43,12 @@ public class MainActivity extends AppCompatActivity
     private MenuItem searchTv;
     private MenuItem searchMovie;
 
+    /**
+     * It crate the main view where all the fragment life in.
+     * It add DrawerLayout to it and set listener to the navigation View
+     * and make the first item checked in it.
+     * @param savedInstanceState SavedInstanceState is bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +71,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * It handle the on back pressed.
+     * It closed the navigation drawer if it is open
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -70,6 +85,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * It handle options menu.
+     * It add query text listener for search view and
+     * open search results fragment if submitted
+     * @param menu Menu is menu
+     * @return It return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -108,11 +130,17 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * It handle the options selected.
+     * It setChecked true or false for searchMovie and search_tv
+     * and it also makes sure that at least one of
+     * the item are checked
+     * @param item Item is MenuItem
+     * @return It return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         if (id == R.id.search_tv) {
@@ -138,6 +166,12 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * It handle the navigation selection
+     * and open new fragment from it.
+     * @param item Item is MenuItem
+     * @return It return true
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -171,6 +205,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Call reqGenre function
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -196,7 +233,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Receiving Respond from the backend server.
-     *
+     * @return It return callback
      */
     public Callback resGenreTvShows() {
         return new Callback<Genre.GenreResults>() {
@@ -217,7 +254,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Receiving Respond from the backend server.
-     *
+     * @return It return callback
      */
     public Callback resGenreMovie() {
         return new Callback<Genre.GenreResults>() {

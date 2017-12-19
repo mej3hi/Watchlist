@@ -49,7 +49,15 @@ public class SeasonDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * It create the view for the season details and
+     * get the context and also setup the recycler view
+     * for it
+     * @param inflater Inflater is LayoutInflater
+     * @param container Container is ViewGroup
+     * @param savedInstanceState SavedInstanceState is Bundle
+     * @return It return the View for the fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,12 +72,12 @@ public class SeasonDetailsFragment extends Fragment {
         RecyclerView tvEpisodesRecycler = (RecyclerView) v.findViewById(R.id.tv_episodes_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         tvEpisodesRecycler.setLayoutManager(layoutManager);
+        tvEpisodesAdapter = new TvEpisodesAdapter(context,getActivity().getSupportFragmentManager());
+        tvEpisodesRecycler.setAdapter(tvEpisodesAdapter);
+
         if(time == null){
             time = new Time();
         }
-
-        tvEpisodesAdapter = new TvEpisodesAdapter(context,getActivity().getSupportFragmentManager());
-        tvEpisodesRecycler.setAdapter(tvEpisodesAdapter);
 
         if(getArguments() != null){
             tvId = getArguments().getLong("tvId");
@@ -113,7 +121,7 @@ public class SeasonDetailsFragment extends Fragment {
 
     /**
      * Receiving respond from the backend server.
-     * @return It return Callback.
+     * @return It return callback.
      */
     private Callback resSeasonDetails(){
         return new Callback<TvSeasonDetails>(){

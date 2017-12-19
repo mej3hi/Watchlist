@@ -8,6 +8,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ *
  * Add the api key to the url for every request that is made.
  */
 

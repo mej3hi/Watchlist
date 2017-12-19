@@ -13,7 +13,10 @@ import com.example.watchlist.R;
 import com.example.watchlist.adapter.ViewPagerAdapter;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class TvShowsTapFragment extends Fragment {
     private static final String TAG = "TvShowsTapFrag";
@@ -32,7 +35,14 @@ public class TvShowsTapFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * It create the view for the tv shows tab and
+     * add the fragment to it
+     * @param inflater Inflater is LayoutInflater
+     * @param container Container is ViewGroup
+     * @param savedInstanceState SavedInstanceState is Bundle
+     * @return It return the View for the fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

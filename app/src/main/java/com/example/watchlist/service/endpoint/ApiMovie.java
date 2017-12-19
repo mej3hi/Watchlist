@@ -15,7 +15,12 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * All the endpoint for the TMDb.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ *
+ * All the endpoint for the movie.
  */
 
 public interface ApiMovie {

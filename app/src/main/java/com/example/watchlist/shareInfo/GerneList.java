@@ -5,6 +5,11 @@ import com.example.watchlist.themoviedb.Genre;
 import java.util.List;
 
 /**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ *
  * List of genre for tv shows and movies
  */
 
@@ -16,6 +21,9 @@ public class GerneList {
     public GerneList() {
     }
 
+    /*
+    Setter and getter for genreTvList and genreMovieList
+     */
     public static List<Genre> getGenreTvList() {
         return genreTvList;
     }

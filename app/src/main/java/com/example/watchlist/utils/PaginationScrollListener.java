@@ -8,9 +8,7 @@ import android.support.v7.widget.RecyclerView;
  * Author:
  *  Eiríkur Kristinn Hlöðversson
  *  Martin Einar Jensen
- */
-
-/**
+ *
  * PaginationScrollListener checks if user has reached the bottom of the page and
  * calls the loadMoreItems function if so.
  */

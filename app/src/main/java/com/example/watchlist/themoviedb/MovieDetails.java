@@ -5,7 +5,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-
+/**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ */
 public class MovieDetails {
     @SerializedName("backdrop_path")
     @Expose

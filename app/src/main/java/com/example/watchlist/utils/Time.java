@@ -11,7 +11,6 @@ import java.util.Calendar;
 public class Time {
 
     public final long ONE_HOUR = 3600000;
-    public final long TWELVE_HOUR = 3600000*12;
     private final Calendar calendar = Calendar.getInstance();
 
     private long firstTime;
@@ -23,10 +22,12 @@ public class Time {
         this.firstTime = calendar.getTimeInMillis();
     }
 
+    /*
+        Setter and getter
+     */
     public long getFirstTime() {
         return firstTime;
     }
-
     public void setFirstTime(long firstTime) {
         this.firstTime = firstTime;
     }

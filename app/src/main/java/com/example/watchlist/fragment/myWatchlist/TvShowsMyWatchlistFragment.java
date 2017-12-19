@@ -43,7 +43,14 @@ public class TvShowsMyWatchlistFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * It create the view for the tv shows my watchlist and
+     * get the context and add the recycler view to it
+     * @param inflater Inflater is LayoutInflater
+     * @param container Container is ViewGroup
+     * @param savedInstanceState SavedInstanceState is Bundle
+     * @return It return the View for the fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
