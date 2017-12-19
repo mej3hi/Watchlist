@@ -24,9 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class TvShowsMyWatchlistFragment extends Fragment {
     private static final String TAG = "TvShowsMyWatchlistFrag";
@@ -59,6 +61,9 @@ public class TvShowsMyWatchlistFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Call the getAllData function.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -72,7 +77,7 @@ public class TvShowsMyWatchlistFragment extends Fragment {
     private void getAllData(){
         List<TvShow> newTvShowList = new ArrayList<>();
         TvShow tvShow;
-        for (TvShowsWatch t : TvDatabaseUtil.getallTvShows()) {
+        for (TvShowsWatch t : TvDatabaseUtil.getAllTvShows()) {
             tvShow = new TvShow(
                     t.getTvId(),
                     t.getName(),
@@ -86,7 +91,7 @@ public class TvShowsMyWatchlistFragment extends Fragment {
 
     /**
      * Display the user watchlist on the screen;
-     * @param watchList Results contains Tv shows.
+     * @param watchList Results contains list of Tv shows.
      */
     private void displayData(List<TvShow> watchList){
         if(GerneList.getGenreTvList() != null){

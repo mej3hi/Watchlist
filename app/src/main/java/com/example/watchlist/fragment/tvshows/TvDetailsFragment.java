@@ -31,7 +31,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class TvDetailsFragment extends Fragment {
     private static final String TAG ="TvDetailsFrag";
@@ -105,28 +108,27 @@ public class TvDetailsFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Call changeButton function and
+     * check whether the tvDetails is empty
+     * if so call reqTvDetails function and
+     * set the time it was called,
+     * if not empty call displayData function.
+     */
     @Override
     public void onStart() {
         super.onStart();
         if(tvDetails == null || time.isOverTime(time.ONE_HOUR)){
-            reqTvDetails();
             time.setFirstTime(time.getTimeInMillis());
+            reqTvDetails();
         }else{
             displayData();
         }
-
         changeButton();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-
-
     /**
-     * Sends HttpRequest that request Tv details.
+     * Sends Http Request that request Tv details.
      */
     private void reqTvDetails(){
 
@@ -140,7 +142,7 @@ public class TvDetailsFragment extends Fragment {
     }
 
     /**
-     * Receiving Respond from the backend server.
+     * Receiving respond from the backend server.
      * @return It return Callback.
      */
     private Callback resTvDetails(){
@@ -174,12 +176,15 @@ public class TvDetailsFragment extends Fragment {
         overview.setText(tvDetails.getOverview());
         genre.setText(ConvertValue.genreToString(tvDetails.getGenres()));
         posterImg.setLargeImg(tvDetails.getPosterPath());
-        backdropImg.setMeidumImg(tvDetails.getBackdropPath());
+        backdropImg.setMediumImg(tvDetails.getBackdropPath());
         tvSeasonsAdapter.setSeasons(tvDetails.getSeasons(),tvId);
     }
 
 
-
+    /**
+     * Checks if tv show is added to watchlist and display
+     * the right button.
+     */
     private void changeButton(){
         if(TvDatabaseUtil.isTvAddedToWatchlist(tvId)){
             watchlistBtn.setBackgroundColor(0xffe6b800);
@@ -192,11 +197,18 @@ public class TvDetailsFragment extends Fragment {
         }
     }
 
+    /**
+     * Remove tv show  from watchlist and
+     * call changeButton function.
+     */
     private void removeTvShow(){
         TvDatabaseUtil.removeTvFromWatchlist(tvId);
         changeButton();
     }
-
+    /**
+     * Add tv show to watchlist and
+     * call changeButton function.
+     */
     private void addTvShow(){
         TvDatabaseUtil.addTvToWatchlist(
                 tvId,

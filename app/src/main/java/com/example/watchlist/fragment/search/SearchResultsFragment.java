@@ -34,7 +34,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class SearchResultsFragment extends Fragment {
     private static final String TAG = "SearchResultsFragment";
@@ -84,6 +87,11 @@ public class SearchResultsFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Check whether the resultsAdapter is empty
+     * if so call reqSearchResults function,
+     * if not empty set random poster image.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -95,11 +103,9 @@ public class SearchResultsFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
+    /**
+     * Initialize the fragment
+     */
     private void initialize(){
         tvPagination = new Pagination();
         moviePagination = new Pagination();
@@ -166,7 +172,7 @@ public class SearchResultsFragment extends Fragment {
 
 
     /**
-     * Receiving Respond from the backend server.
+     * Receiving respond from the backend server with tv show.
      *
      */
     private Callback resSearchTvResults(){
@@ -193,7 +199,7 @@ public class SearchResultsFragment extends Fragment {
     }
 
     /**
-     * Receiving Respond from the backend server.
+     * Receiving respond from the backend server with movie.
      *
      */
     private Callback resSearchMovieResults(){

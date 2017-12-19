@@ -1,8 +1,6 @@
 package com.example.watchlist.database;
 
 
-import com.example.watchlist.themoviedb.TvShow;
-
 import java.util.Calendar;
 import java.util.List;
 
@@ -12,40 +10,52 @@ import java.util.List;
 
 
 public class TvDatabaseUtil {
-
+    /**
+     * It check whether the tv show is added to watchlist
+     * and if so it return true else false.
+     * @param tvId TvId is the id of the tv show
+     * @return It return true if exists else false
+     */
     public static boolean isTvAddedToWatchlist(long tvId){
         List<TvShowsWatch> t = TvShowsWatch.find(TvShowsWatch.class, "tv_id = ?", String.valueOf(tvId));
-        if(t.size() != 0) {
-            return true;
-
-        }else{
-            return false;
-        }
+        return t.size() != 0;
     }
 
-    public static boolean removeTvFromWatchlist(long tvId){
+    /**
+     * It remove the tv show from watchlist
+     * @param tvId TvId is the id of the tv show
+     */
+    public static void removeTvFromWatchlist(long tvId){
         List<TvShowsWatch> t = TvShowsWatch.find(TvShowsWatch.class, "tv_id = ?", String.valueOf(tvId));
         if(t.size() != 0) {
             t.get(0).delete();
-            return true;
-
-        }else{
-            return false;
         }
     }
 
-    public static void addTvToWatchlist(long tvId,String name,String posterPath,double rating,String genreId){
+    /**
+     * It add the tv show to the watchlist
+     * @param tvId TvId is the id of the tv show
+     * @param name Name is the of the tv show
+     * @param posterPath PosterPath is the path to the poster
+     * @param rating Rating is the rating of the tv show
+     * @param genreIds GenreIds is the genre ids of the tv show
+     */
+    public static void addTvToWatchlist(long tvId,String name,String posterPath,double rating,String genreIds){
         TvShowsWatch tvShowsWatch = new TvShowsWatch(
                 tvId,
                 name,
                 posterPath,
                 rating,
-                genreId,
+                genreIds,
                 Calendar.getInstance().getTimeInMillis());
         tvShowsWatch.save();
     }
 
-    public static List<TvShowsWatch> getallTvShows(){
+    /**
+     * It get all the tv shows that have been added to the watchlist.
+     * @return It return all the tv shows as list.
+     */
+    public static List<TvShowsWatch> getAllTvShows(){
         return TvShowsWatch.listAll(TvShowsWatch.class);
     }
 

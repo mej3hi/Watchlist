@@ -155,7 +155,7 @@ public class MovieDetailsFragment extends Fragment {
         runTime.setText(String.format("%s Min", String.valueOf(details.getRuntime())));
         overview.setText(details.getOverview());
         genre.setText(ConvertValue.genreToString(details.getGenres()));
-        backdropImg.setMeidumImg(details.getBackdropPath());
+        backdropImg.setMediumImg(details.getBackdropPath());
         posterImg.setLargeImg(details.getPosterPath());
 
     }
@@ -177,7 +177,8 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     /**
-     * Remove movie from watchlist
+     * Remove movie from watchlist and
+     * call changeButton function.
      */
     private void removeMovie(){
         MovieDatabaseUtil.removeMovieFromWatchlist(movieId);
@@ -185,7 +186,8 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     /**
-     * Add movie from watchlist
+     * Add movie to watchlist and
+     * call changeButton function.
      */
     private void addMovie(){
         MovieDatabaseUtil.addMovieToWatchlist(

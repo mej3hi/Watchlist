@@ -6,10 +6,11 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 /**
- * Created by martin on 7.12.2017.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
-
-
 public class ImageHandler  {
 
     private final String SMALL = "http://image.tmdb.org/t/p/w92";
@@ -40,14 +41,24 @@ public class ImageHandler  {
         this.imageView = imageView;
     }
 
+    /**
+     * Load a small image.
+     * @param path Is string and contents the path
+     */
     public void setSmallImg(String path){
         Picasso.with(context).load(SMALL+path).into(imageView);
     }
-
-    public void setMeidumImg(String path){
+    /**
+     * Load a medium image.
+     * @param path Is string and contents the path
+     */
+    public void setMediumImg(String path){
         Picasso.with(context).load(MEIDUM+path).into(imageView);
     }
-
+    /**
+     * Load a larg image.
+     * @param path Is string and contents the path
+     */
     public void setLargeImg(String path){
         Picasso.with(context).load(LARGE+path).into(imageView);
     }

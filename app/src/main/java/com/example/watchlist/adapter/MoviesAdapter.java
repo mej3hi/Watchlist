@@ -25,6 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ *
  * MoviesAdapter is used to create list of movies.
  */
 
@@ -39,6 +44,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private boolean isLoadingAdded = false;
 
+    /**
+     * Is the constructor for the MoviesAdapter
+     * @param context Context is context
+     * @param fm Fm is FragmentManager
+     */
     public MoviesAdapter(Context context, FragmentManager fm) {
         this.context = context;
         this.fm = fm;
@@ -46,14 +56,28 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.genreList = new ArrayList<>();
     }
 
+    /**
+     * It get the movieList
+     * @return It return list of movie
+     */
     public List<Movie> getMovieList() {
         return movieList;
     }
 
+    /**
+     * Is set list of movie to movieList
+     * @param movieList MovieList is list of movie
+     */
     public void setMovieList(List<Movie> movieList) {
         this.movieList = movieList;
     }
 
+    /**
+     * Add new view that is either movie view or loading footer view
+     * @param parent Parent is the viewGroup
+     * @param viewType What view type to display
+     * @return It return the new view
+     */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
@@ -71,6 +95,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return viewHolder;
     }
 
+    /**
+     * It get the view for the movie
+     * @param parent Parent is the viewGroup
+     * @param inflater Inflater is LayoutInflater
+     * @return It return movie view
+     */
     @NonNull
     private RecyclerView.ViewHolder getViewHolder(ViewGroup parent, LayoutInflater inflater) {
         RecyclerView.ViewHolder viewHolder;
@@ -79,6 +109,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return viewHolder;
     }
 
+    /**
+     * It display the movie at the specified position and add
+     * onClick listener that open movie details fragment
+     * for that movie
+     * @param holder Holder is the viewHolder
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
@@ -95,31 +132,36 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 moviesVH.movieDetail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-
                         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
                         Bundle bundle = new Bundle();
                         bundle.putLong("movieId",movie.getId());
                         movieDetailsFragment.setArguments(bundle);
                         fm.beginTransaction().replace(R.id.main_container, movieDetailsFragment, movieDetailsFragment.getTag()).addToBackStack(null).commit();
-
-
                     }
                 });
 
                 break;
             case LOADING:
-//                Do nothing
+                //Do nothing
                 break;
         }
 
     }
 
+    /**
+     * It get item count
+     * @return Return 0 if null else the size of movieList
+     */
     @Override
     public int getItemCount() {
         return movieList == null ? 0 : movieList.size();
     }
 
+    /**
+     * It get the item view type in that position
+     * @param position The position is from 0 - movieList size.
+     * @return It return LOADING if true else ITEM
+     */
     @Override
     public int getItemViewType(int position) {
         return (position == movieList.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
@@ -130,43 +172,44 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
    _________________________________________________________________________________________________
     */
 
+    /**
+     * It add movie to movieList
+     * @param movie Movie is the movie object
+     */
     public void add(Movie movie) {
         movieList.add(movie);
         notifyItemInserted(movieList.size() - 1);
     }
 
-    public void addAll(List<Movie> List){
-        for (Movie movie : List) {
+    /**
+     * It add list of movie to movieList
+     * @param list List is list of movie.
+     */
+    public void addAll(List<Movie> list){
+        for (Movie movie : list) {
             add(movie);
         }
     }
 
-    public void remove(Movie movie) {
-        int position = movieList.indexOf(movie);
-        if (position > -1) {
-            movieList.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
-
-    public void clear() {
-        isLoadingAdded = false;
-
-        while (getItemCount() > 0) {
-            remove(getItem(0));
-        }
-    }
-
+    /**
+     * Check whether the movieList is empty
+     * @return Return true if it is empty else false
+     */
     public boolean isEmpty() {
         return getItemCount() == 0;
     }
 
-
+    /**
+     * It add the loading footer
+     */
     public void addLoadingFooter() {
         isLoadingAdded = true;
         add(new Movie());
     }
 
+    /**
+     * It remove the loading footer
+     */
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
@@ -179,20 +222,21 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
+    /**
+     * It get the movie in that position
+     * @param position The position is from 0 - movieList size.
+     * @return It return a movie object.
+     */
     public Movie getItem(int position) {
         return movieList.get(position);
     }
 
+    /**
+     * It add list of genre to genreList
+     * @param list Is list of genre
+     */
     public void addAllGenre(List<Genre> list) {
         genreList.addAll(list);
-    }
-
-    public void isGenreListEmpty(){
-        genreList.isEmpty();
-    }
-
-    public void clearGenreList(){
-        genreList.clear();
     }
 
     private String makeGenreFromId(List<Integer> listId){
@@ -220,7 +264,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     */
 
     /**
-     * Main list's content ViewHolder
+     * MoviesVH content ViewHolder
      */
     private class MoviesVH extends RecyclerView.ViewHolder {
         private TextView rating;
@@ -239,9 +283,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-
+    /**
+     * Is the loading footer ViewHolder
+     */
     private class LoadingVH extends RecyclerView.ViewHolder {
-
         private LoadingVH(View itemView) {
             super(itemView);
         }

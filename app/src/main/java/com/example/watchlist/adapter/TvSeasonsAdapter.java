@@ -21,6 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ *
  * TvSeasonsAdapter is used to create list of seasons for some particular tv show.
  *
  */
@@ -31,6 +36,9 @@ public class TvSeasonsAdapter extends RecyclerView.Adapter<TvSeasonsAdapter.TvSe
     private FragmentManager fm;
     private Context context;
 
+    /**
+     * TvSeasonsViewHolder content ViewHolder
+     */
     class TvSeasonsViewHolder extends RecyclerView.ViewHolder {
         private TextView seasonName;
         private ImageHandler posterImg;
@@ -45,13 +53,23 @@ public class TvSeasonsAdapter extends RecyclerView.Adapter<TvSeasonsAdapter.TvSe
         }
     }
 
+    /**
+     * Is the constructor for the TvSeasonsAdapter
+     * @param context Context is context
+     * @param fm Fm is FragmentManager
+     */
     public TvSeasonsAdapter(Context context,FragmentManager fm){
         this.fm = fm;
         this.context = context;
         this.seasonList = new ArrayList<>();
     }
 
-
+    /**
+     * Add new view that is seasons view
+     * @param parent Parent is the viewGroup
+     * @param viewType What view type to display
+     * @return It return the new view
+     */
     @Override
     public TvSeasonsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -59,6 +77,13 @@ public class TvSeasonsAdapter extends RecyclerView.Adapter<TvSeasonsAdapter.TvSe
         return new TvSeasonsViewHolder(itemView);
     }
 
+    /**
+     * It display the season at the specified position and add
+     * onClick listener that open season details fragment
+     * for that season
+     * @param holder Holder is the viewHolder
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(TvSeasonsViewHolder holder, int position) {
         final TvDetails.Season season = seasonList.get(position);
@@ -81,6 +106,10 @@ public class TvSeasonsAdapter extends RecyclerView.Adapter<TvSeasonsAdapter.TvSe
 
     }
 
+    /**
+     * It get item count
+     * @return Return 0 if null else the size of seasonList
+     */
     @Override
     public int getItemCount() {
         return seasonList == null ? 0 : seasonList.size();
@@ -92,7 +121,11 @@ public class TvSeasonsAdapter extends RecyclerView.Adapter<TvSeasonsAdapter.TvSe
 
     //-------------------------------------------------------------------------
 
-
+    /**
+     * Is set list of seasons to seasonList
+     * @param list List is list of seasons
+     * @param tvId TvId is the id of tv show
+     */
     public void setSeasons(List<TvDetails.Season> list, long tvId){
         this.tvId = tvId;
         for (int i = list.size()-1; i >= 0 ; i--) {
@@ -102,11 +135,10 @@ public class TvSeasonsAdapter extends RecyclerView.Adapter<TvSeasonsAdapter.TvSe
 
     }
 
-    public void clear(){
-        seasonList.clear();
-        notifyDataSetChanged();
-    }
-
+    /**
+     * Check whether the seasonList is empty
+     * @return Return true if it is empty else false
+     */
     public boolean isEmpty(){
         return getItemCount() == 0;
     }

@@ -13,7 +13,10 @@ import com.example.watchlist.R;
 import com.example.watchlist.adapter.ViewPagerAdapter;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class MoviesTabFragment extends Fragment {
 

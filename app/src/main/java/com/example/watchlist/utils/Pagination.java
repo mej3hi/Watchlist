@@ -1,10 +1,18 @@
 package com.example.watchlist.utils;
 
 /**
- * Handles all the pagination.
- *
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 
+/**
+ * It handle the pagination,
+ * it has the current page and total page,
+ * it also has boolean for last page and
+ * whether the it is loading.
+ */
 public class Pagination {
 
     private boolean isLastPage;

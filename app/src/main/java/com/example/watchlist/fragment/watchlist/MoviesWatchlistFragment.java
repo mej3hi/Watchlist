@@ -34,7 +34,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class MoviesWatchlistFragment extends Fragment {
     private static final String TAG ="MoviesWatchFrag";
@@ -74,11 +77,17 @@ public class MoviesWatchlistFragment extends Fragment {
         return v;
     }
 
-
+    /**
+     * Get all movies that user has saved in watchlist.
+     * Check whether Cache.NowPlayingMovie is not empty and
+     * is not over time, if so call displayData function
+     * with data from Cache.NowPlayingMovie,
+     * else clear it and set time and call reqToDayMovie function
+     */
     @Override
     public void onStart() {
         super.onStart();
-        movieWatchList = MovieDatabaseUtil.getallMovie();
+        movieWatchList = MovieDatabaseUtil.getAllMovie();
         if(!Cache.NowPlayingMovie.isEmpty() && !time.isOverTime(Cache.NowPlayingMovie.getTime(),time.ONE_HOUR)){
             displayData(Cache.NowPlayingMovie.getMovieList());
         }else{
@@ -87,12 +96,6 @@ public class MoviesWatchlistFragment extends Fragment {
             reqToDayMovie();
         }
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
 
     /**
      * Sends Http Request that request now playing movies
@@ -108,7 +111,7 @@ public class MoviesWatchlistFragment extends Fragment {
     }
 
     /**
-     * Receiving Respond from the backend server.
+     * Receiving respond from the backend server.
      *
      */
     private Callback resNowPlayingMovies(){
@@ -142,6 +145,13 @@ public class MoviesWatchlistFragment extends Fragment {
         };
     }
 
+    /**
+     * Filter out the movie that is not in the user watchlist and
+     * return a new list.
+     * @param movieList List of Movie
+     * @param movieWatchList List of MovieWatch
+     * @return return a list of movie
+     */
     private List<Movie> filterOutData(List<Movie> movieList, List<MovieWatch> movieWatchList){
         List<Movie> newMovieList = new ArrayList<>();
 

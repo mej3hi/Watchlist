@@ -31,7 +31,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class RatedTvShowsFragment extends Fragment {
     private static final String TAG ="RatedTvShowsFrag";
@@ -70,6 +73,12 @@ public class RatedTvShowsFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Check whether the tvShowsAdapter is empty
+     * if so call reqRatedTvShows function and
+     * set the time it was called,
+     * if not empty set random poster image.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -80,11 +89,6 @@ public class RatedTvShowsFragment extends Fragment {
             int r = new Random().nextInt(tvShowsAdapter.getTvShowList().size());
             posterImg.setLargeImg(tvShowsAdapter.getTvShowList().get(r).getPosterPath());
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     /**
@@ -143,7 +147,7 @@ public class RatedTvShowsFragment extends Fragment {
     }
 
     /**
-     * Receiving Respond from the backend server.
+     * Receiving respond from the backend server.
      * @return It return Callback.
      */
     private Callback resRatedTvShows(){

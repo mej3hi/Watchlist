@@ -31,7 +31,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class PopularTvShowsFragment extends Fragment {
     private static final String TAG ="PopularTvShowsFrag";
@@ -72,6 +75,12 @@ public class PopularTvShowsFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Check whether the tvShowsAdapter is empty
+     * if so call reqPopularTvShows function and
+     * set the time it was called,
+     * if not empty set random poster image.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -83,12 +92,6 @@ public class PopularTvShowsFragment extends Fragment {
             posterImg.setLargeImg(tvShowsAdapter.getTvShowList().get(r).getPosterPath());
         }
 
-    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     /**
@@ -147,7 +150,7 @@ public class PopularTvShowsFragment extends Fragment {
     }
 
     /**
-     * Receiving Respond from the backend server.
+     * Receiving respond from the backend server.
      * @return It return Callback.
      */
     private Callback resPopularTvShows(){

@@ -13,7 +13,10 @@ import com.example.watchlist.R;
 import com.example.watchlist.adapter.ViewPagerAdapter;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class MyWatchlistTabFragment extends Fragment {
     private static final String TAG = "MyWatchlistTabFrag";
@@ -47,7 +50,9 @@ public class MyWatchlistTabFragment extends Fragment {
         return v;
     }
 
-
+    /**
+     * It setup View page adapter and add the fragment to it.
+     */
     private void setupViewPager(){
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(TvShowsMyWatchlistFragment, "MY TV SHOWS");

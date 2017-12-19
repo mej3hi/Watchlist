@@ -21,8 +21,12 @@ import com.example.watchlist.utils.ImageHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ *
  * TvShowsAdapter is used to create list of tv shows.
  */
 public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -37,6 +41,11 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private boolean isLoadingAdded = false;
 
+    /**
+     * Is the constructor for the TvShowsAdapter
+     * @param context Context is context
+     * @param fm Fm is FragmentManager
+     */
     public TvShowsAdapter(Context context, FragmentManager fm) {
         this.context = context;
         this.fm = fm;
@@ -44,14 +53,28 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.genreList = new ArrayList<>();
     }
 
+    /**
+     * It get the tvShowList
+     * @return It return list of tv shows
+     */
     public List<TvShow> getTvShowList() {
         return tvShowList;
     }
 
+    /**
+     * Is set list of tv shows to tvShowList
+     * @param tvShowList TvShowList is list of Tv shows
+     */
     public void setTvShowList(List<TvShow> tvShowList) {
         this.tvShowList = tvShowList;
     }
 
+    /**
+     * Add new view that is either tv shows view or loading footer view
+     * @param parent Parent is the viewGroup
+     * @param viewType What view type to display
+     * @return It return the new view
+     */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
@@ -69,6 +92,12 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return viewHolder;
     }
 
+    /**
+     * It get the view for the tv shows
+     * @param parent Parent is the viewGroup
+     * @param inflater Inflater is LayoutInflater
+     * @return It return tv shows view
+     */
     @NonNull
     private RecyclerView.ViewHolder getViewHolder(ViewGroup parent, LayoutInflater inflater) {
         RecyclerView.ViewHolder viewHolder;
@@ -77,6 +106,13 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return viewHolder;
     }
 
+    /**
+     * It display the tv shows at the specified position and add
+     * onClick listener that open tv shows details fragment
+     * for that tv show
+     * @param holder Holder is the viewHolder
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
@@ -112,12 +148,20 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
     }
-
+    /**
+     * It get item count
+     * @return Return 0 if null else the size of tvShowList
+     */
     @Override
     public int getItemCount() {
         return tvShowList == null ? 0 : tvShowList.size();
     }
 
+    /**
+     * It get the item view type in that position
+     * @param position The position is from 0 - tvShowList size.
+     * @return It return LOADING if true else ITEM
+     */
     @Override
     public int getItemViewType(int position) {
         return (position == tvShowList.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
@@ -128,43 +172,43 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
    _________________________________________________________________________________________________
     */
 
+    /**
+     * It add movie to movieList
+     * @param tvShow Tv Show is the tv Show object
+     */
     public void add(TvShow tvShow) {
         tvShowList.add(tvShow);
         notifyItemInserted(tvShowList.size() - 1);
     }
-
-    public void addAll(List<TvShow> List) {
-        for (TvShow tvShow : List) {
+    /**
+     * It add list of tv shows to tvShowList
+     * @param list List is list of tv shows.
+     */
+    public void addAll(List<TvShow> list) {
+        for (TvShow tvShow : list) {
             add(tvShow);
         }
     }
 
-    public void remove(TvShow tvShow) {
-        int position = tvShowList.indexOf(tvShow);
-        if (position > -1) {
-            tvShowList.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
-
-    public void clear() {
-        isLoadingAdded = false;
-
-        while (getItemCount() > 0) {
-            remove(getItem(0));
-        }
-    }
-
+    /**
+     * Check whether the tvShowList is empty
+     * @return Return true if it is empty else false
+     */
     public boolean isEmpty() {
         return getItemCount() == 0;
     }
 
-
+    /**
+     * It add the loading footer
+     */
     public void addLoadingFooter() {
         isLoadingAdded = true;
         add(new TvShow());
     }
 
+    /**
+     * It remove the loading footer
+     */
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
@@ -176,22 +220,21 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             notifyItemRemoved(position);
         }
     }
-
+    /**
+     * It get the tv show in that position
+     * @param position The position is from 0 - tvShowList size.
+     * @return It return a tv show object.
+     */
     public TvShow getItem(int position) {
         return tvShowList.get(position);
     }
 
-
+    /**
+     * It add list of genre to genreList
+     * @param list Is list of genre
+     */
     public void addAllGenre(List<Genre> list) {
         genreList.addAll(list);
-    }
-
-    public void isGenreListEmpty(){
-        genreList.isEmpty();
-    }
-
-    public void clearGenreList(){
-        genreList.clear();
     }
 
     private String makeGenreFromId(List<Integer> listId){
@@ -218,7 +261,7 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     */
 
     /**
-     * Main list's content ViewHolder
+     * TvShowsVH content ViewHolder
      */
     private class TvShowsVH extends RecyclerView.ViewHolder {
         private TextView rating;
@@ -237,9 +280,10 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-
+    /**
+     * Is the loading footer ViewHolder
+     */
     private class LoadingVH extends RecyclerView.ViewHolder {
-
         private LoadingVH(View itemView) {
             super(itemView);
         }

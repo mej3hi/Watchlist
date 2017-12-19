@@ -30,7 +30,7 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 app:srcCompat="@drawable/powered_by_the_movie_database_icon" />
 
             <TextView

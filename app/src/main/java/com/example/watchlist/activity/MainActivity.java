@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,9 +24,6 @@ import com.example.watchlist.service.request.ReqGenre;
 import com.example.watchlist.shareInfo.GerneList;
 import com.example.watchlist.themoviedb.Genre;
 import com.example.watchlist.utils.PopUpMsg;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -181,12 +177,6 @@ public class MainActivity extends AppCompatActivity
         reqGenre();
 
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
 
     /**
      * Sends Http Request that requests Genre.

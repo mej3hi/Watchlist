@@ -7,7 +7,12 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 
-
+/**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ */
 public class PopUpMsg {
 
     /**

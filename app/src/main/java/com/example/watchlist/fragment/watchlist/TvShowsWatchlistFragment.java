@@ -34,7 +34,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class TvShowsWatchlistFragment extends Fragment {
     private static final String TAG ="TvShowsWatchFrag";
@@ -73,10 +76,17 @@ public class TvShowsWatchlistFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Get all tv shows that user has saved in watchlist.
+     * Check whether Cache.TodayTvshows is not empty and
+     * is not over time, if so call displayData function
+     * with data from Cache.TodayTvshows,
+     * else clear it and set time and call reqToDayShows function
+     */
     @Override
     public void onStart() {
         super.onStart();
-        tvShowsWatchList = TvDatabaseUtil.getallTvShows();
+        tvShowsWatchList = TvDatabaseUtil.getAllTvShows();
         if(!Cache.TodayTvshows.isEmpty() && !time.isOverTime(Cache.TodayTvshows.getTime(),time.ONE_HOUR)){
             displayData(Cache.TodayTvshows.getTvShowList());
         }else{
@@ -87,14 +97,8 @@ public class TvShowsWatchlistFragment extends Fragment {
     }
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-
     /**
-     * Sends HttpRequest that request On air tv shows
+     * Sends HttpRequest that request today tv shows
      */
     private void reqToDayShows(){
 
@@ -108,7 +112,7 @@ public class TvShowsWatchlistFragment extends Fragment {
     }
 
     /**
-     * Receiving Respond from the backend server.
+     * Receiving respond from the backend server.
      * @return It return Callback.
      */
     private Callback resToDayShows(){
@@ -142,6 +146,13 @@ public class TvShowsWatchlistFragment extends Fragment {
         };
     }
 
+    /**
+     * Filter out the tv show that is not in the user watchlist and
+     * return a new list.
+     * @param tvShowList List of TvShow
+     * @param tvShowsWatchList List of TvShowsWatch
+     * @return return a list of TvShow
+     */
     private List<TvShow> filterOutData(List<TvShow> tvShowList, List<TvShowsWatch> tvShowsWatchList){
         List<TvShow> newTvShowList = new ArrayList<>();
 

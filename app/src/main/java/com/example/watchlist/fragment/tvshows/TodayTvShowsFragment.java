@@ -32,7 +32,10 @@ import retrofit2.Response;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class TodayTvShowsFragment extends Fragment {
     private static final String TAG ="TodayTvShowsFrag";
@@ -74,7 +77,12 @@ public class TodayTvShowsFragment extends Fragment {
 
     }
 
-
+    /**
+     * Check whether the tvShowsAdapter is empty
+     * if so call reqToDayShows function and
+     * set the time it was called,
+     * if not empty set random poster image.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -85,12 +93,6 @@ public class TodayTvShowsFragment extends Fragment {
             int r = new Random().nextInt(tvShowsAdapter.getTvShowList().size());
             posterImg.setLargeImg(tvShowsAdapter.getTvShowList().get(r).getPosterPath());
         }
-    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     /**
@@ -151,7 +153,7 @@ public class TodayTvShowsFragment extends Fragment {
     }
 
     /**
-     * Receiving Respond from the backend server.
+     * Receiving respond from the backend server.
      * @return It return Callback.
      */
     private Callback resToDayShows(){

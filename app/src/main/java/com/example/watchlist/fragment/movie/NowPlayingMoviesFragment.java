@@ -31,7 +31,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class NowPlayingMoviesFragment extends Fragment {
 
@@ -69,21 +72,23 @@ public class NowPlayingMoviesFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Check whether the moviesAdapter is empty
+     * if so call reqNowPlayingMovies function and
+     * set the time it was called,
+     * if not empty set random poster image.
+     */
     @Override
     public void onStart() {
         super.onStart();
         if(moviesAdapter.isEmpty()){
+            time.setFirstTime(time.getTimeInMillis());
             reqNowPlayingMovies();
         }
         else{
             int r = new Random().nextInt(moviesAdapter.getMovieList().size());
             posterImg.setLargeImg(moviesAdapter.getMovieList().get(r).getPosterPath());
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     /**
@@ -141,7 +146,7 @@ public class NowPlayingMoviesFragment extends Fragment {
 
     }
     /**
-     * Receiving Respond from the backend server.
+     * Receiving respond from the backend server.
      *
      */
     private Callback resNowPLayingMovies(){

@@ -8,12 +8,12 @@ import com.orm.SugarRecord;
 
 public class MovieWatch extends SugarRecord {
 
-    public long movieId;
-    public String name;
-    public String posterPath;
-    public double rating;
-    public String genre;
-    public long updateAt;
+    private long movieId;
+    private String name;
+    private String posterPath;
+    private double rating;
+    private String genre;
+    private long updateAt;
 
     public MovieWatch() {
 

@@ -27,6 +27,11 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ *
  * SearchResultsAdapter is used to create list of movies and tv shows for the search
  * results.
  */
@@ -43,6 +48,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private boolean isLoadingAdded = false;
 
+    /**
+     * Is the constructor for the MoviesAdapter
+     * @param context Context is context
+     * @param fm Fm is FragmentManager
+     */
     public SearchResultsAdapter(Context context, FragmentManager fm) {
         this.context = context;
         this.fm = fm;
@@ -50,15 +60,28 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.genreList = new ArrayList<>();
     }
 
+    /**
+     * It get the searchResultsList
+     * @return It return list of SearchResults
+     */
     public List<SearchResults> getResultsList() {
         return searchResultsList;
     }
 
-    public void setResultsList(List<SearchResults> tvShowList) {
+    /**
+     * Is set list of movie to movieList
+     * @param searchResultsList SearchResultsList is list of search results
+     */
+    public void setResultsList(List<SearchResults> searchResultsList) {
         this.searchResultsList = searchResultsList;
     }
 
-
+    /**
+     * Add new view that is either search results view or loading footer view
+     * @param parent Parent is the viewGroup
+     * @param viewType What view type to display
+     * @return It return the new view
+     */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
@@ -76,6 +99,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         return viewHolder;
     }
 
+    /**
+     * It get the view for the search results
+     * @param parent Parent is the viewGroup
+     * @param inflater Inflater is LayoutInflater
+     * @return It return search results view
+     */
     @NonNull
     private RecyclerView.ViewHolder getViewHolder(ViewGroup parent, LayoutInflater inflater) {
         RecyclerView.ViewHolder viewHolder;
@@ -84,6 +113,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         return viewHolder;
     }
 
+    /**
+     * It display the search result at the specified position and add
+     * onClick listener that either open movie details or tv show details fragment
+     * @param holder Holder is the viewHolder
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
@@ -129,11 +164,20 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
+    /**
+     * It get item count
+     * @return Return 0 if null else the size of searchResultsList
+     */
     @Override
     public int getItemCount() {
         return searchResultsList == null ? 0 : searchResultsList.size();
     }
 
+    /**
+     * It get the item view type in that position
+     * @param position The position is from 0 - searchResultsList size.
+     * @return It return LOADING if true else ITEM
+     */
     @Override
     public int getItemViewType(int position) {
         return (position == searchResultsList.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
@@ -144,17 +188,19 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
    _________________________________________________________________________________________________
     */
 
+    /**
+     * It add search results to searchResultsList
+     * @param results Results is the Search results object
+     */
     public void add(SearchResults results) {
         searchResultsList.add(results);
         notifyItemInserted(searchResultsList.size() - 1);
     }
 
-    public void addAll(List<SearchResults> list) {
-        for (SearchResults results : list) {
-            add(results);
-        }
-    }
-
+    /**
+     * It add list of movie to searchResultsList
+     * @param list List is list of movie.
+     */
     public void addAllMovies(List<Movie> list) {
         for (Movie movie : list) {
             SearchResults result = new SearchResults(
@@ -169,6 +215,10 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    /**
+     * It add list of tv show to searchResultsList
+     * @param list List is list of tv show.
+     */
     public void addAllTv(List<TvShow> list) {
         for (TvShow tv : list) {
             SearchResults result = new SearchResults(
@@ -183,31 +233,25 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public void remove(SearchResults results) {
-        int position = searchResultsList.indexOf(results);
-        if (position > -1) {
-            searchResultsList.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
-
-    public void clear() {
-        isLoadingAdded = false;
-        while (getItemCount() > 0) {
-            remove(getItem(0));
-        }
-    }
-
+    /**
+     * Check whether the searchResultsList is empty
+     * @return Return true if it is empty else false
+     */
     public boolean isEmpty() {
         return getItemCount() == 0;
     }
 
-
+    /**
+     * It add the loading footer
+     */
     public void addLoadingFooter() {
         isLoadingAdded = true;
         add(new SearchResults());
     }
 
+    /**
+     * It remove the loading footer
+     */
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
@@ -220,21 +264,21 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    /**
+     * It get the search results in that position
+     * @param position The position is from 0 - searchResultsList size.
+     * @return It return a search results object.
+     */
     public SearchResults getItem(int position) {
         return searchResultsList.get(position);
     }
 
-
+    /**
+     * It add list of genre to genreList
+     * @param list Is list of genre
+     */
     public void addAllGenre(List<Genre> list) {
         genreList.addAll(list);
-    }
-
-    public void isGenreListEmpty() {
-        genreList.isEmpty();
-    }
-
-    public void clearGenreList() {
-        genreList.clear();
     }
 
     private String makeGenreFromId(List<Integer> listId){

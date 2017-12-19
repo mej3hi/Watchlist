@@ -28,7 +28,10 @@ import java.util.Random;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class MoviesMyWatchlistFragment extends Fragment {
 
@@ -62,6 +65,9 @@ public class MoviesMyWatchlistFragment extends Fragment {
 
     }
 
+    /**
+     * Call the getAllData function.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -72,11 +78,10 @@ public class MoviesMyWatchlistFragment extends Fragment {
      * Get all movies that user has saved in watchlist
      * and display it.
      */
-
     private void getAllData(){
         List<Movie> newMovieList = new ArrayList<>();
         Movie movie;
-        for (MovieWatch t : MovieDatabaseUtil.getallMovie()) {
+        for (MovieWatch t : MovieDatabaseUtil.getAllMovie()) {
             movie = new Movie(
                     t.getMovieId(),
                     t.getName(),
@@ -90,7 +95,7 @@ public class MoviesMyWatchlistFragment extends Fragment {
 
     /**
      * Display the user watchlist on the screen;
-     * @param movieList Results contains movies.
+     * @param movieList Results contains list of movies.
      */
     private void displayData(List<Movie> movieList){
         if(GerneList.getGenreMovieList() != null){

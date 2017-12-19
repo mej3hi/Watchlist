@@ -26,7 +26,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class SeasonDetailsFragment extends Fragment {
     private static final String TAG = "SeasonDetailsFragment";
@@ -76,7 +79,12 @@ public class SeasonDetailsFragment extends Fragment {
         return v;
     }
 
-
+    /**
+     * Check whether the tvShowsAdapter is empty
+     * if so call reqSeasonDetails function and
+     * set the time it was called,
+     * if not empty call displayData function.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -87,11 +95,6 @@ public class SeasonDetailsFragment extends Fragment {
             displayData();
         }
 
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     /**
@@ -109,7 +112,7 @@ public class SeasonDetailsFragment extends Fragment {
 
 
     /**
-     * Receiving Respond from the backend server.
+     * Receiving respond from the backend server.
      * @return It return Callback.
      */
     private Callback resSeasonDetails(){

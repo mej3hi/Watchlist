@@ -24,7 +24,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
  */
 public class EpisodeDetailsFragment extends Fragment {
     private static final String TAG = "EpisodeDetailsFragment";
@@ -79,16 +82,13 @@ public class EpisodeDetailsFragment extends Fragment {
         return v;
     }
 
-
+    /**
+     * Call reqEpisodeDetails function.
+     */
     @Override
     public void onStart() {
         super.onStart();
         reqEpisodeDetails();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     /**
@@ -105,7 +105,7 @@ public class EpisodeDetailsFragment extends Fragment {
     }
 
     /**
-     * Receiving Respond from the backend server.
+     * Receiving respond from the backend server.
      * @return It return Callback.
      */
     private Callback resEpisodeDetails(){
@@ -139,7 +139,7 @@ public class EpisodeDetailsFragment extends Fragment {
         seriesNumber.setText(String.format("S%s, Ep%s", String.valueOf(details.getSeasonNumber()), String.valueOf(details.getEpisodeNumber())));
         overview.setText(details.getOverview());
         posterImg.setLargeImg(posterPath);
-        stillImg.setMeidumImg(details.getStillPath());
+        stillImg.setMediumImg(details.getStillPath());
 
     }
 

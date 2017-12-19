@@ -7,7 +7,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Created year 2017.
+ * Author:
+ *  Eiríkur Kristinn Hlöðversson
+ *  Martin Einar Jensen
+ */
 public class ConvertValue {
 
     /**
@@ -57,8 +62,8 @@ public class ConvertValue {
 
     /**
      * Convert list of string id to list of integer id.
-     * @param id
-     * @return
+     * @param id Id is String
+     * @return It return list of integer
      */
     public static List<Integer> genreIdToListInteger(String id){
         List<Integer> genreId = new ArrayList<>();
