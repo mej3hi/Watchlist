@@ -239,7 +239,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         genreList.addAll(list);
     }
 
-
    /*
    View Holders
    _________________________________________________________________________________________________
