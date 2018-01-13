@@ -147,7 +147,6 @@ public class UpcomingMoviesFragment extends Fragment {
      * Sends Http Request that request Upcoming Movies
      */
     private void reqUpcomingMovies(){
-        Log.d(TAG,"ná í upcoming movies");
 
         if(NetworkChecker.isOnline(context)) {
             ReqMovies.upcomingMovies(pagination.getCurrentPage(), resUpcomingMovies());

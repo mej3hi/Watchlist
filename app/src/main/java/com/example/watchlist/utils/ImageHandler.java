@@ -10,6 +10,8 @@ import com.squareup.picasso.Picasso;
  * Author:
  *  Eiríkur Kristinn Hlöðversson
  *  Martin Einar Jensen
+ *
+ *  Handle the image, download and display it in different size
  */
 public class ImageHandler  {
 

@@ -19,6 +19,10 @@ public class MovieWatch extends SugarRecord {
     private String genre;
     private long updateAt;
 
+    /*
+    Constructor
+     */
+
     public MovieWatch() {
 
     }
@@ -31,6 +35,10 @@ public class MovieWatch extends SugarRecord {
         this.genre = genre;
         this.updateAt = updateAt;
     }
+
+    /*
+    Setter and Getter
+     */
 
     public long getMovieId() {
         return movieId;

@@ -124,7 +124,7 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 tvShowsVH.name.setText(tvShow.getName());
                 tvShowsVH.rating.setText(String.format("Rating: %s", ConvertValue.toOneDecimal(tvShow.getVoteAverage())));
-                tvShowsVH.genre.setText(makeGenreFromId(tvShow.getGenreIds()));
+                tvShowsVH.genre.setText(ConvertValue.genreFromId(tvShow.getGenreIds(),genreList));
                 tvShowsVH.posterImg.setSmallImg(tvShow.getPosterPath());
                 tvShowsVH.tvShowDetail.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -237,23 +237,6 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         genreList.addAll(list);
     }
 
-    private String makeGenreFromId(List<Integer> listId){
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        for (Integer id : listId) {
-            for (Genre genre : genreList){
-                if(genre.getId() == id){
-                    if(i != 0){
-                        sb.append(", ");
-                    }
-                    sb.append(genre.getName());
-                    i ++;
-                    break;
-                }
-            }
-        }
-        return sb.toString();
-    }
 
    /*
    View Holders

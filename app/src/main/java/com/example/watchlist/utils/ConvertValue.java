@@ -27,7 +27,8 @@ public class ConvertValue {
     }
 
     /**
-     * It take list of Genre and create single name string from it.
+     * It take list of Genre and create single name string from it
+     * with comma between them.
      * @param list List is the Genre.
      * @return It return a string.
      */
@@ -43,7 +44,8 @@ public class ConvertValue {
         return sb.toString();
     }
     /**
-     * It take list of Genre and create single string ID from it.
+     * It take list of Genre and create single string ID from it
+     * with : between them .
      * @param list List is the Genre.
      * @return It return a string.
      */
@@ -61,7 +63,8 @@ public class ConvertValue {
     }
 
     /**
-     * Convert list of string id to list of integer id.
+     * It split up string id with : between them and
+     * convert it  to list of integer id.
      * @param id Id is String
      * @return It return list of integer
      */
@@ -72,6 +75,32 @@ public class ConvertValue {
             genreId.add(Integer.valueOf(s));
         }
         return genreId;
+    }
+
+    /**
+     * It takes list of Genre and list of Integer and
+     * check whether the id is the same and create
+     * single string ID from it with comma between them
+     * @param listId Is list of id
+     * @param genreList Is the Genre Object
+     * @return It return string
+     */
+    public static String genreFromId(List<Integer> listId, List<Genre> genreList){
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        for (Integer id : listId) {
+            for (Genre genre : genreList){
+                if(genre.getId() == id){
+                    if(i != 0){
+                        sb.append(", ");
+                    }
+                    sb.append(genre.getName());
+                    i ++;
+                    break;
+                }
+            }
+        }
+        return sb.toString();
     }
 
 }

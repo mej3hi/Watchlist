@@ -73,19 +73,20 @@ public class MoviesMyWatchlistFragment extends Fragment {
     }
 
     /**
-     * Call the getAllData function.
+     * Call the getAllData function
+     * and display it
      */
     @Override
     public void onStart() {
         super.onStart();
-        getAllData();
+        displayData(getAllData());
     }
 
     /**
      * Get all movies that user has saved in watchlist
-     * and display it.
+     * @return It returns a list of movies
      */
-    private void getAllData(){
+    private List<Movie> getAllData(){
         List<Movie> newMovieList = new ArrayList<>();
         Movie movie;
         for (MovieWatch t : MovieDatabaseUtil.getAllMovie()) {
@@ -97,7 +98,8 @@ public class MoviesMyWatchlistFragment extends Fragment {
                     ConvertValue.genreIdToListInteger(t.getGenre()));
             newMovieList.add(movie);
         }
-        displayData(newMovieList);
+        return newMovieList;
+
     }
 
     /**

@@ -69,19 +69,20 @@ public class TvShowsMyWatchlistFragment extends Fragment {
     }
 
     /**
-     * Call the getAllData function.
+     * Call the getAllData function
+     * and display it
      */
     @Override
     public void onStart() {
         super.onStart();
-        getAllData();
+        displayData(getAllData());
     }
 
     /**
      * Get all the tv shows that user has saved in watchlist
-     * and displays it.
+     * @return It returns a list of tv shows
      */
-    private void getAllData(){
+    private List<TvShow>getAllData(){
         List<TvShow> newTvShowList = new ArrayList<>();
         TvShow tvShow;
         for (TvShowsWatch t : TvDatabaseUtil.getAllTvShows()) {
@@ -93,7 +94,8 @@ public class TvShowsMyWatchlistFragment extends Fragment {
                     ConvertValue.genreIdToListInteger(t.getGenre()));
             newTvShowList.add(tvShow);
         }
-        displayData(newTvShowList);
+        return newTvShowList;
+
     }
 
     /**

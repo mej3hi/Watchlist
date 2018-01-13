@@ -130,7 +130,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 resultsVH.name.setText(results.getName());
                 resultsVH.rating.setText(String.format("Rating: %s", ConvertValue.toOneDecimal(results.getRating())));
-                resultsVH.genre.setText(makeGenreFromId(results.getGenreIds()));
+                resultsVH.genre.setText(ConvertValue.genreFromId(results.getGenreIds(),genreList));
                 resultsVH.mediaType.setText(results.getMediaType());
                 resultsVH.posterImg.setSmallImg(results.getPosterPath());
                 resultsVH.resultDetail.setOnClickListener(new View.OnClickListener() {
@@ -281,23 +281,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         genreList.addAll(list);
     }
 
-    private String makeGenreFromId(List<Integer> listId){
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        for (Integer id : listId) {
-            for (Genre genre : genreList){
-                if(genre.getId() == id){
-                    if(i != 0){
-                        sb.append(", ");
-                    }
-                    sb.append(genre.getName());
-                    i ++;
-                    break;
-                }
-            }
-        }
-        return sb.toString();
-    }
+
 
    /*
    View Holders

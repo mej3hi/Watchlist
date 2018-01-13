@@ -127,7 +127,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 moviesVH.name.setText(movie.getTitle());
                 moviesVH.rating.setText(String.format("Rating: %s", ConvertValue.toOneDecimal(movie.getVoteAverage())));
-                moviesVH.genre.setText(makeGenreFromId(movie.getGenreIds()));
+                moviesVH.genre.setText(ConvertValue.genreFromId(movie.getGenreIds(),genreList));
                 moviesVH.posterImg.setSmallImg(movie.getPosterPath());
                 moviesVH.movieDetail.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -237,24 +237,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      */
     public void addAllGenre(List<Genre> list) {
         genreList.addAll(list);
-    }
-
-    private String makeGenreFromId(List<Integer> listId){
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        for (Integer id : listId) {
-            for (Genre genre : genreList){
-                if(genre.getId() == id){
-                    if(i != 0){
-                        sb.append(", ");
-                    }
-                    sb.append(genre.getName());
-                    i ++;
-                    break;
-                }
-            }
-        }
-        return sb.toString();
     }
 
 

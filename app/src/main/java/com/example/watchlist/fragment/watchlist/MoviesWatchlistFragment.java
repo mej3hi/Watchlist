@@ -190,7 +190,9 @@ public class MoviesWatchlistFragment extends Fragment {
                 int r = new Random().nextInt(newMovieList.size());
                 posterImg.setLargeImg(newMovieList.get(r).getPosterPath());
             }
-            moviesAdapter.addAll(newMovieList);
+            moviesAdapter.setMovieList(newMovieList);
+            moviesAdapter.notifyDataSetChanged();
+
 
         }
 

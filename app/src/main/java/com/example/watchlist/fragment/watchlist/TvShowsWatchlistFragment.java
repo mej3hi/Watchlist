@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -193,7 +194,8 @@ public class TvShowsWatchlistFragment extends Fragment {
                 int r = new Random().nextInt(newTvList.size());
                 posterImg.setLargeImg(newTvList.get(r).getPosterPath());
             }
-            tvShowsAdapter.addAll(newTvList);
+            tvShowsAdapter.setTvShowList(newTvList);
+            tvShowsAdapter.notifyDataSetChanged();
 
         }
 

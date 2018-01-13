@@ -98,8 +98,8 @@ public class SearchResultsFragment extends Fragment {
 
     /**
      * Check whether the resultsAdapter is empty
-     * if so call reqSearchResults function,
-     * if not empty set random poster image.
+     * if so call reqSearchResults function
+     * else set random poster image.
      */
     @Override
     public void onStart() {

@@ -20,6 +20,9 @@ public class TvShowsWatch extends SugarRecord {
     private String genre;
     private long updateAt;
 
+    /*
+    Constructor
+     */
 
     public TvShowsWatch() {
 
@@ -33,6 +36,10 @@ public class TvShowsWatch extends SugarRecord {
         this.genre = genre;
         this.updateAt = updateAt;
     }
+
+    /*
+    Setter and Getter
+     */
 
     public long getTvId() {
         return tvId;
