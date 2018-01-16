@@ -10,7 +10,7 @@ saman sinn eigin áhorfslista.
 Forritið er búið til í Android Studio og því þarf að hafa það sett upp til að geta keyrt forritið.
 Til þess að fá aðgang að The Movie Database gögnin þá þarf að sækja um api lykil frá þeim og fara
 í skráinn ServiceGenerator.java og setja lykil þar inn undir API_KEY.
-https://developers.themoviedb.org/3/getting-started/introduction
+ https://developers.themoviedb.org/3/getting-started/introduction
 
 ### Setja upp
 
